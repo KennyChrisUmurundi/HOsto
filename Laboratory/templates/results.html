@@ -1,0 +1,13 @@
+{% extends 'doctor/base.html'%}
+{% block content %}
+
+
+<ul>
+  <li>
+    {% for res in results %}
+
+    {{results.findings}}
+
+    {% endfor%}
+  </li>
+{% endblock %}

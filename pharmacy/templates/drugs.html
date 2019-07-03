@@ -1,0 +1,135 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://www.citizensfiber.com/assets/DataTables-1.10.7/extensions/Plugins/integration/bootstrap/3/dataTables.bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="https://www.citizensfiber.com/assets/DataTables-1.10.7/extensions/Responsive/css/dataTables.responsive.css">
+  <!-- <link href="{% static 'doctor/css/style.css' %}" rel="stylesheet"> -->
+  <!-- <link href="{% static 'doctor/css/style.min.css' %}" rel="stylesheet"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+</head>
+<style>
+.modal a.close-modal[class*="icon-"] {
+  top: -10px;
+  right: -10px;
+  width: 20px;
+  height: 20px;
+  color: #fff;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  text-indent: 0;
+  background: #900;
+  border: 2px solid #fff;
+  -webkit-border-radius:  26px;
+  -moz-border-radius:     26px;
+  -o-border-radius:       26px;
+  -ms-border-radius:      26px;
+  -moz-box-shadow:    1px 1px 5px rgba(0,0,0,0.5);
+  -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+  box-shadow:         1px 1px 5px rgba(0,0,0,0.5);
+}
+</style>
+
+<body>
+
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+
+
+
+              <div class="container-fluid" style="height:50%;">
+
+<table id="example" class="table table-striped table-bordered nowrap"  >
+  <a href="{% url 'pharmacy:scanBarcode'%}" class="btn btn-primary" style="margin-left:450px;">Back to Scan</a>
+  {% for Patient in patientInfo%}
+  <a href="{% url 'pharmacy:invoice' Patient.code%}" class="btn btn-success" style="margin-left:5px;">Invoice</a>
+    {% endfor%}
+        <thead>
+            <tr>
+                <th>Drug name</th>
+                <th>Category</th>
+
+                <th>Price per Unit</th>
+
+            </tr>
+        </thead>
+        <tbody>
+          {% for Patient in patientInfo%}
+
+          {% for Drugs in drugs%}
+          <tr>
+            <td><a href="{% url 'pharmacy:add_drugs_payment' Patient.code Drugs.id %}" >{{Drugs.name}}</a></td>
+            <td>{{Drugs.category}}</td>
+            
+            <td>{{Drugs.pricePerUnit}}</td>
+          </tr>
+          {% endfor%}
+          {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+
+
+    <div class="footer">
+     <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto"style="color:#577BCE">
+           <span>Copyright &copy; Hosto 2019</span>
+         </div>
+        </div>
+     </footer>
+    </div>
+  </div>
+
+  <div id="ex1" class="modal">
+
+    <a href="#" rel="modal:close">Close</a>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+    var table = $('#example').DataTable( {
+        responsive: true
+    } );
+
+    new $.fn.dataTable.FixedHeader( table );
+} );
+
+
+    </script>
+
+</body>
+</html>

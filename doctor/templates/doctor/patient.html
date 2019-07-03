@@ -1,0 +1,133 @@
+{% extends 'doctor/base.html' %}
+{% block content %}
+
+                <section class="content-header">
+                    <div class="p-l-30 p-r-30">
+                        <div class="header-icon"><i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="header-title">
+                            <h1>Patient Record</h1>
+                            <hr id="divider">
+
+                        </div>
+                    </div>
+                </section>
+                {% if  scanCode %}
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="card first">
+                            <div class="card-body">
+                                <div class="profile">
+                                     <img src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50" />
+                                </div>
+                                <div class="table-borderless">
+                                    <table class="table">
+                                            <thead>
+                                              <tr>
+                                                <b>
+                                                  <th>Patient Name</th>
+                                                  <th>Gender</th>
+                                                  <th>Occupation</th>
+                                                </b>
+                                              </tr>
+                                            </thead>
+                                          {% for Patient in scanCode%}
+                                            <tbody>
+                                              <tr>
+                                                <b>
+                                                  <td>{{ Patient.firstname }}&nbsp{{Patient.lastname}}</td>
+                                                  <td>{{ Patient.gender }}</td>
+                                                  <td>{{ Patient.occupation }}</td>
+                                                  <td><a href="{% url 'doctor:patient-lab' Patient.code %}">Lab Test</a></td>
+                                                </b>
+                                                <td>
+                                              </tbody>
+                                            {% endfor %}
+
+                      {% endif%}
+
+                                            {% if not scanCode %}
+                                            <div class="alert alert-warning">
+                                              <strong>Warning!!</strong>
+                                              No information,please scan again <a href="{% url 'doctor:ScanCode' %}">here</a>
+                                            </div>
+                                            {% endif %}
+                                              {% if  scanCode %}
+                                        </table>
+                                  </div>
+                            </div>
+                        </div>
+                          </div>
+
+                          <div class="col-sm-6">
+                              <div class="card first ">
+                                <div class="card-body "></br>
+                                  <div class="table-borderless">
+                                  <table class="table">
+                                      <thead>
+                                        <tr>
+                                          <b>
+                                            <th>Age</th>
+                                            <th>Marital Status</th>
+                                            <th>Address</th>
+                                          </b>
+                                        </tr>
+                                      </thead>
+                                    {% for Patient in scanCode%}
+                                      <tbody>
+                                        <tr>
+                                          <b>
+                                            <td>{{ Patient.age }}</td>
+                                            <td>{{ Patient.status }}</td>
+                                            <td>{{ Patient.address }}</td>
+                                          </b>
+                                          <td>
+                                        </tbody>
+                                        {% endfor %}
+                                    </table>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+
+                  <div class="medical_history">
+                          <table class="table">
+                          <thead>
+                            <tr>
+                                <th colspan="5">Medical history</th>
+                            <tr>
+                              <th scope="col">Date</th>
+                              <th scope="col">N/A</th>
+                              <th scope="col">N/A</th>
+                              <th scope="col">N/A</th>
+                               <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>@mdo</td>
+                              <td><a href="#">Check report</a></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>@fat</td>
+                              <td><a href="#">Check report</a></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry</td>
+                              <td>the Bird</td>
+                              <td>@twitter</td>
+                              <td><a href="#">Check report</a></td>
+                            </tr>
+                          </tbody>
+                        {% endif%}
+                  </table>
+          </div>
+        </div>
+        {% endblock %}

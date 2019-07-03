@@ -1,0 +1,52 @@
+{% extends "doctor/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- partial -->
+            <div class="col-11 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  {% for patient in patient %}
+                  <form class="form-sample" method="POST" action="{% url 'reception:payment-update' patient.code %}">
+                    {% csrf_token %}
+                    <p class="card-description">
+                    </p>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Patient Code </label>
+                          <div class="col-sm-9">                            
+                        <input type="text" name="patient" value="{{ patient.code }}" readonly="True">
+                          </div>
+                        </div>                        
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Service</label>
+                          <div class="col-sm-9">
+                            <select class="form-control" name="service" required="False">
+                              <option id="sele">Select Service</option>
+                              <option value="consultation" id="consultation"> Update Consultation Payment</option>
+                              <option value="laboratory" id="laboratory"> Update Laboratory Payment</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="apptmt" hidden="">
+                        <p class="card-description">Check 'Paid' for Comfirmed Consultation Payment and Uncheck 'Unpaid'</p>
+                        {{ update_apptmt_form | crispy }}
+                      </div>
+                      <div id="labo" hidden="">
+                        <p class="card-description">Check 'Paid' for Comfirmed Lab Test Payment and Uncheck 'Unpaid'</p>
+                        {{ update_lab_form | crispy}}
+                      </div>
+                    </div>
+                    <div style="float: right;">
+                      <button type="submit" class="btn btn-success mr-2">Update Status</button>
+                     {#  <button class="btn btn-light">Cancel</button> #}
+                    </div>
+                  </form>
+                  {% endfor %}
+                </div>
+              </div>
+{% endblock %}

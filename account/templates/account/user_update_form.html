@@ -1,0 +1,42 @@
+{% extends "doctor/base.html" %}
+{% load static %}
+{% block content %}
+
+
+<!-- partial -->
+{% if user.role.role == 'is_admin' %}
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h2 class="card-title" style="font-size: 20px;"><b>Update User</b></h2>
+                  <div class="table-responsive">
+                    <table class="table">
+
+
+                      <tbody>
+                        <form method="POST"  enctype="multipart/form-data">
+                          {% csrf_token %}
+                          <div>
+                            {{ u_form }}
+                            {{ r_form }}
+                          </div><hr>
+                          <div class="form-group">
+                            <button class="btn btn-primary submit-btn btn-block">Update User Information</button>
+                          </div>
+                        </form>
+
+                      </tbody>
+
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+<!-- content-wrapper ends -->
+
+{% else%}
+<div>
+  jhkajhakjsdhaksjdhaksdjhsakj
+</div>
+{% endif %}
+{% endblock %}

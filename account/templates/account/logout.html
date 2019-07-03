@@ -1,0 +1,18 @@
+{% extends "doctor/base.html" %}
+{% load static %}
+{% block content %}
+
+
+      <div class="content-wrapper d-flex align-items-center" style="margin-left: 55px; background-color: white;">
+        <div class="row">
+          <div class="col-lg-12 mx-auto" style="margin-left: 60%; border: solid thin grey; color: black; margin-top: 90px; width: 450px; border-radius: 10px;">
+            <div class="auto-form-wrapper"><br>
+              You Have Logout Succefully:
+              <a href="{% url 'account:user-login' %}" class="text-black text-small"><b>You Can Login Again Here</b></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

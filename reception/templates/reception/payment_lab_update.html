@@ -1,0 +1,36 @@
+{% extends "doctor/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- partial -->
+            <div class="col-11 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  {% for lab in lab %}
+                  <form class="form-sample" method="POST" action="{% url 'reception:payment-lab-update' lab.patient lab.id %}">
+                    {% csrf_token %}
+                    <p class="card-description">
+                    </p>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Patient Code </label>
+                          <div class="col-sm-9">                            
+                        <input type="text" name="patient" value="{{ lab.patient }}" readonly="True">
+                          </div>
+                        </div>                        
+                      </div>
+                      <div id="apptmt" style="border:solid thin #28B0E2; border-radius: 10px;">
+                        <p class="card-description btn btn-outline-info" style="margin-top: 5px; margin-left: 20px; margin-right: 20px;">Update the Lab Test Payment Status</p>
+                        {{ update_lab_form | crispy }}
+                      </div>
+                    </div>
+                    <div style="float: right; margin-top: 10px;">
+                      <button type="submit" class="btn btn-success mr-2">Update Status</button>
+                     {#  <button class="btn btn-light">Cancel</button> #}
+                    </div>
+                  </form>
+                  {% endfor %}
+                </div>
+              </div>
+{% endblock %}

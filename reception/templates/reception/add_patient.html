@@ -1,0 +1,121 @@
+{% extends "doctor/base.html" %}
+{% load static %}
+{% block content %}
+<!-- partial -->
+            <div class="col-11 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <form class="form-sample" method="POST" action="{% url 'reception:add-patient' %}">
+                    {% csrf_token %}
+                    <p class="card-description">
+                    </p>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">FirstName</label>
+                          <div class="col-sm-9">
+                            {{ form.firstname }}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">LastName</label>
+                          <div class="col-sm-9">
+                            {{ form.lastname }}
+                          </div>
+                        </div>
+                      </div>
+                       <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Gender</label>
+                          <div class="col-sm-9">
+                            {{ form.gender }}
+                          </div>
+                        </div>
+                      </div>
+                       <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Phone</label>
+                          <div class="col-md-9">
+                            {{ form.phone }}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">date of Birth</label>
+                          <div class="col-sm-9">
+                            {{ form.dob }}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Age</label>
+                          <div class="col-sm-9">
+                            {{ form.age }}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">medical history</label>
+                          <div class="col-sm-9">
+                            {{ form.medical_history }}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Marital Status</label>
+                          <div class="col-sm-9">
+                            {{ form.status }}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Address</label>
+                          <div class="col-sm-9">
+                            {{ form.address }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">                        
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Email</label>
+                          <div class="col-md-9">
+                            {{ form.email }}
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Occupation</label>
+                          <div class="col-md-9">
+                            {{ form.occupation }}
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Payment Method</label>
+                          <div class="col-md-9">
+                            {{ form.payment }}
+                          </div>
+                        </div>                        
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Patient Image</label>
+                          <div class="col-md-9">
+                            {{ form.image }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="float: right;">
+                      <button type="submit" class="btn btn-success mr-2">Add Patient</button>
+                     {#  <button class="btn btn-light">Cancel</button> #}
+                    </div>
+                  </form>
+                </div>
+              </div>
+{% endblock %}

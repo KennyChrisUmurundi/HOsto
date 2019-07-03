@@ -1,0 +1,57 @@
+{% extends "doctor/base.html" %}
+{% load static %}
+{% block content %}
+
+
+<!-- partial -->
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <!--h2 class="card-title"><b>--User Management--</b></h2-->
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th><b>Username</b></th>
+                          <th><b>Email</b></th>
+                          <th><b>Role</b></th>
+                          <th><b>Created</b></th>
+                          <th><b>Action</b></th>
+                        </tr>
+                      </thead>
+                      {% for user in users %}
+                      <tbody>
+                        <tr>
+                          <td style="font-size: 14px;"><b>{{ user.username }}</b></td>
+                          <td style="font-size: 14px;">{{ user.email }}</td>                         
+                          <td style="font-size: 14px;"><b>{{ user.role.role }}</b></td>
+                          <td style="font-size: 14px;">{{ user.date_joined }}</td>
+                          <td>
+                            <div class="ticket-actions col-md-2">
+                              <div class="btn-group dropdown">
+                                <button type="button" class="btn dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Manage
+                                </button>
+                                <div class="dropdown-menu">
+                                  <a class="dropdown-item btn" href="#">
+                                    <i class="fa fa-reply fa-fw"></i><b>Delete this User</b></a>
+                                  <div class="dropdown-divider"></div>
+                                  <a class="dropdown-item btn" href="{% url 'account:user-update' user.id %}">
+                                    <i class="fa fa-history fa-fw"></i><b>User Details</b>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                      {% endfor %}
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+        <!-- content-wrapper ends -->
+
+
+{% endblock %}

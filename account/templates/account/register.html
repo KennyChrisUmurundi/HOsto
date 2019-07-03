@@ -1,0 +1,105 @@
+{% extends "doctor/base.html" %}
+{% load static %}
+{% block content %}
+
+      <div class="content-wrapper d-flex align-items-center"  style="margin-left: 55px; background-color: white;">
+        <div class="row">
+          <div class="col-lg-12 mx-auto">
+            <!--h2 class="text-center mb-4">Register</h2-->
+            <div class="auto-form-wrapper col-12" style="margin-left: 60%; border: solid thin grey; color: black; margin-top: 0px; width: 450px; border-radius: 10px;"><br><h3 style="text-align: center;">CREATE ACCOUNT</h3>
+              <form method="POST" action="{% url 'account:user-register' %}">
+              	{% csrf_token %}
+                <div class="form-group"><br>
+                  <div class="input-group">
+                    <!--input type="text" class="form-control" placeholder="Username"-->
+                    {{ form.username }}
+                    <!--div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="mdi mdi-check-circle-outline"></i>
+                      </span>
+                    </div-->
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <!--input type="password" class="form-control" placeholder="Password"-->
+                    {{ form.first_name }}
+                    <!--div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="mdi mdi-check-circle-outline"></i>
+                      </span>
+                    </div-->
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <!--input type="password" class="form-control" placeholder="Confirm Password"-->
+                    {{ form.last_name }}
+                    <!--div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="mdi mdi-check-circle-outline"></i>
+                      </span>
+                    </div-->
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-group">
+                    <!--input type="password" class="form-control" placeholder="Confirm Password"-->
+                    {{ form.email }}
+                    <!--div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="mdi mdi-check-circle-outline"></i>
+                      </span>
+                    </div-->
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <!--input type="password" class="form-control" placeholder="Confirm Password"-->
+                    {{ form.password1 }}
+                    <!--div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="mdi mdi-check-circle-outline"></i>
+                      </span>
+                    </div-->
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <!--input type="password" class="form-control" placeholder="Confirm Password"-->
+                    {{ form.password2 }}
+                    <!--div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="mdi mdi-check-circle-outline"></i>
+                      </span>
+                    </div-->
+                  </div>
+                </div>
+                <div class="form-group d-flex justify-content-center">
+                  <div class="form-check form-check-flat mt-0">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input" checked> I agree to the terms
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-primary submit-btn btn-block">Register</button>
+                </div>
+                <div class="text-block text-center my-3">
+                  <span class="text-small font-weight-semibold">Already have and account ?</span>
+                  <a href="{% url 'account:user-login' %}" class="text-black text-small">Login</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+
+  <!-- container-scroller -->
+
+
+{% endblock %}

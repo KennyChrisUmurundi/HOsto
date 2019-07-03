@@ -1,0 +1,143 @@
+{% load static %}
+
+                <!DOCTYPE html>
+                <html xmlns="http://www.w3.org/1999/xhtml">
+                <head>
+                    <meta charset="utf-8" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+                    <meta name="description" content="" />
+                    <meta name="author" content="" />
+                    <!--[if IE]>
+                        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+                        <![endif]-->
+                    <title>Invoice</title>
+                    <!-- BOOTSTRAP CORE STYLE  -->
+                    <link href="{% static 'doctor/css/invoice/bootstrap.css' %}" rel="stylesheet">
+                	  <!-- CUSTOM STYLE  -->
+                    <link href="{% static 'doctor/css/invoice/invoice.css' %}" rel="stylesheet">
+                    <!-- GOOGLE FONTS -->
+                    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css' />
+                    <style>
+                    
+                    </style>
+                  </head>
+                  <body>
+                      <div class="container">
+
+                      <div class="row pad-top-botm ">
+                      <div class="col-lg-6 col-md-6 col-sm-6 ">
+                        <img src="assets/img/logo.jpg" style="padding-bottom:20px;" />
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6">
+
+                           <strong>   Lira Hospital</strong>
+                          <br />
+                              <i>Address :</i>  Plot 9/19, 21-41 , Lira P.O.BOX 2, LIRA
+                          <br />
+                              Ngetta Road Police Rd
+                          <br />
+                              Uganda
+
+                      </div>
+                      </div>
+                      <div  class="row text-center contact-info">
+                      <div class="col-lg-12 col-md-12 col-sm-12">
+                         <hr />
+                         <span>
+                             <strong>Email : </strong>  LiraEmail@gmail.com
+                         </span>
+                         <span>
+                             <strong>Call : </strong>  +256 - 890- 789- 9087
+                         </span>
+                          <span>
+                             <strong>Fax : </strong>  +31 2340-908- 890
+                         </span>
+                         <hr />
+                      </div>
+                      </div>
+                      <div  class="row pad-top-botm client-info">
+                      <div class="col-lg-6 col-md-6 col-sm-6">
+                        {% for Patient in patientInfo%}
+                      <h4>  <strong>Client Information</strong></h4>
+                       <strong> {{ Patient.firstname }}&nbsp{{Patient.lastname}}</strong>
+                         <br />
+                              <b>Address :</b> {{Patient.address}}
+                         <br />
+                         <b>Call :</b> {{Patient.phone}}
+                          <br />
+                         <b>E-mail :</b>{{Patient.email}}
+                      </div>
+                      {% endfor%}
+                      <!-- <div class="col-lg-6 col-md-6 col-sm-6">
+
+                           <h4>  <strong>Payment Details </strong></h4>
+                        <b>Bill Amount :  990 USD </b>
+                          <br />
+                           Bill Date :  01th August 2014
+                          <br />
+                           <b>Payment Status :  Paid </b>
+                           <br />
+                           Delivery Date :  10th August 2014
+                          <br />
+                           Purchase Date :  30th July 2014
+                      </div>-->
+                      </div>
+                      <div class="row">
+                      <div class="col-lg-12 col-md-12 col-sm-12">
+                       <div class="table-responsive">
+                                            <table class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Medecine</th>
+                                                <th>Quantity.</th>
+                                                 <th>Sub Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                          {% for TakenDrugs in takenDrugs %}
+                                            <tr>
+
+                                                <td>{{TakenDrugs.drugName}}</td>
+                                                <td>{{TakenDrugs.quantity}}</td>
+                                                <td>{{TakenDrugs.totalPrice}}&nbspUGX</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                           </div>
+                         <hr />
+                         <div class="ttl-amts">
+                           <h5>  Total Amount : {{totalDrugPrice}}&nbspUGX</h5>
+                         </div>
+                         <hr />
+
+                          <div class="ttl-amts">
+                              <h4> <strong>Bill Amount : {{totalDrugPrice}}&nbspUGX</strong> </h4>
+                         </div>
+                      </div>
+                      </div>
+                      <div class="row">
+                      <div class="col-lg-12 col-md-12 col-sm-12">
+                        <strong> Important: </strong>
+                         <ol>
+                              <li>
+                                This is an electronic generated invoice so doesn't require any signature.
+
+                             </li>
+                         </ol>
+                         </div>
+                      </div>
+                      <div class="row pad-top-botm">
+                      <div class="col-lg-12 col-md-12 col-sm-12">
+                         <hr />
+                         <a href="#" class="btn btn-primary btn-lg" >Print Invoice</a>
+                         &nbsp;&nbsp;&nbsp;
+                         {% for Patient in patientInfo %}
+                          <a href="{% url 'pharmacy:pdf' Patient.code %}" class="btn btn-success btn-lg" >Download In Pdf</a>
+                          {% endfor %}
+                         </div>
+                      </div>
+                      </div>
+                    </body>
+                    </html>
