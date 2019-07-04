@@ -105,7 +105,7 @@ def confirm_drug_payment(request,code,id):
 
 def invoice(request,code):
     date=datetime.date.today()
-    totalDrugPrice=TakenDrugs.objects.filter(patient=code).aggregate(Sum('totalPrice'))['totalPrice__sum']
+    totalDrugPrice=TakenDrugs.objects.filter(patient=code,created_date=date).aggregate(Sum('totalPrice'))['totalPrice__sum']
     context={
     'patientInfo': Patient.objects.filter(code=code),
     'takenDrugs' : TakenDrugs.objects.filter(patient=code,created_date=date),
