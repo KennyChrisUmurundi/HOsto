@@ -4,7 +4,8 @@ from django.forms import ValidationError
 from django.forms import ModelForm
 #from crispy_forms.layout import Field
 from .models import Patient, Appointment, Lab, CashAppointmentStatus, CashLabStatus
-from doctor.models import Category, Doctor
+from doctor.models import Category, Doctor, Prices
+from mortury.models import Mpayment
 # from .choices import TESTS, CATEGORIES, DOCTORS
 #from phone_field import PhoneField
 
@@ -14,7 +15,9 @@ class AddPatientForm(forms.ModelForm):
 							widget=forms.TextInput(attrs={'name'	: 	'name',
 														  'class'	:	'form-control',
 														  'type'	:	'text',
-														  'placeholder':'Enter Patient First Name', }))
+														  'placeholder':'Enter Patient First Name',
+														  'id':'validationCustom01'
+														   }))
 
 	lastname = forms.CharField(max_length=1000,
 							widget=forms.TextInput(attrs={'name'	: 	'description',
@@ -29,15 +32,7 @@ class AddPatientForm(forms.ModelForm):
 														  'onchange' 	:	'submitBday()', }))
 
 	status   = forms.ChoiceField(choices=[('single', 'Single'),('Married', 'Married')],
-								widget=forms.RadioSelect(attrs={'style' : 'font-size: 20px;'}))
-
-	medical_history = forms.CharField(max_length=200,
-							widget=forms.Textarea(attrs={'name'			: 	'medical_history',
-														  'class'		:	'form-control',
-														  'type'		:	'Textarea',
-														  'rows'		:	'3',
-														  'placeholder'	:	'Enter Medical History of the Patient', }))
-
+								widget=forms.RadioSelect(attrs={'style' : 'font-size: 20px;;','class'	:	'form-check-input'}))
 
 	age = forms.CharField(max_length=200,
 							widget=forms.TextInput(attrs={'name'		: 	'age',
@@ -61,12 +56,11 @@ class AddPatientForm(forms.ModelForm):
 	phone = forms.CharField(max_length=200,
 							widget=forms.TextInput(attrs={'name'	: 	'phone',
 														  'class'	:	'form-control',
-														  'type'	:	'text',
-														  'placeholder':'Enter Patient Phone Number', }))
+														  'type'	:	'tel',
+														  'placeholder':'', }))
 
 
-	email 		= 	forms.CharField(max_length=200,
-							widget=forms.TextInput(attrs={'name'	: 	'email',
+	email 		= 	forms.EmailField(required=False,widget=forms.TextInput(attrs={'name'	: 	'email',
 														  'class'	:	'form-control',
 														  'type'	:	'text',
 														  'placeholder':'Enter Patient Email', }))
@@ -89,7 +83,7 @@ class AddPatientForm(forms.ModelForm):
 
 	class Meta:
 		model = Patient
-		fields = ('firstname', 'lastname', 'gender', 'phone', 'dob', 'age', 'status', 'medical_history', 'address','email', 'occupation','payment', 'image')
+		fields = ('firstname', 'lastname', 'gender', 'phone', 'dob', 'age', 'status', 'address','email', 'occupation','payment', 'image')
 
 		def clean_email(self):
 			email = self.cleaned_data.get('email')
@@ -105,27 +99,41 @@ class AddAppointmentForm(forms.ModelForm):
 			docZ[doc_info.category.name] = [doc_info.name]
 		list_doctors.append((doc_info.name, doc_info.name))
 
+	priceZ = {}
+	list_prices = []
+	for price_info in Prices.objects.all():
+		if price_info.doctor.name in priceZ:
+			priceZ[price_info.doctor.name].append(price_info.amount)
+		else:
+			priceZ[price_info.doctor.name] = [price_info.amount]
+		list_prices.append((price_info.amount, price_info.amount))
+
 	#category = Category.objects.all()
 	categories = [str(category) for category in Category.objects.all()]
 
-
-	category_select = forms.ChoiceField(label='Doctor Category', choices=([(category, category) for category in categories]),
+	category_select = 	forms.ChoiceField(label='Doctor Category', choices=([(category, category) for category in categories]),
 							widget=forms.Select(attrs={	'class'		:	'form-control',
 														'id'		:	'category',
 														'disabled'	:	'true' }))
 
-	doctor_select = forms.ChoiceField(label='Doctor', choices=(list_doctors),
+	doctor_select 	= 	forms.ChoiceField(label='Doctor', choices=(list_doctors),
 							widget=forms.Select(attrs={	'class'		:	'form-control',
 														'id'		:	'id_doctor',
 														'disabled'	:	'true', }))
 
+	price_select 	= 	forms.ChoiceField(label='Price', choices=(list_prices),
+							widget=forms.Select(attrs={	'class'		:	'form-control',
+														'id'		:	'id_price',
+														'disabled'	:	'true', }))
+
 	categories 	= 	json.dumps(categories)
 	doctors 	=	json.dumps(docZ)
+	prices 		=	json.dumps(priceZ)
 
 
 	class Meta:
 		model = Appointment
-		fields = ('category_select', 'doctor_select')
+		fields = ('category_select', 'doctor_select','price_select')
 
 	def __init__(self, *args, **kwargs):
 		super(AddAppointmentForm, self).__init__(*args, **kwargs)
@@ -176,6 +184,15 @@ class PaymentLabStatusUpdate(forms.ModelForm):
 							widget=forms.Select(attrs={	'class'	:	'form-control', }))
 	class Meta:
 		model 	=	CashLabStatus
+		fields	=	['status']
+
+
+class MorturyPaymentUpdate(forms.ModelForm):
+	status=	forms.ChoiceField(choices=[('', 'Select Status of the Payment'),('Not Paid', 'Not Paid'),('Paid', 'Paid')],
+							widget=forms.Select(attrs={	'class'	:	'form-control', }))
+
+	class Meta:
+		model 	=	Mpayment
 		fields	=	['status']
 
 # class PaymentPharmacyStatusUpdate(forms.ModelForm):

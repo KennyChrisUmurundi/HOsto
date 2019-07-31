@@ -93,9 +93,9 @@
                                         <td>{{Lab.created_date}}</td>
                                         <!-- <td><a href="" data-toggle="modal" data-target="#instructions"><span class="badge badge-pill badge-info">Check instructions</a></span></td> -->
                                           {% if Lab.cashlabstatus.status == 'Unpaid' %}
-                                        <td><span class="badge badge-pill badge-secondary">Perform test</span></td>
+                                        <td><span class="badge badge-pill badge-secondary"data-toggle="tooltip" data-placement="top" title="Patient has not paid send back to reception">Diagnosis report</span></td>
                                           {% elif Lab.cashlabstatus.status == 'Paid' %}
-                                        <td><a href="{% url 'Laboratory:Test' Lab.patient Lab.id %}"><span class="badge badge-pill badge-info">Perform test</span></a></td>
+                                        <td><a href="{% url 'Laboratory:Test' Lab.patient Lab.id %}"><span class="badge badge-pill badge-info">Diagnosis report</span></a></td>
                                         {% endif %}
                                         {% if Lab.cashlabstatus.status == 'Unpaid' %}
                                         <td><span class="badge badge-pill badge-danger">{{ Lab.cashlabstatus.status }}</span></td>
@@ -142,7 +142,7 @@
 
                                                         <tbody>
                                                           <td>{{Lab.tests}}</td>
-                                                          <td>{{Lab.created_date}}</td>
+                                                          <td>{{Lab.created_date|date:"M d, Y"}}</td>
                                                           {% endif %}
                                                           {% endfor %}
                                                         </tbody>

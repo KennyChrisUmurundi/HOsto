@@ -1,6 +1,7 @@
-from .models import Appointment, Lab, CashAppointmentStatus, CashLabStatus
+from .models import Appointment, Lab, CashAppointmentStatus, CashLabStatus,Patient
 from doctor.models import Reports
 from Laboratory.models import Results,TestStatus
+from ward.models import PatientStatus
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -49,3 +50,12 @@ def create_lab_results(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Lab)
 def save_lab_results(sender, instance, **kwargs):
 	instance.results.save()
+
+@receiver(post_save, sender=Patient)
+def create_patient_status(sender, instance, created, **kwargs):
+	if created:
+		PatientStatus.objects.create(patient=instance)
+
+@receiver(post_save, sender=Patient)
+def save_patient_status(sender, instance, **kwargs):
+	instance.patientstatus.save()

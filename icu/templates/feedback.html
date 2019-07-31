@@ -1,0 +1,41 @@
+{% extends 'doctor/base.html' %}
+{% block content %}
+<!--Navbar -->
+
+
+
+<div class="page-wrapper">
+  <div class="container">
+      <div class="card-box profile-header">
+        <div class="profile-tabs">
+          <ul class="nav nav-pills nav-fill">
+            <li class="nav-item"><a class="nav-link active" href="#about-cont" data-toggle="tab"><i class="fas fa-comment-medical"></i>&nbsp Feedback</a></li>
+          </ul>
+        </div>
+      </br>
+
+{% for instructions in instructions%}
+        <form method="POST">
+          {% csrf_token%}
+
+          <div class="container-fluid">
+            <div class="form_class">
+              <label>Patient Name:</label>
+              {% for Patient in patient %}
+              <input type="text" class="form-control form-control-sm" value="{{Patient.firstname}} {{Patient.lastname}}" style="width:40%;" readonly></br>
+              {% endfor %}
+              <label>Doctor's Instructions:</label>
+              {% if instructions %}
+              <input type="text" class="form-control form-control-sm" value="{{instructions.instructions}}" style="width:40%;height:50px;" readonly></br>
+              {% endif %}
+            {{f_form}}
+            </div></br>
+            <button class="btn btn-success" type="submit">Send</button>
+        </form>
+
+</div>
+</div>
+</div>
+</div>
+{% endfor %}
+{% endblock %}

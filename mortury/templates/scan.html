@@ -1,0 +1,18 @@
+{% extends 'doctor/base.html'%}
+{% block content %}
+<div id="wrapper">
+    <div id="dialog">
+      <form method="post">
+        {% csrf_token %}
+
+          <h3>Scan the barcode</h3>
+          <span>If scan not working kindly type the barcode numbers</span>
+          <div id="form">
+          <input type="text" name="theCode" class="form-control" required="True"/></br>
+
+          <button class="btn btn-primary submit-btn">Scan</button>
+        </div>
+      </form>
+    </div>
+    </div>
+{% endblock %}

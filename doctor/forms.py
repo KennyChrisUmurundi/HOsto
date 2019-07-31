@@ -3,6 +3,7 @@ from .models import Doctor,Reports,InstructionsForPharmacy,InstructionsForNurse
 from django.forms import ValidationError
 from django.forms import ModelForm
 from reception.models import Lab
+from mortury.models import corpses
 
 
 class AddDoctorForm(forms.ModelForm):
@@ -47,3 +48,19 @@ class AddIntensiveCareForm(forms.ModelForm):
     class Meta:
         model   =   InstructionsForNurse
         fields  =('instructions',)
+
+class AddDeathReport(forms.ModelForm):
+
+    death_report          =   forms.CharField(max_length=200,widget=forms.TextInput(attrs={'name':'name','class':'form-control','type':'text','style':'height:100px;width:40%'}))
+    date_of_death   =   forms.CharField(max_length=1000,
+							widget=forms.TextInput(attrs={'name'	: 	'dob',
+														  'class'	:	'form-control',
+														  'type'	:	'date',
+														  'placeholder':'Date of death',
+                                                          'style':'width:40%'
+														   }))
+
+    class Meta:
+
+        model   =   corpses
+        fields  =   ('death_report','date_of_death')

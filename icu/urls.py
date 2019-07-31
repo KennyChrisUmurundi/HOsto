@@ -8,4 +8,5 @@ app_name = 'icu'
 urlpatterns = [
 path('scan/',icu_views.ScanCode,name="ScanCode"),
 path('patient/<slug:code>',icu_views.patient,name="patient"),
+path('feedback/<slug:code>/<int:id>',icu_views.feedback,name="feedback"),
 ]

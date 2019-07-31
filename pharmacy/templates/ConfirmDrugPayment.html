@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% for Patient in patientInfo%}
-
+  <div class="page-wrapper">
 <div class="pager">
 <form class="form-horizontal" method="POST">
   {% csrf_token %}
@@ -23,6 +23,8 @@
  </div>
 </form>
 
+</div>
+</div>
 
 
 

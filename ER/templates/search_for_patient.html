@@ -1,0 +1,147 @@
+{% extends 'doctor/base.html'%}
+{% block content %}
+
+                <div class="page-wrapper">
+
+                <div class="col-lg-8 grid-margin">
+
+                  <div class="card">
+                      <div class="card-body">
+                          <form method="POST">
+                            {% csrf_token %}
+                            <input type="text" class="form-control" name="name" placeholder="Enter Name of patient" /><br>
+                            <div>
+                            <button class="btn btn-outline-info"style="width:50%;">Search</button>&nbsp&nbsp&nbsp&nbsp Or
+                            <span class="btn btn-info "data-toggle="modal" data-target="#patientDetails" style="width:42%;height: 50px;padding-top:15px;;margin-left:15px;bottom:17px;position:absolute;">Enter Patient Details</span>
+                          </div>
+                          </form>
+                      </div>
+                  </div>
+
+                  <table class="table table-striped table-condensed">
+                      <thead>
+                          <tr>
+
+                              <th>Patient Name</th>
+                              <th>Age</th>
+                              <th>Address</th>
+                              <th>Mobile</th>
+
+                          </tr>
+                      </thead>
+
+{% for patient in PatientByFirstname %}
+                    <tbody>
+                          <tr>
+                              <td><a href="{% url 'ER:patient' patient.code %}">{{ patient.firstname }} {{ patient.lastname }}</a></td>
+                              <td>{{ patient.age }}</td>
+                              <td>{{ patient.address }}</td>
+                              <td>{{ patient.phone }}</td>
+                              <td><a href="{% url 'ER:patient' patient.code %}"><span class="badge badge-pill badge-success">Make appointment</a></span></td>
+                          </tr>
+
+                          {% endfor %}
+                          {% if not PatientByFirstname %}
+
+                          <tr>
+                            <td colspan='4'>No entry</td>
+                          </tr>
+                          {% endif %}
+
+                      </tbody>
+
+                      </table>
+                      </div>
+                      </div>
+
+
+
+
+
+
+
+
+                <!-- <div class="page-wrapper"> -->
+
+
+
+
+                <div class="modal fade" id="patientDetails" tabindex="-1" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+                        	<div class="modal-dialog">
+                        		<div class="modal-content">
+
+                        			<div class="modal-header">
+                        				<button type="button" class="close" data-dismiss="modal">
+                        					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        				</button>
+                        				<h3 class="modal-title" id="modal-register-label">Add New Patient</h3>
+                        				<p>Fill in the form below to get instant access:</p>
+                        			</div>
+
+                        			<div class="modal-body">
+
+                	                    <form role="form" action="" method="post" class="registration-form">
+                                        {% csrf_token%}
+                	                    	<div class="form-group">
+                	                    		<label class="sr-only" for="form-first-name">First name</label>
+                                            {{form.firstname}}
+                	                        </div>
+                	                        <div class="form-group">
+                	                        	<label class="sr-only" for="form-last-name">Last name</label>
+                	                        	{{form.lastname}}
+                	                        </div>
+                	                        <div class="form-group">
+                	                        	<label class="sr-only" for="form-email">Email</label>
+                	                        	{{form.dob}}
+                	                        </div>
+                                          <div class="form-group">
+                                            <label class="sr-only" for="form-email">Email</label>
+                                            {{form.age}}
+                                          </div>
+                                          <div class="form-group">
+                                            <label class="sr-only" for="form-email">Email</label>
+                                            {{form.status}}
+                                          </div>
+                                          <div class="form-group">
+                	                        	<label class="sr-only" for="form-email">Email</label>
+                	                        	{{form.medical_history}}
+                	                        </div>
+                                          <div class="form-group">
+                	                        	<label class="sr-only" for="form-email">Email</label>
+                	                        	{{form.address}}
+                	                        </div>
+                                          <div class="form-group">
+                	                        	<label class="sr-only" for="form-email">Email</label>
+                	                        	{{form.gender}}
+                	                        </div>
+                                          <div class="form-group">
+                	                        	<label class="sr-only" for="form-email">Email</label>
+                	                        	{{form.phone}}
+                	                        </div>
+                                          <div class="form-group">
+                	                        	<label class="sr-only" for="form-email">Email</label>
+                	                        	{{form.email}}
+                	                        </div>
+                                          <div class="form-group">
+                	                        	<label class="sr-only" for="form-email">Email</label>
+                	                        	{{form.occupation}}
+                	                        </div>
+                                          <div class="form-group">
+                	                        	<label class="sr-only" for="form-email">Email</label>
+                	                        	{{form.payment}}
+                	                        </div>
+                                          <div class="form-group">
+                	                        	<label class="sr-only" for="form-email">Email</label>
+                	                        	{{form.image}}
+                	                        </div>
+                	                        <button type="submit" class="btn">Add patient</button>
+                	                    </form>
+
+                        			</div>
+
+                        		</div>
+                        	</div>
+                        </div>
+
+
+{% endblock %}

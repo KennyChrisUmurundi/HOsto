@@ -23,15 +23,15 @@ class Patient(models.Model):
 	dob 					=	models.CharField(max_length=300)
 	age 					= 	models.IntegerField()
 	status					=	models.CharField(max_length=20)
-	medical_history 		=	models.TextField()
 	address					=	models.TextField()
-	email					=	models.CharField(max_length=300)
+	email					=	models.EmailField(null=True,blank=True)
 	occupation				=	models.CharField(max_length=300)
 	payment					=	models.CharField(max_length=300)
 	code 					=	models.CharField(max_length=200, editable=False, unique=True)
 	image 					= 	models.ImageField(default='default.jpeg', upload_to='profile_pics')
 	test_data 				= 	models.CharField("Test Data", max_length=128) # TODO: test_data
 	created_date			=	models.DateTimeField(default=timezone.now)
+
 
 	class Meta:
 		verbose_name 		= "Patient"
@@ -48,8 +48,11 @@ class Patient(models.Model):
 				new_code = self.lastname[0:2]+''+self.firstname[0:2]
 				for i in range(LENGTH):
 					new_code += CHARSET[randrange(0, len(CHARSET))]
-				if not Patient.objects.filter(code=new_code):
+				if not Patient.objects.filter(code=new_code) and not self.code:
 					self.code = new_code
+					unique = True
+				elif self.code is not None:
+					self.code = self.code
 					unique = True
 				loop_num += 1
 			else:
@@ -58,6 +61,7 @@ class Patient(models.Model):
 
 class Appointment(models.Model):
 	patient 				= 	models.CharField(max_length=300)
+	price 					=	models.IntegerField(default=0)
 	doctor 	 				= 	models.CharField(max_length=200)
 	created_date			=	models.DateTimeField(default=timezone.now)
 	# expired_on 				=	models.DateTimeField(default=add_min())

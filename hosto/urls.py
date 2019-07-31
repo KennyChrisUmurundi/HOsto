@@ -26,5 +26,9 @@ urlpatterns = [
     path('admins/', include('admins.urls')),
     path('pharmacy/', include('pharmacy.urls')),
     path('icu/', include('icu.urls')),
+    path('ER/', include('ER.urls')),
+    path('ward/', include('ward.urls')),
+    path('maternity/',include('maternity.urls')),
+    path('mortury/',include('mortury.urls')),
     path('admin/', admin.site.urls),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

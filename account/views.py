@@ -38,7 +38,7 @@ class UserSignUpView(CreateView):
 		send_mail(
 			'Account Created Successfully',
 			'You account has been created Successfully, Username: '+ username + ' and Password: ' + password + '. It is adviced that you change you password immediatly after logging in. Thank You. Administration.',
-			'testing@example.com',
+			'ndayikennysmuusic@gmail.com',
 			[email],
 			fail_silently=False
 		)
@@ -47,6 +47,7 @@ class UserSignUpView(CreateView):
 
 		#messages.success(request, 'Account Created Successfully!')
 		return redirect('account:user-list')
+
 
 def login_view(request):
 	if request.method == 'POST':
@@ -75,6 +76,10 @@ def login_view(request):
 			elif user is not None and user.role.role == 'is_admin' and user.role.status == 'active':
 				login(request, user)
 				return HttpResponseRedirect(reverse('admins:admins-home'))
+
+			elif user is not None and user.role.role == 'is_mortury_attendant' and user.role.status == 'active':
+				login(request, user)
+				return HttpResponseRedirect(reverse('mortury:scan'))
 
 			elif user is not None and user.role.role == 'is_doctor' and user.role.status == 'revoked':
 				messages.error(request, 'Access Revoked! Contact System Admin.')
@@ -162,7 +167,7 @@ def user_update_password(request):
 			if user.role.role == 'is_admin':
 				return redirect('admins:admins-home')
 			elif user.role.role == 'is_doctor':
-				return redirect('doctor:doctor-home')
+				return redirect('doctor:ScanCode')
 			if user.role.role == 'is_receptionist':
 				return redirect('reception:reception-home')
 			if user.role.role == 'is_labTech':

@@ -1,7 +1,7 @@
 {% extends 'doctor/base.html' %}
 {% block content %}
 
-
+  <div class="page-wrapper">
 {% for tests in tests %}
 
         <form method="POST">
@@ -18,5 +18,5 @@
         </form>
         {% endfor %}
 </div>
-
+</div>
 {% endblock %}

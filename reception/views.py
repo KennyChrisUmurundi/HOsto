@@ -7,7 +7,8 @@ from datetime import datetime, timedelta
 
 from . import forms as reception_forms
 from .models import Patient, Appointment,Lab
-from doctor.models import Reports, Doctor, Category
+from doctor.models import Reports, Doctor, Category,Prices
+from mortury.models import corpses,Mpayment
 from . import mybarcode
 # Create your views here.
 @login_required(login_url='/')
@@ -22,8 +23,12 @@ def reception_home(request):
 		}
 
 		return render(request, 'reception/reception_home.html', context)
+	context = {
+		'PatientByFirstname'			:	Patient.objects.all(),
+	}
 
-	return render(request, 'reception/reception_home.html')
+	return render(request, 'reception/reception_home.html',context)
+
 
 class AddPatientView(LoginRequiredMixin, CreateView):
 	model = Patient
@@ -72,10 +77,12 @@ def add_appointment(request, code):
 		if add_apptmt_form.is_valid():
 			if request.POST.get('category_select') is not None:
 				apptmt 				= 		add_apptmt_form.save(commit=False)
-				doc_data 			=		add_apptmt_form.cleaned_data.get
-				doctor_selected 	=		Doctor.objects.filter(name=doc_data('doctor_select'))
+				data 				=		add_apptmt_form.cleaned_data.get
+				doctor_selected 	=		Doctor.objects.filter(name=data('doctor_select'))
 				apptmt.doctor 		=		request.POST.get('doctor_select')
 				apptmt.patient		= 		request.POST.get('patient')
+				price_select 		=		Prices.objects.filter(amount=data('price_select'))
+				apptmt.price 		=		request.POST.get('price_select')
 				add_apptmt_form.save()
 				return redirect('reception:gen_barcode', code=apptmt.patient)
 			else:
@@ -120,9 +127,11 @@ def patient_info(request, code):
 	context = {
 		'scanCode'				:	Patient.objects.filter(code=theCode),
 		'tests'					:	Lab.objects.filter(patient=theCode),
-		'history_appointment'	:	Appointment.objects.filter(patient=theCode),
-		'history_lab'			:	Lab.objects.filter(patient=theCode),
+		'history_appointment'	:	Appointment.objects.filter(patient=theCode).order_by('-created_date'),
+		'history_lab'			:	Lab.objects.filter(patient=theCode).order_by('-created_date'),
 		#'reports'			:	Reports.objects.filter(patient=code),
+		'corpses'				:	corpses.objects.filter(patient_code=code),
+		'payment'					:	Mpayment.objects.filter(patient=code)
 
 	}
 	return render(request, 'reception/patient_info.html', context)
@@ -157,6 +166,30 @@ def payment_appointment_update(request, code, id):
 	}
 
 	return render(request, 'reception/payment_appointment_update.html', context)
+
+
+def MorturyPayment(request, code):
+	if request.method =='POST':
+		MorturyPayment = reception_forms.MorturyPaymentUpdate(request.POST or None)
+
+		if MorturyPayment.is_valid():
+			if Mpayment.objects.filter(patient=code).exists():
+
+				return redirect('reception:patient-info', code=code)
+			else:
+				pay=MorturyPayment.save(commit=False)
+				pay.patient		=		request.POST.get('patient')
+				pay.save()
+				return redirect('reception:patient-info', code=code)
+	MorturyPayment =reception_forms.MorturyPaymentUpdate()
+	context ={
+
+			'MorturyPayment'			:	MorturyPayment,
+			'corpses'					:	corpses.objects.filter(patient_code=code),
+			'payment'					:	Mpayment.objects.filter(patient=code)
+
+	}
+	return render(request, 'reception/morturyPayment.html', context)
 
 def payment_lab_update(request, code, id):
 

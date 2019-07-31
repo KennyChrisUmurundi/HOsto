@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <!-- partial -->
+  <div class="page-wrapper">
             <div class="col-11 grid-margin">
               <div class="card">
                 <div class="card-body">
@@ -15,10 +16,10 @@
                       <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Patient Code </label>
-                          <div class="col-sm-9">                            
+                          <div class="col-sm-9">
                         <input type="text" name="patient" value="{{ lab.patient }}" readonly="True">
                           </div>
-                        </div>                        
+                        </div>
                       </div>
                       <div id="apptmt" style="border:solid thin #28B0E2; border-radius: 10px;">
                         <p class="card-description btn btn-outline-info" style="margin-top: 5px; margin-left: 20px; margin-right: 20px;">Update the Lab Test Payment Status</p>
@@ -33,4 +34,5 @@
                   {% endfor %}
                 </div>
               </div>
+            </div>
 {% endblock %}

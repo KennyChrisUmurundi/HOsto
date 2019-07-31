@@ -1,0 +1,37 @@
+{% extends 'doctor/base.html' %}
+{% block content %}
+<div class="page-wrapper">
+  <div class="container">
+      <div class="card-box profile-header">
+        <div class="profile-tabs">
+          <ul class="nav nav-pills nav-fill">
+            <li class="nav-item"><a class="nav-link active" href="#about-cont" data-toggle="tab"><i class="fas fa-comment-medical"></i>&nbsp Death Report</a></li>
+          </ul>
+        </div>
+      </br>
+
+        <form method="POST">
+          {% csrf_token%}
+
+          <div class="container-fluid">
+            <div class="form_class">
+              <label>Patient Code:</label>
+                {% for Patient in patient %}
+              <input type="text" name="patient" class="form-control form-control-sm" value="{{Patient.code}}" style="width:40%;" readonly></br>
+              <label>Patient Name:</label>
+
+              <input type="text" name="patient" class="form-control form-control-sm" value="{{Patient.firstname}} {{Patient.lastname}}" style="width:40%;" readonly></br>
+              {% endfor %}
+              <label>Date of death:</label>
+              {{d_form.date_of_death}}</br>
+              <label>Description:</label>
+              {{d_form.death_report}}
+            </div></br>
+            <button class="btn btn-success" type="submit">Save</button>
+        </form>
+
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

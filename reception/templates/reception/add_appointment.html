@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <!-- partial -->
+  <div class="page-wrapper">
             <div class="col-lg-12 grid-margin">
               <div class="card">
                 <div class="card-body">
@@ -131,42 +132,74 @@
                 </div>
             </div>
         </div>
+      </div>
         <script src="{% static 'doctor/vendor/jquery/jquery.min.js' %}"></script>
 
-<script type="text/javascript">
-                        
-  $('#category').change(function() {populateCar(this)});
-  doctors = {{ add_apptmt_form.doctors | safe }}
-  categories = {{ add_apptmt_form.categories | safe}};
-  populateBrand();
-  $("#id_doctor").empty();
-  $("#id_doctor").append('<option value="" disabled selected>First select a Category</option>');
-    function populateBrand() {
-      $('#category').empty();
-      $("#category").append('<option value="" disabled selected>Select your option</option>');
-      $.each(categories, function(v) {
-      $('#category')
-      .append($("<option></option>")
-      .attr("value", categories[v])
-      .text(categories[v]));
-    });
-  }
+        <script type="text/javascript">
 
-  function populateCar(event) {
-    category = $("#category option:selected").text();
-    $("#id_doctor").empty();
-    $("#id_doctor").append('<option value="" disabled selected>Select your option</option>');
-    for (let [b, bdoctors] of Object.entries(doctors)) {
-      if (b == category) {
-        //alert(b);
-        for (doctor in bdoctors) {
-          $('#id_doctor')
-          .append($("<option></option>")
-          .attr("value", bdoctors[doctor])
-          .text(bdoctors[doctor]));
-        }
-      }
-    }
-  }
-</script>
+          $('#category').change(function() {populateDoctor(this)});
+          $('#id_doctor').change(function() {populatePrice(this)});
+          doctors = {{ add_apptmt_form.doctors | safe }}
+          categories = {{ add_apptmt_form.categories | safe}};
+          prices = {{add_apptmt_form.prices | safe}};
+          populateCategory();
+          $("#id_doctor").empty();
+          $("#id_doctor").append('<option value="" disabled selected>First select a Category</option>');
+          $("#id_price").append('<option value="" disabled selected>First select a Doctor</option>');
+            function populateCategory() {
+              $('#category').empty();
+              $("#category").append('<option value="" disabled selected>Select your Category</option>');
+              $.each(categories, function(v) {
+              $('#category')
+              .append($("<option></option>")
+              .attr("value", categories[v])
+              .text(categories[v]));
+            });
+          }
+
+          function populateDoctor(event) {
+            category = $("#category option:selected").text();
+            $("#id_doctor").empty();
+            $("#id_doctor").append('<option value="" disabled selected>Select your option</option>');
+            for (let [b, bdoctors] of Object.entries(doctors)) {
+              if (b == category) {
+                //alert(b);
+                for (doctor in bdoctors) {
+                  $('#id_doctor')
+                  .append($("<option></option>")
+                  .attr("value", bdoctors[doctor])
+                  .text(bdoctors[doctor]));
+                }
+              }
+            }
+          }
+
+          // function populateDoctor() {
+          //     $('#id_doctor').empty();
+          //     $("#id_doctor").append('<option value="" disabled selected>Select Doctor</option>');
+          //     $.each(doctors, function(v) {
+          //     $('#id_doctor')
+          //     .append($("<option></option>")
+          //     .attr("value", doctors[v])
+          //     .text(doctors[v]));
+          //   });
+          // }
+
+          function populatePrice(event) {
+            doctor = $("#id_doctor option:selected").text();
+            $("#id_price").empty();
+            $("#id_price").append('<option value="" disabled selected>Select your option</option>');
+            for (let [b, bprices] of Object.entries(prices)) {
+              if (b == doctor) {
+                //alert(b);
+                for (price in bprices) {
+                  $('#id_price')
+                  .append($("<option></option>")
+                  .attr("value", bprices[price])
+                  .text(bprices[price]));
+                }
+              }
+            }
+          }
+        </script>
 {% endblock %}

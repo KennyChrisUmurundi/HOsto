@@ -18,5 +18,8 @@ urlpatterns = [
 	path('reports/<slug:code>/<int:id>', doctor_views.reports, name='reports'),
 	path('C_reports/<slug:code>/<int:id>', doctor_views.C_reports, name='theReport'),
 	path('C_results/<slug:code>/<int:id>', doctor_views.C_results, name='theResult'),
+	path('deathreport/<slug:code>',doctor_views.AddDeathReport,name="death_report"),
+	path('inPatient/', doctor_views.inPatient, name='Inpatient'),
+	path('OutPatient/', doctor_views.outPatient, name='Outpatient'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

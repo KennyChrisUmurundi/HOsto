@@ -3,11 +3,13 @@
 
 {% block content%}
 
-
+  <div class="container">
+      <div class="page-wrapper">
 {% if  scanCode %}
   {% for Patient in scanCode%}
-          <div class="page-wrapper">
-            <div class="content">
+<!-- </br></br> -->
+
+
                 <div class="card-box profile-header">
                     <div class="row">
                         <div class="col-md-12">
@@ -24,9 +26,17 @@
                                             <div class="profile-info-left">
                                                 <h3 class="user-name m-t-0 mb-0">{{ Patient.firstname }}&nbsp{{Patient.lastname}}</h3>
                                                 <div class="Patient-Id">Patient Id:{{Patient.code}}</div>
+                                                {% if not deceased%}
                                                 <div class="lab-test"><a href="{% url 'doctor:patient-lab' Patient.code %}" class="btn btn-primary">Lab</a></div>
                                                 <div class="pharmacy_btn"><a href="{% url 'doctor:patient-pharmacy' Patient.code %}" class="btn btn-primary">Pharmacy</a></div>
                                                 <div class="icu_btn"><a href="{% url 'doctor:patient-icu' Patient.code %}" class="btn btn-primary">ICU</a></div>
+                                                <div class="mortury_btn"><a href="{% url 'doctor:death_report' Patient.code %}" class="btn btn-secondary">Add death report</a></div>
+                                                {% endif%}
+                                                {% if deceased %}</br></br>
+
+                                                    <span class="stamp is-nope">Deceased</span>
+
+                                                {% endif %}
                                             </div>
                                         </div>
                                         <div class="col-md-7">
@@ -50,7 +60,8 @@
                                                 <li>
                                                     <span class="title">Age:</span>
                                                     <span class="text">{{Patient.age}}</span>
-                                                </li>
+                                                </li></br>
+
 
                                             </ul>
                                         </div>
@@ -63,13 +74,16 @@
 
         				<div class="profile-tabs">
         					<ul class="nav nav-tabs nav-tabs-bottom">
+                    {% if not deceased%}
                     <li class="nav-item"><a class="nav-link active" href="#appointment" data-toggle="tab">On Going</a></li>
+                    {% endif %}
         						<li class="nav-item"><a class="nav-link " href="#about-cont" data-toggle="tab">Medical History</a></li>
         						<li class="nav-item"><a class="nav-link" href="#bottom-tab2" data-toggle="tab">Tests</a></li>
         						<!-- <li class="nav-item"><a class="nav-link" href="#bottom-tab3" data-toggle="tab">Tab</a></li> -->
         					</ul>
 
                   <div class="tab-content">
+                    {% if not deceased %}
         						<div class="tab-pane show active" id="appointment">
                         <div class="row">
                             <div class="col-md-12">
@@ -77,9 +91,11 @@
                                   <div class="table-responsive">
 									                    <table id="example" class="table table-striped table-bordered" style="width:100%">
                                         <thead>
+
                                           <tr>
                                               <th>Appointment</th>
                                               <th>Status</th>
+                                              <th>Action</th>
 
 
                                           </tr>
@@ -100,6 +116,9 @@
                                             {% endif %}
                                             <!-- <td><a href="{% url 'doctor:reports' onGoing.patient onGoing.id %}"><span class="badge badge-pill badge-info">Add a report</span></a></td> -->
 
+                                            {% if not onGoing %}
+                                            <td>No appoitment</td>
+                                            {% endif %}
 
 
                                         </tr>
@@ -110,7 +129,7 @@
                             </div>
                           </div>
                         </div>
-
+                        {% endif%}
 
 
 
@@ -245,6 +264,37 @@
                             </div>
           						</div>
           					</div> -->
+                    <div id="accordion">
+                      <div class="row">
+                          <div class="col-md-12">
+                              <div class="card">
+                        <div class="card-header" id="headingOne">
+                          <h5 class="mb-0">
+
+                            <span class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                              <i style="color:#00508B" class="fas fa-arrow-circle-down"></i>
+                              infos
+                            </span>
+                          </h5>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                          <div class="card-body">
+                            <table id="example" class="table table-striped table-bordered" style="width:100%">
+                              <thead>
+
+                                <tr>
+                                    <th>Tests</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Observation</th>
+
+                                </tr>
+                              </thead>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
           				</div>
                 </div>
 

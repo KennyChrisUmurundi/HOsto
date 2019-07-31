@@ -6,10 +6,12 @@ from . import forms as doctor_forms
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from reception.models import Patient,Lab,Appointment,CashAppointmentStatus
+from mortury.models import corpses
 from account.forms import UserUpdateForm
 from reception.forms import AddLabForm
 from Laboratory.models import Results
 from django.contrib import messages
+from ward.models import PatientStatus
 
 
 
@@ -37,6 +39,7 @@ def patient(request,code):
 				add_reports.save()
 			context = {
 				'reports'			:	Reports.objects.filter(patient=theCode, appointment=c),
+				'scanCode'			:	Patient.objects.filter(code=theCode),
 			}
 			return render(request,'doctor/patient2.html' ,context)
 	else:
@@ -50,6 +53,7 @@ def patient(request,code):
 		'results'			:	Results.objects.filter(patient=theCode),
 		'status'			:	CashAppointmentStatus.objects.all(),
 		'onGoing'			:	Appointment.objects.filter(patient=theCode).latest('created_date'),
+		'deceased'			:	corpses.objects.filter(patient_code=theCode),
 
 		}
 	return render(request,'doctor/patient2.html',context)
@@ -95,11 +99,10 @@ def ScanCode(request):
 		theCode 		= 	request.POST.get('theCode', False)
 		print(theCode)
 		add_reports		=doctor_forms.AddReportsForm(request.POST or None)
-
-		# context={
-		# 'code'	:	Appointment.objects.filter(patient=theCode)
-		# }
 		return redirect('doctor:patient',code=theCode)
+	# context={
+	#  'scanCode'				:	Patient.objects.filter(code=theCode),
+	#  }
 
 	return render(request, 'doctor/doc_home.html')
 
@@ -162,6 +165,25 @@ def send_for_icu(request,code):
 
 	return render(request,'doctor/send_for_icu.html',context)
 
+def AddDeathReport(request,code):
+	if request.method=='POST':
+		death_report= doctor_forms.AddDeathReport(request.POST or None)
+
+		if death_report.is_valid():
+			report=death_report.save(commit=False)
+			report.patient_code=code
+			report.patient=request.POST.get('patient')
+			print(report.patient)
+			report.save()
+		return redirect('doctor:patient',code=report.patient_code)
+	death_report	=	doctor_forms.AddDeathReport()
+	context={
+	'patient' 	:		Patient.objects.filter(code=code),
+	'd_form'	:		death_report,
+	}
+	return render(request,'doctor/adddeathreport.html',context)
+
+
 
 def reports(request,code,id):
 
@@ -204,3 +226,18 @@ def C_results(request,code,id):
 	'results'	:Results.objects.filter(patient=code,tests_id=theId),
 	}
 	return render(request,'doctor/theResult.html',context)
+
+
+def inPatient(request):
+
+	context={
+	'inpatients'	:	PatientStatus.objects.filter(status='InPatient'),
+	}
+	return render(request,'doctor/InPatient.html',context)
+
+def outPatient(request):
+
+	context={
+	'inpatients'	:	PatientStatus.objects.filter(status='OutPatient'),
+	}
+	return render(request,'doctor/InPatient.html',context)

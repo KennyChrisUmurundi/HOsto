@@ -1,0 +1,32 @@
+{% extends "doctor/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="page-wrapper">
+<div class="container">
+	<div class="row">
+	<table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Patient Code</th>
+                <th>Age</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+        {% for patient in inpatient %}
+            <tr>
+                <td>{{ patient.patient.code }}</td>
+                <td>{{ patient.patient.age }} Years Old</td>
+                <td><a href="{% url 'ward:patient-status' patient.patient.code patient.patient.id%}"><button class="btn btn-primary">Check</button></a></td>
+
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+	</div>
+</div>
+
+{% endblock content %}

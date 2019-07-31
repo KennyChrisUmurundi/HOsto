@@ -1,12 +1,14 @@
 {% load static %}
-{% for message in messages %}
+<!-- {% for message in messages %}
       <div class="alert {{ message.tags }} alert-dismissible" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
       </button>
-{{ message }}
-      </div>
-{% endfor %}
+        {{ message }}
+        </div>
+
+
+{% endfor %} -->
 
 <!DOCTYPE html>
 <html>
@@ -22,219 +24,345 @@
 
   <link href="{% static 'doctor/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
 
+  <link rel="stylesheet" href="{% static 'doctor/css/intlTelInput.scss' %}>
+
   <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="{% static 'doctor/css/style.min.css' %}" rel="stylesheet">
+  <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{% static 'doctor/css/menu.css' %}">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
   <link href="{% static 'doctor/css/style.css' %}" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'er/assets/css/form-elements.css' %}">
+
+
+
+
+
+
+
+
+
 
 
 </head>
 
 <body >
 
+  <div class="container-fluid">
+         <!-- Sidebar  -->
+         <nav id="sidebar">
+            <!-- <div class="sidebar-header">
+             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+               <div class="sidebar-brand-icon ">
+                 <img src="{% static 'doctor/medium-4136-5d25c561bf1db.png' %}">
+               </div>
+               <div class="sidebar-brand-text mx-3">Hosto</div>
+             </a>
+           </div>--> </br></br></br>
+             <ul class="list-unstyled components">
 
-    <div id="wrapper">
-    <ul class="navbar-nav  sidebarColor sidebar sidebar-dark accordion" id="accordionSidebar">
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-        <div class="sidebar-brand-icon ">
-          <i class="fas fa-hospital"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">Hosto</div>
-      </a>
 
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
+                  <!-- Divider -->
+                  <!-- <hr class="sidebar-divider my-0"> -->
 
-      <!-- Nav Item - Reception -->
-{% if user.is_authenticated and user.role.role == 'is_receptionist' %}
+                  <!-- Nav Item - Reception -->
+            {% if user.is_authenticated and user.role.role == 'is_receptionist' %}
+                      <li class="nav-item">
+                      <a class="nav-link collapsed" href="{% url 'reception:reception-home' %}">
+                        <i class="fas fa-list"></i>
+                        <span>Patient List</span>
+                      </a>
+                    </li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-user-md"></i>
-          <span>Reception</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="{% url 'reception:add-patient' %}">New Patient</a>
-            <a class="collapse-item" href="#">Patients list</a>
-            <a class="collapse-item" href="{% url 'reception:reception-home' %}">Search</a>
-          </div>
-        </div>
-      </li>
-
-{% endif %}
-
-      <!-- Divider -->
-{% if user.is_authenticated and user.role.role == 'is_doctor' %}
-        <div class="sidebar-heading">
-          Doctor
-        </div>
-        <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'doctor:ScanCode'%}">
-          <i class="fas fa-barcode"></i>
-          <span>Scan for Barcode</span>
-        </a>
+                    <li class="nav-item">
+                    <a class="nav-link collapsed" href="{% url 'reception:add-patient' %}">
+                      <i class="fas fa-wheelchair"></i>
+                      <span>New Patient</span>
+                    </a>
+                  </li>
 
 
 
-        <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-          <i class="fas fa-calendar"></i>
-          <span>Appoinments</span>
-        </a>
+            {% endif %}
+
+                  <!-- Divider -->
+            {% if user.is_authenticated and user.role.role == 'is_doctor' %}
+
+
+                    <li class="nav-item">
+                    <a class="nav-link collapsed" href="{% url 'doctor:ScanCode'%}">
+                      <i class="fas fa-barcode"></i>
+                      <span>Scan for Barcode</span>
+                    </a>
+                  </li>
+
+
+                    <li class="nav-item">
+                    <a class="nav-link collapsed" href="{% url 'doctor:Inpatient' %}">
+                      <i class="fas fa-procedures"></i>
+                      <span>In Patient</span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                  <a class="nav-link collapsed" href="{% url 'doctor:Outpatient' %}">
+                    <i class="fas fa-user-injured"></i>
+                    <span>Out Patient</span>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'ward:ward-home'%}">
+                  <i class="fas fa-user-injured"></i>
+                  <span>Ward</span>
+                </a>
+              </li>
+
+                <li class="nav-item">
+                <a class="nav-link collapsed" href="#">
+                  <i class="fas fa-calendar"></i>
+                  <span>Appoinments</span>
+                </a>
+              </li>
+
+
+                    <li class="nav-item">
+                    <a class="nav-link collapsed" href="{% url 'doctor:doctor-profile'%}">
+                      <i class="fas fa-user"></i>
+                      <span>Profile</span>
+                    </a>
+                  </li>
+
+            {% endif %}
+
+                   <!-- Divider -->
+            {% if user.is_authenticated and user.role.role == 'is_labTech' %}
 
 
 
-        <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'doctor:doctor-profile'%}">
-          <i class="fas fa-user"></i>
-          <span>Profile</span>
-        </a>
+
+                  <!-- Nav Item - Lab-->
+
+                  <li class="nav-item">
+                  <a class="nav-link collapsed" href="{% url 'Laboratory:scanBarcode'%}">
+                    <i class="fas fa-barcode"></i>
+                    <span>Scan for Barcode</span>
+                  </a>
+                </li>
 
 
-{% endif %}
+                  <li class="nav-item">
+                  <a class="nav-link collapsed" href="#">
+                    <i class="fas fa-calendar"></i>
+                    <span>Appoinments</span>
+                  </a>
 
-       <!-- Divider -->
-{% if user.is_authenticated and user.role.role == 'is_labTech' %}
+                </li>
 
-       <hr class="sidebar-divider ">
+                  <li class="nav-item">
+                  <a class="nav-link collapsed" href="#">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                  </a>
+                </li>
 
-      <!-- Nav Item - Lab-->
+            {% endif %}
 
-      <li class="nav-item">
-      <a class="nav-link collapsed" href="{% url 'Laboratory:scanBarcode'%}">
-        <i class="fas fa-barcode"></i>
-        <span>Scan for Barcode</span>
-      </a>
-
-
-
-      <li class="nav-item">
-      <a class="nav-link collapsed" href="#">
-        <i class="fas fa-calendar"></i>
-        <span>Appoinments</span>
-      </a>
+                   <!-- Divider -->
+            {% if user.is_authenticated and user.role.role == 'is_pharmacist'  %}
 
 
+                  <!--Nav Item - Pharmacy-->
 
-      <li class="nav-item">
-      <a class="nav-link collapsed" href="#">
-        <i class="fas fa-user"></i>
-        <span>Profile</span>
-      </a>
+                  <li class="nav-item">
+                  <a class="nav-link collapsed" href="{% url 'pharmacy:scanBarcode'%}">
+                    <i class="fas fa-barcode"></i>
+                    <span>Scan for Barcode</span>
+                  </a>
+                  </li>
 
+                  <li class="nav-item">
+                  <a class="nav-link collapsed" href="{% url 'pharmacy:add_drugs'%}">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Add Drugs</span>
+                  </a>
+                </li>
 
-{% endif %}
-
-       <!-- Divider -->
-{% if user.is_authenticated and user.role.role == 'is_pharmacist'  %}
-        <hr class="sidebar-divider ">
-
-      <!--Nav Item - Pharmacy-->
-
-      <li class="nav-item">
-      <a class="nav-link collapsed" href="{% url 'pharmacy:scanBarcode'%}">
-        <i class="fas fa-barcode"></i>
-        <span>Scan for Barcode</span>
-      </a>
-      </li>
-
-      <li class="nav-item">
-      <a class="nav-link collapsed" href="{% url 'pharmacy:add_drugs'%}">
-        <i class="fas fa-medkit"></i>
-        <span>Add Drugs</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-    <a class="nav-link collapsed" href="{% url 'pharmacy:drugsList' %}">
-      <i class="fas fa-medkit"></i>
-      <span>DrugsList</span>
-    </a>
-  </li>
-{% endif %}
-
-
-        {% if user.is_authenticated and user.role.role == 'is_admin' %}
-        <div class="sidebar-heading">
-         Settings
-        </div>
-        <li class="nav-item">
-         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-           <i class="fas fa-user-md"></i>
-           <span>Administration</span>
-         </a>
-         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-           <div class="bg-white py-2 collapse-inner rounded">
-             <a class="collapse-item" href="{% url 'account:user-register' %}">New User</a><!--
-             <a class="collapse-item" href="{% url 'reception:reception-home' %}">Search</a>  -->
-             <a class="collapse-item" href="{% url 'account:user-changePassword'%}">Change Password</a>
-           </div>
-         </div>
-        </li>
-
-        {% endif %}
-
-
-        {% if user.is_authenticated %}
-        <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'account:user-login' %}">
-          <i class="fas fa-sign-out-alt"></i>
-          <span>Logout</span>
-        </a>
-        {% endif %}
-    </ul>
-
-    <!-- End of Sidebar -->
-
-    <div class="content-wrapper d-flex flex-column" style="width: 100%;margin:20px;">
-      <div id="content">
-            {% if user.is_authenticated and user.role.is_receptionist  %}
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-
-                    <div class="p-l-30 p-r-30">
-                        <div class="header-icon"><i class="fas fa-receipt"></i>
-                        </div>
-                        <div class="header-title">
-                            <h1>Reception</h1>
-                            <hr id="divider">
-                        </div>
-                    </div>
-                </section>
+                <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'pharmacy:drugsList' %}">
+                  <i class="fas fa-capsules"></i>
+                  <span>DrugsList</span>
+                </a>
+              </li>
             {% endif %}
 
 
+                    {% if user.is_authenticated and user.role.role == 'is_admin' %}
+                    <div class="sidebar-heading">
+                     Settings
+                    </div>
+                    <li class="nav-item">
+                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                       <i class="fas fa-user-md"></i>
+                       <span>Administration</span>
+                     </a>
+                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                       <div class="bg-white py-2 collapse-inner rounded">
+                         <a class="collapse-item" href="{% url 'account:user-register' %}">New User</a><!--
+                         <a class="collapse-item" href="{% url 'reception:reception-home' %}">Search</a>  -->
+                         <a class="collapse-item" href="{% url 'account:user-changePassword'%}">Change Password</a>
+                       </div>
+                     </div>
+                    </li>
+
+                    {% endif %}
+
+                    {% if user.is_authenticated and user.role.role == 'is_nurse' %}
+
+
+                          <li class="nav-item ">
+                            <a class="nav-link collapsed" href="{% url 'ward:nurse-home' %}">
+                              <i class="fas fa-home"></i>
+                              <span>Home</span>
+                            </a>
+                          </li>
+                          <li class="nav-item ">
+                            <a class="nav-link collapsed" href="{% url 'icu:ScanCode' %}">
+                              <i class="fas fa-notes-medical"></i>
+                              <span>Intensive Care Unit</span>
+                            </a>
+                          </li>
+
+                          <li class="nav-item ">
+                            <a class="nav-link" href="{% url 'ER:search' %}">
+                              <i class="fas fa-procedures"></i>
+                              <span>Emergency room</span>
+                            </a>
+                          </li>
+
+                          <li class="nav-item ">
+                            <a class="nav-link" href="{% url 'ward:ward-home' %}">
+                              <i class=" 	fas fa-band-aid"></i>
+                              <span>Ward</span>
+                            </a>
+                          </li>
+
+                          <li class="nav-item ">
+                            <a class="nav-link" href="{% url 'maternity:scan' %}">
+                              <i class=" 	fas fa-band-aid"></i>
+                              <span>Maternity Ward</span>
+                            </a>
+                          </li>
+
+                    {% endif %}
+
+
+                    {% if user.is_authenticated and user.role.role == 'is_mortury_attendant' %}
+                    <li class="nav-item">
+                    <a class="nav-link collapsed" href="{% url 'mortury:scan' %}">
+                      <i class="fas fa-barcode"></i>
+                      <span>Scan</span>
+                    </a>
+                  </li>
+
+                    <li class="nav-item">
+                    <a class="nav-link collapsed" href="{% url 'mortury:listOfDead' %}">
+                      <i class="fas fa-list"></i>
+                      <span>Mortury list</span>
+                    </a>
+                  </li>
+
+                    {% endif%}
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                    <a class="nav-link collapsed" href="{% url 'account:user-changePassword' %}">
+                      <i class="fas fa-sign-out-alt"></i>
+                      <span>Change Password</span>
+                    </a>
+                  </li>
+              </ul>
+
+                    <li class="nav-item">
+                    <a class="nav-link collapsed" href="{% url 'account:user-login' %}">
+                      <i class="fas fa-sign-out-alt"></i>
+                      <span>Logout</span>
+                    </a>
+                  </li>
+              </ul>
+                    {% endif %}
 
 
 
+                <!-- End of Sidebar -->
+                      </nav>
 
+                      <nav class="navbar navbar-dark bg-light navbar-expand-sm ">
+                        <div class="navigation">
+                        <a class="navbar-brand navigation" href="#">
+                          <i class="fas fa-user" width="30" height="30" alt="logo"></i>
+                        <span>{{request.user.username}}</span>
+                        </a>
+                      </div>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-list-4" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbar-list-4">
+                          <ul class="navbar-nav">
+                              <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
+                              </a>
+                              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Dashboard</a>
+                                <a class="dropdown-item" href="#">Edit Profile</a>
+                                <a class="dropdown-item" href="#">Log Out</a>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                        </nav>
 
-
-
-
-{% block content %}{% endblock %}
-
-
-
-
-
-
-              <!--Footer-->
-              <div class="footer">
-               <footer class="sticky-footer bg-white">
-                  <div class="container my-auto">
-                    <div class="copyright text-center my-auto"style="color:#577BCE">
-                     <span>Copyright &copy; Hosto 2019</span>
-                   </div>
-                  </div>
-               </footer>
-              </div>
-            </div>
     </div>
-  </div>
-</div>
+{% block content %}{% endblock %}
+                      <!-- <div id="content">
+                        <div class="menu-header"></br>
+                            <span class="menu-text"></span>
+                        </div> -->
+                        <!-- <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user"></i> Profile </a>
+                          <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                            <a class="dropdown-item" href="#">My account</a>
+                            <a class="dropdown-item" href="#">Log out</a>
+                          </div>
+                        </li> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -247,125 +375,226 @@
 
     <!-- Bootstrap core JavaScript-->
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Remember to include jQuery :) -->
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+
+
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
 
-<script>
-    $(document).ready(function(){
-        $("#cons").click(function(){
-        $("#doctor_div").removeAttr('hidden');
-        $("#doc_btn").removeAttr('hidden');
-        $("#category").removeAttr('disabled');
-        $("#lab_div").attr('hidden', 'True');
-        $("#lab_btn").attr('hidden', 'True');
-      });
-
-      $("#lab").click(function(){
-        // $("#doc_btn").attr('hidden', 'True');
-        $("#doctor_div").attr('hidden', 'True')
-        $("#category").attr('disabled', 'True');
-        $("#id_doctor").attr('disabled', 'True');
-        $("#lab_div").removeAttr('hidden');
-        $("#doc_btn").removeAttr('hidden');
-      });
-
-      $("#sel").click(function(){
-        $("#doctor_div").attr('hidden', 'True');
-      });
-
-      $("#category").change(function(){
-        $("#doc_name").removeAttr('hidden', 'True');
-        $("#id_doctor").removeAttr('disabled');
-      });
-
-      $("#sele").click(function(){
-        $("#apptmt").attr('hidden', 'True');
-        $("#labo").attr('hidden', 'True');
-      });
-
-      $("#consultation").click(function(){
-        $("#labo").attr('hidden', 'True');
-        $("#apptmt").removeAttr('hidden');
-      });
-
-      $("#laboratory").click(function(){
-        $("#apptmt").attr('hidden', 'True');
-        $("#labo").removeAttr('hidden');
-      });
-    });
-
-    $('select.test_cat').change(function() {
-        var currentVal = $('#id_tests').val();
-        $('textarea.textarea').val(currentVal + $(this).val() +' , ');
-    });
 
 
-    $('select.test_cat').change(function(){
-        var currentPrice = Number($('#id_totalPrice').val());
-        var sum = 0;
-        $('select.test_cat :selected').each(function() {
-          sum += Number(currentPrice + $(this).data('price'));
+
+
+
+    <script>
+      $(document).ready(function(){
+          $("#cons").click(function(){
+          $("#doctor_div").removeAttr('hidden');
+          $("#doc_btn").removeAttr('hidden');
+          $("#category").removeAttr('disabled');
+          $("#lab_div").attr('hidden', 'True');
+          $("#lab_btn").attr('hidden', 'True');
         });
-        $("#id_totalPrice").val(sum);
-    });
 
-function generate(l) {
-    if (typeof l==='undefined'){var l=8;}
-    /* c : chaîne de caractères alphanumérique */
-    var c='abcdefghijknopqrstuvwxyzACDEFGHJKLMNPQRSTUVWXYZ12345679',
-    n=c.length,
-    /* p : chaîne de caractères spéciaux */
-    p='!@#$+-*&_',
-    o=p.length,
-    r='',
-    n=c.length,
-    /* s : determine la position du caractère spécial dans le mdp */
-    s=Math.floor(Math.random() * (p.length-1));
+        $("#lab").click(function(){
+          // $("#doc_btn").attr('hidden', 'True');
+          $("#doctor_div").attr('hidden', 'True')
+          $("#category").attr('disabled', 'True');
+          $("#id_doctor").attr('disabled', 'True');
+          $("#lab_div").removeAttr('hidden');
+          $("#doc_btn").removeAttr('hidden');
+        });
 
-    for(var i=0; i<l; ++i){
-        if(s == i){
-            /* on insère à la position donnée un caractère spécial aléatoire */
-            r += p.charAt(Math.floor(Math.random() * o));
-        }else{
-            /* on insère un caractère alphanumérique aléatoire */
-            r += c.charAt(Math.floor(Math.random() * n));
+        $("#sel").click(function(){
+          $("#doctor_div").attr('hidden', 'True');
+        });
+
+        $("#category").change(function(){
+          $("#doc_name").removeAttr('hidden', 'True');
+          $("#id_doctor").removeAttr('disabled');
+        });
+
+        $("#id_doctor").change(function(){
+          $("#id_price").removeAttr('disabled');
+        });
+
+        $("#sele").click(function(){
+          $("#apptmt").attr('hidden', 'True');
+          $("#labo").attr('hidden', 'True');
+        });
+
+        $("#consultation").click(function(){
+          $("#labo").attr('hidden', 'True');
+          $("#apptmt").removeAttr('hidden');
+        });
+
+        $("#laboratory").click(function(){
+          $("#apptmt").attr('hidden', 'True');
+          $("#labo").removeAttr('hidden');
+        });
+      });
+
+      $('select.test_cat').change(function() {
+          var currentVal = $('#id_tests').val();
+          $('textarea.textarea').val(currentVal + $(this).val() +' , ');
+      });
+
+
+      $('select.test_cat').change(function(){
+          var currentPrice = Number($('#id_totalPrice').val());
+          var sum = 0;
+          $('select.test_cat :selected').each(function() {
+            sum += Number(currentPrice + $(this).data('price'));
+          });
+          $("#id_totalPrice").val(sum);
+      });
+
+  function generate(l) {
+      if (typeof l==='undefined'){var l=8;}
+      /* c : chaîne de caractères alphanumérique */
+      var c='abcdefghijknopqrstuvwxyzACDEFGHJKLMNPQRSTUVWXYZ12345679',
+      n=c.length,
+      /* p : chaîne de caractères spéciaux */
+      p='!@#$+-*&_',
+      o=p.length,
+      r='',
+      n=c.length,
+      /* s : determine la position du caractère spécial dans le mdp */
+      s=Math.floor(Math.random() * (p.length-1));
+
+      for(var i=0; i<l; ++i){
+          if(s == i){
+              /* on insère à la position donnée un caractère spécial aléatoire */
+              r += p.charAt(Math.floor(Math.random() * o));
+          }else{
+              /* on insère un caractère alphanumérique aléatoire */
+              r += c.charAt(Math.floor(Math.random() * n));
+          }
+      }
+      return r;
+  }
+
+  /* exemple de fonction génération de mdp dans un form (utilise JQuery) */
+  $(document).ready(function() {
+      /* on détecte un des champ du formulaire contient une class "gen", on insérera un bouton dans sa div parent qui appelera la fonction generate() */
+      if($('form input.gen').length){
+          $('form input.gen').each(function(){
+              $('<span class="generate" style="cursor: pointer;"><i class="fa fa-fw fa-sync"  style="font-size: 25px; margin-top: 5px; margin-left: 5px;"></i></span>').appendTo($(this).parent());
+          });
+      }
+
+      /* évènement click sur un element de class "generate" > appelle la fonction generate() */
+      $(document).on('click','.generate', function(e){
+          e.preventDefault();
+          /* ajout du mot de passe + changement du paramètre type de password vers text (pour lisibilité) */
+          $(this).parent().children('input').val(generate());
+          var currentPass = $(".gen").val()
+          $(".pass").val(currentPass);
+      });
+  });
+
+  function submitBday() {
+      var Q4A = "";
+      var Bdate = document.getElementById('id_dob').value;
+      var Bday = +new Date(Bdate);
+      Q4A += ~~((Date.now() - Bday) / (31557600000));
+      var theBday = document.getElementById('id_age');
+      //theBday.innerHTML = Q4A;
+      $("#id_age").val(Q4A);
+  }
+
+
+  $(document).ready(function() {
+      $('#example').DataTable(
+
+           {
+
+        "aLengthMenu": [[5, 10, 25, -1], [5, 10, 25, "All"]],
+          "iDisplayLength": 5
+         }
+          );
+  } );
+
+
+  function checkAll(bx) {
+    var cbs = document.getElementsByTagName('input');
+    for(var i=0; i < cbs.length; i++) {
+      if(cbs[i].type == 'checkbox') {
+        cbs[i].checked = bx.checked;
+      }
+    }
+  }
+
+  $(document).on('submit', '.create_report_form', function(e){
+      e.preventDefault();
+      var thisForm = $(this)
+      var actionEndPoint = thisForm.attr("action");
+      var httpMethod = thisForm.attr("method");
+
+      $("#prescription").keyup(function() {
+        $("#btnSubmit").removeAttr('disabled');
+      });
+
+      $.ajax({
+        type:httpMethod,
+        url: actionEndPoint,
+        data:{
+          patient:$('#patient').val(),
+          prescription:$('#prescription').val(),
+          report:$('#report').val(),
+          csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken').val()
+        },
+        success: function (data) {
+          $("#myElem").show();
+          setTimeout(function() { $("#myElem").hide(); }, 5000);
         }
-    }
-    return r;
-}
 
-/* exemple de fonction génération de mdp dans un form (utilise JQuery) */
-$(document).ready(function() {
-    /* on détecte un des champ du formulaire contient une class "gen", on insérera un bouton dans sa div parent qui appelera la fonction generate() */
-    if($('form input.gen').length){
-        $('form input.gen').each(function(){
-            $('<span class="generate" style="cursor: pointer;"><i class="fa fa-fw fa-sync"  style="font-size: 25px; margin-top: 5px; margin-left: 5px;"></i></span>').appendTo($(this).parent());
-        });
-    }
+      });
+  });
 
-    /* évènement click sur un element de class "generate" > appelle la fonction generate() */
-    $(document).on('click','.generate', function(e){
-        e.preventDefault();
-        /* ajout du mot de passe + changement du paramètre type de password vers text (pour lisibilité) */
-        $(this).parent().children('input').val(generate());
-        var currentPass = $(".gen").val()
-        $(".pass").val(currentPass);
+  </script>
+
+  {% if user.is_authenticated and user.role.role == 'is_nurse' %}
+    <script type="text/javascript">
+     $( document ).ready(function() {
+
+        $("#id_status").attr('hidden', 'True');
+        $("#id_prescription").attr('readonly', 'True');
+        $('label[for="id_status"]').hide();
+        $('label[for="id_prescription"]').hide();
+
     });
-});
 
-function submitBday() {
-    var Q4A = "";
-    var Bdate = document.getElementById('id_dob').value;
-    var Bday = +new Date(Bdate);
-    Q4A += ~~((Date.now() - Bday) / (31557600000));
-    var theBday = document.getElementById('id_age');
-    //theBday.innerHTML = Q4A;
-    $("#id_age").val(Q4A);
-}
-</script>
+  $('#modal').on('show.bs.modal', function (event) {
+      var modal = $(this)
+      $.ajax({
+          url: "#",
+          context: document.body
+      }).done(function(response) {
+          modal.html(response);
+      });
+  })
+    </script>
+  {% elif user.is_authenticated and user.role.role == 'is_doctor' %}
+    <script type="text/javascript">
+     $( document ).ready(function() {
+
+        $("#id_report").attr('hidden', 'True');
+        $('label[for="id_report"]').hide();
+
+    });
+    </script>
+  {% endif %}
+
 
 
 </body>

@@ -2,49 +2,52 @@
 {% load static %}
 {% block content %}
 <!-- partial -->
-            <div class="col-11 grid-margin">
+  <div class="page-wrapper">
+
               <div class="card">
                 <div class="card-body">
-                  <form class="form-sample" method="POST" action="{% url 'reception:add-patient' %}">
+                  <form class="form-sample " method="POST" action="{% url 'reception:add-patient' %}" novalidate>
                     {% csrf_token %}
                     <p class="card-description">
                     </p>
                     <div class="row">
                       <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">FirstName</label>
+                        <div class="form-group row required">
+                          <label  for="validationCustom01" class="col-sm-3 col-form-label control-label">FirstName</label>
                           <div class="col-sm-9">
                             {{ form.firstname }}
+
                           </div>
                         </div>
+
                       </div>
                       <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">LastName</label>
+                        <div class="form-group row required">
+                          <label class="col-sm-3 col-form-label control-label">LastName</label>
                           <div class="col-sm-9">
                             {{ form.lastname }}
                           </div>
                         </div>
                       </div>
                        <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Gender</label>
+                        <div class="form-group row required">
+                          <label class="col-sm-3 col-form-label control-label">Gender</label>
                           <div class="col-sm-9">
                             {{ form.gender }}
                           </div>
                         </div>
                       </div>
                        <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Phone</label>
+                        <div class="form-group row required">
+                          <label class="col-sm-3 col-form-label control-label">Phone</label>
                           <div class="col-md-9">
                             {{ form.phone }}
                           </div>
                         </div>
                       </div>
                       <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">date of Birth</label>
+                        <div class="form-group row required">
+                          <label class="col-sm-3 col-form-label control-label">date of Birth</label>
                           <div class="col-sm-9">
                             {{ form.dob }}
                           </div>
@@ -58,25 +61,19 @@
                           </div>
                         </div>
                       </div>
+
+
                       <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">medical history</label>
-                          <div class="col-sm-9">
-                            {{ form.medical_history }}
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Marital Status</label>
+                        <div class="form-group row required">
+                          <label class="col-sm-3 col-form-label control-label">Marital Status</label>
                           <div class="col-sm-9">
                             {{ form.status }}
                           </div>
                         </div>
                       </div>
                       <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Address</label>
+                        <div class="form-group row required">
+                          <label class="col-sm-3 col-form-label control-label">Address</label>
                           <div class="col-sm-9">
                             {{ form.address }}
                           </div>
@@ -84,25 +81,25 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-6">                        
+                      <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Email</label>
+                          <label class="col-sm-3 col-form-label ">Email</label>
                           <div class="col-md-9">
                             {{ form.email }}
                           </div>
                         </div>
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Occupation</label>
+                          <label class="col-sm-3 col-form-label ">Occupation</label>
                           <div class="col-md-9">
                             {{ form.occupation }}
                           </div>
                         </div>
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Payment Method</label>
+                        <div class="form-group row required">
+                          <label class="col-sm-3 col-form-label control-label">Payment Method</label>
                           <div class="col-md-9">
                             {{ form.payment }}
                           </div>
-                        </div>                        
+                        </div>
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Patient Image</label>
                           <div class="col-md-9">
@@ -118,4 +115,33 @@
                   </form>
                 </div>
               </div>
+            </div>
+
+            <script>
+            (function() {
+                  'use strict';
+                  window.addEventListener('load', function() {
+                  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                  var forms = document.getElementsByClassName('form-sample');
+                  // Loop over them and prevent submission
+                  var validation = Array.prototype.filter.call(forms, function(form) {
+                  form.addEventListener('submit', function(event) {
+                  if (form.checkValidity() === false) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  }
+                  form.classList.add('was-validated');
+                  }, false);
+                  });
+                  }, false);
+                  })();
+            </script>
+            <script src="{% static 'doctor/js/intlTelInput.js' %}"></script>
+<script>
+  var input = document.querySelector("#phone");
+  window.intlTelInput(input);
+</script>
+
+
+
 {% endblock %}

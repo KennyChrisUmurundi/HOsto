@@ -21,6 +21,10 @@ class Doctor(models.Model):
 	def __str__(self):
 		return self.name
 
+class Prices(models.Model):
+	doctor 					=	models.ForeignKey(Doctor, on_delete=models.CASCADE)
+	amount 					=	models.IntegerField(default=0)
+
 
 class Reports(models.Model):
 
