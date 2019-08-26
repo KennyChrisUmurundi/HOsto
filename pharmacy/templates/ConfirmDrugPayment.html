@@ -4,21 +4,25 @@
 
 {% for Patient in patientInfo%}
   <div class="page-wrapper">
-<div class="pager">
-<form class="form-horizontal" method="POST">
-  {% csrf_token %}
-  <input type="text" name="patient" value="{{ Patient.code }}" readonly="True" hidden>
- <div class="form-group">
-   <label>Medecine:</label></br>
-   {% for Drugs in drug%}
-   <input type="text" class="form-control" name="DrugName" value="{{Drugs.name}}" readonly="True">
-   {% endfor%}
-  {{add_drugs_payment }}
+    <div class="pager">
+      <div class="card-box profile-header">
+          <div class="row">
+    <form class="form-horizontal" method="POST">
+      {% csrf_token %}
+      <input type="text" name="patient" value="{{ Patient.code }}" readonly="True" hidden>
+     <div class="form-group">
+       <label>Medecine:</label></br>
+       {% for Drugs in drug %}
+       <input type="text" class="form-control" name="DrugName" value="{{Drugs.name}}" readonly="True">
+
+       {{add_drugs_payment }}
+
+        {% endfor%}
 </div>
 
  <div class="form-group">
    <div class="col-sm-offset-2 col-sm-10">
-     <button type="submit" class="btn btn-success">Submit</button>
+     <button type="submit" class="btn btn-success" style="50%">Submit</button>
    </div>
  </div>
 </form>

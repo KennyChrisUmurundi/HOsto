@@ -147,3 +147,5 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get('MY_USER')
 EMAIL_HOST_PASSWORD = 'wmhhlfuxzxiqfelw'
 EMAIL_USE_TLS = True
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

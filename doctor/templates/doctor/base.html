@@ -24,7 +24,7 @@
 
   <link href="{% static 'doctor/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
 
-  <link rel="stylesheet" href="{% static 'doctor/css/intlTelInput.scss' %}>
+  <link rel="stylesheet" href="{% static 'doctor/css/intlTelInput.scss' %}">
 
   <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Bootstrap CSS CDN -->
@@ -180,27 +180,73 @@
 
 
                   <!--Nav Item - Pharmacy-->
-
                   <li class="nav-item">
-                  <a class="nav-link collapsed" href="{% url 'pharmacy:scanBarcode'%}">
+                  <a class="nav-link " href="{% url 'pharmacy:dasboard'%}">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                  </a>
+                  </li>
+                </ul>
+                <ul class="list-unstyled components">
+                  <li class="nav-item">
+                  <a class="nav-link " href="{% url 'pharmacy:scanBarcode'%}">
                     <i class="fas fa-barcode"></i>
                     <span>Scan for Barcode</span>
                   </a>
                   </li>
-
+                </ul>
+                <ul class="list-unstyled components">
                   <li class="nav-item">
-                  <a class="nav-link collapsed" href="{% url 'pharmacy:add_drugs'%}">
-                    <i class="fas fa-plus-circle"></i>
-                    <span>Add Drugs</span>
-                  </a>
-                </li>
+                      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#medecine" aria-expanded="false" aria-controls="collapseTwo" >
+                        <i class="fas fa-capsules"></i>
+                        <span>Medecine</span>
+                      </a>
 
-                <li class="nav-item">
-                <a class="nav-link collapsed" href="{% url 'pharmacy:drugsList' %}">
-                  <i class="fas fa-capsules"></i>
-                  <span>DrugsList</span>
-                </a>
-              </li>
+                      <div id="medecine" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="py-2 collapse-inner rounded">
+                          <a class="collapse-item" href="{% url 'pharmacy:add_drugs'%}"><i class="fas fa-plus-circle"></i><span>Add Medecine</span></a>
+                          <a class="collapse-item" href="{% url 'pharmacy:add_drugsC'%}"><i class="fas fa-plus-circle"></i><span>Add Medicine Category</span></a>
+
+                          <a class="collapse-item" href="{% url 'pharmacy:drugsList' %}"><i class="fas fa-list"></i><span>Medecine List</a></span></a>
+                          <a class="collapse-item" href="{% url 'pharmacy:categoryList' %}"><i class="fas fa-list"></i><span>Category List</span></a>
+                        </div>
+                      </div>
+                      <div class="divider">
+                  </li>
+                </ul>
+                <ul class="list-unstyled components">
+                  <li class="nav-item">
+                      <a class="nav-link collapsed" href="#"data-toggle="collapse" data-target="#supplier" aria-expanded="false" aria-controls="collapseTwo" >
+                        <i class="fas fa-industry"></i>
+                        <span>Suppliers</span>
+                      </a>
+
+                      <div id="supplier" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="py-2 collapse-inner rounded">
+                          <a class="collapse-item" href="{% url 'pharmacy:add_drugsS'%}"><i class="fas fa-plus-circle"></i><span>Add Supplier</span></a>
+                          <a class="collapse-item" href="{% url 'pharmacy:suppliersList'%}"><i class="fas fa-list"></i><span>Supplier List</span></a>
+
+                        </div>
+                      </div>
+                  </li>
+                </ul>
+                    <div class="divider">
+                      <ul class="list-unstyled components">
+                      <li class="nav-item">
+                          <a class="nav-link collapsed" href="#"data-toggle="collapse" data-target="#stock" aria-expanded="false" aria-controls="collapseTwo" >
+                            <i class="fas fa-industry"></i>
+                            <span>Stock Management</span>
+                          </a>
+
+                          <div id="stock" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="py-2 collapse-inner rounded">
+                              <a class="collapse-item" href="{% url 'pharmacy:OutOfStock' %}"><i class="fas fa-plus-circle"></i><span>Out of Stock medecine</span></a>
+                              <a class="collapse-item" href="{% url 'pharmacy:ExpiredDrugs' %}"><i class="fas fa-list"></i><span>Expired Medecine</span></a>
+
+                            </div>
+                          </div>
+                      </li>
+
             {% endif %}
 
 
@@ -281,14 +327,16 @@
 
                     {% endif%}
                     {% if user.is_authenticated %}
+                  </ul>
+                  <ul class="list-unstyled components">
                     <li class="nav-item">
                     <a class="nav-link collapsed" href="{% url 'account:user-changePassword' %}">
-                      <i class="fas fa-sign-out-alt"></i>
+                      <i class="fas fa-lock"></i>
                       <span>Change Password</span>
                     </a>
                   </li>
               </ul>
-
+              <ul class="list-unstyled components">
                     <li class="nav-item">
                     <a class="nav-link collapsed" href="{% url 'account:user-login' %}">
                       <i class="fas fa-sign-out-alt"></i>
@@ -330,7 +378,11 @@
                         </nav>
 
     </div>
+
+  </div>
+
 {% block content %}{% endblock %}
+
                       <!-- <div id="content">
                         <div class="menu-header"></br>
                             <span class="menu-text"></span>
