@@ -1,121 +1,119 @@
-{% extends "doctor/base.html" %}
-{% load static %}
+{% extends "account/base.html" %}
+{%load static %}
 {% block content %}
-<!-- partial -->
-  <div class="page-wrapper">
+<div class="row no-margin-padding">
+  <div class="col-md-6">
+    <h3 class="block-title">Add Patient</h3>
+  </div>
+  <div class="col-md-6">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="index.html">
+          <span class="ti-home"></span>
+        </a>
+                  </li>
+                  <li class="breadcrumb-item">Patients</li>
+      <li class="breadcrumb-item active">Add Patient</li>
+    </ol>
+  </div>
+</div>
+<!-- /Page Title -->
 
-              <div class="card">
-                <div class="card-body">
-                  <form class="form-sample " method="POST" action="{% url 'reception:add-patient' %}" novalidate>
-                    {% csrf_token %}
-                    <p class="card-description">
-                    </p>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group row required">
-                          <label  for="validationCustom01" class="col-sm-3 col-form-label control-label">FirstName</label>
-                          <div class="col-sm-9">
-                            {{ form.firstname }}
+<!-- /Breadcrumb -->
+<!-- Main Content -->
+<div class="container-fluid">
 
-                          </div>
-                        </div>
-
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row required">
-                          <label class="col-sm-3 col-form-label control-label">LastName</label>
-                          <div class="col-sm-9">
-                            {{ form.lastname }}
-                          </div>
-                        </div>
-                      </div>
-                       <div class="col-md-6">
-                        <div class="form-group row required">
-                          <label class="col-sm-3 col-form-label control-label">Gender</label>
-                          <div class="col-sm-9">
-                            {{ form.gender }}
-                          </div>
-                        </div>
-                      </div>
-                       <div class="col-md-6">
-                        <div class="form-group row required">
-                          <label class="col-sm-3 col-form-label control-label">Phone</label>
-                          <div class="col-md-9">
-                            {{ form.phone }}
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row required">
-                          <label class="col-sm-3 col-form-label control-label">date of Birth</label>
-                          <div class="col-sm-9">
-                            {{ form.dob }}
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Age</label>
-                          <div class="col-sm-9">
-                            {{ form.age }}
-                          </div>
-                        </div>
-                      </div>
-
-
-                      <div class="col-md-6">
-                        <div class="form-group row required">
-                          <label class="col-sm-3 col-form-label control-label">Marital Status</label>
-                          <div class="col-sm-9">
-                            {{ form.status }}
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row required">
-                          <label class="col-sm-3 col-form-label control-label">Address</label>
-                          <div class="col-sm-9">
-                            {{ form.address }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label ">Email</label>
-                          <div class="col-md-9">
-                            {{ form.email }}
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label ">Occupation</label>
-                          <div class="col-md-9">
-                            {{ form.occupation }}
-                          </div>
-                        </div>
-                        <div class="form-group row required">
-                          <label class="col-sm-3 col-form-label control-label">Payment Method</label>
-                          <div class="col-md-9">
-                            {{ form.payment }}
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Patient Image</label>
-                          <div class="col-md-9">
-                            {{ form.image }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div style="float: right;">
-                      <button type="submit" class="btn btn-success mr-2">Add Patient</button>
-                     {#  <button class="btn btn-light">Cancel</button> #}
-                    </div>
-                  </form>
-                </div>
-              </div>
+  <div class="row">
+    <!-- Widget Item -->
+    <div class="col-md-12">
+      <div class="widget-area-2 proclinic-box-shadow">
+        <h3 class="widget-title">Patient Information</h3>
+        <form method="POST" class="form-sample" action="{% url 'reception:add-patient' %}" novalidate>
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group col-md-6 required">
+              <label for="patient-name" class="control-label">Patient First Name</label>
+              {{ form.firstname }}
             </div>
+
+            <div class="form-group col-md-6 required">
+              <label for="patient-name" class="control-label">Patient Last Name</label>
+              {{ form.lastname }}
+            </div>
+
+            <div class="form-group col-md-6 required">
+              <label for="age">Age</label>
+              {{form.age}}
+            </div>
+
+            <div class="form-group col-md-6 required">
+              <label for="dob" class="control-label">Date Of Birth</label>
+              {{form.dob}}
+            </div>
+
+            <div class="form-group col-md-6 required">
+              <label class="control-label">Status</label>
+              {{form.status}}
+            </div>
+
+            <div class="form-group col-md-6 required">
+              <label for="phone" class="control-label">Phone</label>
+              {{form.phone}}
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="email">Email</label>
+              {{form.email}}
+            </div>
+
+            <div class="form-group col-md-6 required">
+              <label for="gender" class="control-label">Gender</label>
+            {{form.gender}}
+            </div>
+
+            <div class="form-group col-md-6 ">
+              <label>Occupation</label>
+            {{form.occupation}}
+            </div>
+
+            <div class="form-group col-md-6 ">
+              <label>ID</label>
+            {{form.patient_identification}}
+            </div>
+
+            <div class="form-group col-md-12 required">
+              <label for="exampleFormControlTextarea1" class="control-label">Address</label>
+              {{form.address}}
+            </div>
+
+            <div class="form-group col-md-12">
+              <label for="file">Medical File</label>
+
+              {{form.image}}
+            </div>
+            </div>
+
+
+
+
+        <h3 class="widget-title">Payment Option</h3>
+      </hr>
+    </br>
+    <div class="form-group col-md-6 required">
+      <label for="exampleFormControlTextarea1">Payment</label>
+      {{form.payment}}
+    </div>
+
+
+            <div class="form-group col-md-6 mb-3">
+              <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+            </div>
+
+        </form>
+
+  </div>
+</div>
+</div>
 
             <script>
             (function() {
@@ -141,6 +139,22 @@
   var input = document.querySelector("#phone");
   window.intlTelInput(input);
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

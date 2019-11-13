@@ -1,41 +1,119 @@
-{% extends 'doctor/base.html' %}
+{% extends "account/base.html" %}
 {%load static %}
 {% block content %}
 
-<div class="page-wrapper">
-<div class="card">
-  <div class="card-body">
-    <form class="form-sample" method="POST">
-      {% csrf_token %}
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group row required">
-            <label  for="validationCustom01" class="col-sm-3 col-form-label control-label">Name</label>
-            <div class="col-sm-9">
-              {{ add_drugsSupplier.name}}
-            </div>
-          </div>
-
-          <div class="form-group row required">
-            <label  for="validationCustom01" class="col-sm-3 col-form-label control-label">Address</label>
-            <div class="col-sm-9">
-              {{ add_drugsSupplier.address}}
-            </div>
-          </div>
-
-          <div class="form-group row required">
-            <label  for="validationCustom01" class="col-sm-3 col-form-label control-label">Email</label>
-            <div class="col-sm-9">
-              {{ add_drugsSupplier.email}}
-            </div>
-          </div>
+{% for message in messages %}
+      <div class="alert {{ message.tags }}  alert-success" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+        {{ message }}
         </div>
-        </div>
-          <button class="btn btn-success" type="submit" style="width:50%;">Add</button>
-      </form>
-    </div>
+  {% endfor %}
+
+<div class="row no-margin-padding">
+  <div class="col-md-6">
+    <h3 class="block-title">Add Supplier</h3>
+  </div>
+  <div class="col-md-6">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="index.html">
+          <span class="ti-home"></span>
+        </a>
+                  </li>
+                  <li class="breadcrumb-item">Supplier</li>
+      <li class="breadcrumb-item active">Add Supplier</li>
+    </ol>
   </div>
 </div>
+<!-- /Page Title -->
+
+<!-- /Breadcrumb -->
+<!-- Main Content -->
+<div class="container-fluid">
+
+  <div class="row">
+    <!-- Widget Item -->
+    <div class="col-md-12">
+      <div class="widget-area-2 proclinic-box-shadow">
+        <h3 class="widget-title">Add Supplier</h3>
+        <nav aria-label="Page navigation example">
+         <ul class="pagination justify-content-center export-pagination">
+           <li class="page-item">
+             <a class="page-link" href="#"><span class="ti-download"></span> csv</a>
+           </li>
+
+           <li class="page-item">
+             <a class="page-link" href="#"><span class="ti-align-justify"></span> Excel</a>
+           </li>
+         </ul>
+        </nav>
+        <form method="POST" class="form-sample"  novalidate>
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group col-md-8 required">
+              <label for="patient-name" class="control-label">Name:</label>
+              {{ add_drugsSupplier.name}}
+            </div></br>
+            <div class="form-group col-md-8 required">
+              <label for="patient-name" class="control-label">Address:</label>
+              {{ add_drugsSupplier.address}}
+            </div>
+            <div class="form-group col-md-8 required">
+              <label for="patient-name" class="control-label">Phone:</label>
+              {{ add_drugsSupplier.phone}}
+            </div>
+            <div class="form-group col-md-8 required">
+              <label for="patient-name" class="control-label">Email:</label>
+              {{ add_drugsSupplier.email}}
+            </div>
+
+            <div class="form-group col-md-6 mb-3">
+              <button type="submit" class="btn btn-primary btn-lg">Submit </button>
+            </div>
+
+        </form>
 
 
-{% endblock%}
+      </div>
+    </div>
+
+
+</div>
+</div>
+</div>
+  <script>
+  (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('form-sample');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+        }, false);
+        });
+        }, false);
+        })();
+
+
+        $('input.number').on('input', function() {
+        this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+    });
+
+    function isNumberKey(evt)
+    {
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      if (charCode != 46 && charCode > 31
+      && (charCode < 48 || charCode > 57))
+      return false;
+      return true;
+    }
+  </script>
+{%endblock %}

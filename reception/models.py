@@ -28,9 +28,27 @@ class Patient(models.Model):
 	occupation				=	models.CharField(max_length=300)
 	payment					=	models.CharField(max_length=300)
 	code 					=	models.CharField(max_length=200, editable=False, unique=True)
-	image 					= 	models.ImageField(default='default.jpeg', upload_to='profile_pics')
+	image 					= 	models.FileField(upload_to='profile_pics',null=True,blank=True)
 	test_data 				= 	models.CharField("Test Data", max_length=128) # TODO: test_data
 	created_date			=	models.DateTimeField(default=timezone.now)
+	patient_identification		=	models.CharField(max_length=300)
+	blood_group					=	models.CharField(max_length=100)
+	allergies					=	models.CharField(max_length=500)
+	diabetic					= 	models.CharField(max_length=100)
+	weight						=	models.CharField(max_length=100)
+	high_blood_pressure					=	models.CharField(max_length=100)
+	seizures					=	models.CharField(max_length=500)
+	liver_desease					= 	models.CharField(max_length=100)
+	ulcers						=	models.CharField(max_length=100)
+	gout					=	models.CharField(max_length=100)
+	heart_desease					=	models.CharField(max_length=500)
+	heart_valve_desease					= 	models.CharField(max_length=100)
+	lung_desease						=	models.CharField(max_length=100)
+	cancer					=	models.CharField(max_length=100)
+	hiv					=	models.CharField(max_length=500)
+	thyroid_desease					= 	models.CharField(max_length=100)
+
+
 
 
 	class Meta:
@@ -38,7 +56,7 @@ class Patient(models.Model):
 		verbose_name_plural = "Patients"
 
 	def __unicode__(self):
-		return "%s: %s" % (self.code, self.test_data)
+		return "%s: %s" % (self.code, self.firstname)
 
 	def save(self, *args, **kwargs):
 		loop_num = 0
@@ -63,6 +81,7 @@ class Appointment(models.Model):
 	patient 				= 	models.CharField(max_length=300)
 	price 					=	models.IntegerField(default=0)
 	doctor 	 				= 	models.CharField(max_length=200)
+	department 				=	models.CharField(max_length=200)
 	created_date			=	models.DateTimeField(default=timezone.now)
 	# expired_on 				=	models.DateTimeField(default=add_min())
 	class Meta:
@@ -89,6 +108,8 @@ class CashAppointmentStatus(models.Model):
 	appointment 			=	models.OneToOneField(Appointment, on_delete=models.CASCADE)
 	patient 				= 	models.CharField(max_length=300)
 	status 					=	models.CharField(default='Unpaid', max_length=10)
+	payment_type			=	models.CharField(max_length=50)
+	created_date			=	models.DateTimeField(default=timezone.now)
 
 	def __str__(self):
 		return f'{self.appointment.patient} CashAppointmentStatus'
@@ -97,6 +118,8 @@ class CashLabStatus(models.Model):
 	labTest 				=	models.OneToOneField(Lab, on_delete=models.CASCADE)
 	patient 				= 	models.CharField(max_length=300)
 	status 					=	models.CharField(default='Unpaid', max_length=10)
+	payment_type			=	models.CharField(max_length=50)
+	created_date			=	models.DateTimeField(default=timezone.now)
 
 	def __str__(self):
 		return f'{self.labTest.patient} CashLabStatus'

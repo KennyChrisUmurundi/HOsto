@@ -71,7 +71,7 @@ def login_view(request):
 
 			elif user is not None and user.role.role == 'is_nurse' and user.role.status == 'active':
 				login(request, user)
-				return HttpResponseRedirect(reverse('icu:ScanCode'))
+				return HttpResponseRedirect(reverse('icu:add-medical'))
 
 			elif user is not None and user.role.role == 'is_admin' and user.role.status == 'active':
 				login(request, user)

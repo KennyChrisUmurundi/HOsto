@@ -6,7 +6,8 @@ app_name = 'pharmacy'
 urlpatterns = [
 
 	path('',pharmacy_views.scanBarcode, name='scanBarcode'),
-	path('Dashboard/',pharmacy_views.dashboard,name='dasboard'),
+	path('get_data/',pharmacy_views.get_data, name='get_data'),
+	path('Dashboard/',pharmacy_views.dashboard,name='dashboard'),
     path('pharmacy_patient/<slug:code>',pharmacy_views.pharmacy_patient,name='patient'),
     # path('pharmacy_prescription/<slug:code>/int:id',pharmacy_views.pharmacy_patient,name='prescription'),
     path('drugs/<slug:code>',pharmacy_views.drugs,name='drugs'),

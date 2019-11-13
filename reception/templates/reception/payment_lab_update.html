@@ -1,38 +1,53 @@
-{% extends "doctor/base.html" %}
-{% load static %}
-{% load crispy_forms_tags %}
+{%extends 'account/base.html'%}
+{%load static%}
 {% block content %}
-<!-- partial -->
-  <div class="page-wrapper">
-            <div class="col-11 grid-margin">
-              <div class="card">
-                <div class="card-body">
-                  {% for lab in lab %}
-                  <form class="form-sample" method="POST" action="{% url 'reception:payment-lab-update' lab.patient lab.id %}">
-                    {% csrf_token %}
-                    <p class="card-description">
-                    </p>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Patient Code </label>
-                          <div class="col-sm-9">
-                        <input type="text" name="patient" value="{{ lab.patient }}" readonly="True">
-                          </div>
-                        </div>
-                      </div>
-                      <div id="apptmt" style="border:solid thin #28B0E2; border-radius: 10px;">
-                        <p class="card-description btn btn-outline-info" style="margin-top: 5px; margin-left: 20px; margin-right: 20px;">Update the Lab Test Payment Status</p>
-                        {{ update_lab_form | crispy }}
-                      </div>
-                    </div>
-                    <div style="float: right; margin-top: 10px;">
-                      <button type="submit" class="btn btn-success mr-2">Update Status</button>
-                     {#  <button class="btn btn-light">Cancel</button> #}
-                    </div>
-                  </form>
-                  {% endfor %}
-                </div>
-              </div>
+
+<div class="row no-margin-padding">
+  <div class="col-md-6">
+    <h3 class="block-title">Test Payment</h3>
+  </div>
+  <div class="col-md-6">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="index.html">
+          <span class="ti-home"></span>
+        </a>
+                  </li>
+                  <li class="breadcrumb-item">Test</li>
+      <li class="breadcrumb-item active">Test Payment</li>
+    </ol>
+  </div>
+</div>
+<!-- /Page Title -->
+
+<!-- /Breadcrumb -->
+<!-- Main Content -->
+<div class="container-fluid">
+
+  <div class="row">
+    <!-- Widget Item -->
+    <div class="col-md-12">
+      <div class="widget-area-2 proclinic-box-shadow">
+        <h3 class="widget-title">Add Appointment</h3>
+        {% for lab in lab %}
+        <form class="form-sample" method="POST" action="{% url 'reception:payment-lab-update' lab.patient lab.id  %}">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="patient-name" class="control-label">Patient Code</label>
+              <input type="text" class="form-control" name="patient" value="{{ lab.patient }}" readonly="True">
             </div>
+
+            <div class="form-group col-md-12 required" class="control-label">
+
+            {{ update_lab_form }}
+            </div>
+
+
+            <div class="form-group col-md-6 mb-3">
+              <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+            </div>
+          </div>
+          {% endfor %}
+        </form>
 {% endblock %}

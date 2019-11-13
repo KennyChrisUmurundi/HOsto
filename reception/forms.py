@@ -15,11 +15,11 @@ class AddPatientForm(forms.ModelForm):
 							widget=forms.TextInput(attrs={'name'	: 	'name',
 														  'class'	:	'form-control',
 														  'type'	:	'text',
-														  'placeholder':'Enter Patient First Name',
-														  'id':'validationCustom01'
+														  'placeholder':'Patient First Name',
+
 														   }))
 
-	lastname = forms.CharField(max_length=1000,
+	lastname = forms.CharField(max_length=100,
 							widget=forms.TextInput(attrs={'name'	: 	'description',
 														  'class'	:	'form-control',
 														  'type'	:	'text',
@@ -28,11 +28,10 @@ class AddPatientForm(forms.ModelForm):
 							widget=forms.TextInput(attrs={'name'	: 	'dob',
 														  'class'	:	'form-control',
 														  'type'	:	'date',
-														  'placeholder':'Enter Patient Last Name',
 														  'onchange' 	:	'submitBday()', }))
 
 	status   = forms.ChoiceField(choices=[('single', 'Single'),('Married', 'Married')],
-								widget=forms.RadioSelect(attrs={'style' : 'font-size: 20px;;','class'	:	'form-check-input'}))
+								widget=forms.Select(attrs={'class'	:	'form-control',}))
 
 	age = forms.CharField(max_length=200,
 							widget=forms.TextInput(attrs={'name'		: 	'age',
@@ -70,23 +69,93 @@ class AddPatientForm(forms.ModelForm):
 														  'type'	:	'text',
 														  'placeholder':'Enter Patient Occupation', }))
 
-	payment 	= 	forms.ChoiceField(choices=[('Cashless', 'Cashless'),('Cash', 'Cash')],
+	payment 	= 	forms.ChoiceField(choices=[('Credit Card', 'Credit Card'),('Cash', 'Cash'),('Insurance', 'Insurance')],
 							widget=forms.Select(attrs={	'class'	:	'form-control', }))
 
 
-	image 	= 	forms.CharField(max_length=200,
+	image 	= 	forms.CharField(max_length=200,required=False,
 							widget=forms.TextInput(attrs={'name'	: 	'image',
 														  'class'	:	'form-control',
 														  'type'	:	'file',
 														  'style'	:	'padding: 0px 0px 0px 0px;' }))
 
 
+
+	patient_identification= forms.CharField(max_length=100,
+							widget=forms.TextInput(attrs={'name'	: 	'patient_id',
+														  'class'	:	'form-control',
+														  'type'	:	'text',
+														  'placeholder':'Patient ID', }))
+
+
+
+
+
 	class Meta:
 		model = Patient
-		fields = ('firstname', 'lastname', 'gender', 'phone', 'dob', 'age', 'status', 'address','email', 'occupation','payment', 'image')
+		fields = ('firstname', 'lastname', 'gender', 'phone', 'dob', 'age', 'status', 'address','email',
+		 'occupation','payment', 'image','patient_identification',)
 
 		def clean_email(self):
 			email = self.cleaned_data.get('email')
+
+class AddPatientMedicalForm(forms.ModelForm):
+	blood_group= forms.ChoiceField(choices=[('A+', 'A+'),('A-', 'A-'),('B+', 'B+'),('B-', 'B-'),('O+', 'O+'),('O-', 'O-')],
+							widget=forms.Select(attrs={	'class'	:	'form-control', }))
+
+	weight= forms.CharField(max_length=100,
+							widget=forms.TextInput(attrs={'name'	: 	'weight',
+														  'class'	:	'form-control',
+														  'type'	:	'text',
+														  'placeholder':'Patient Weight', }))
+	allergies= forms.CharField(max_length=100,
+							widget=forms.TextInput(attrs={'name'	: 	'allergies',
+														  'class'	:	'form-control',
+														  'type'	:	'text',
+														  'placeholder':'Patient Allergies', }))
+	diabetic 	= 	forms.ChoiceField(choices=[('No', 'No'),('Yes', 'Yes'),('Not Known', 'Not Known')],
+							widget=forms.Select(attrs={	'class'	:	'form-control', }))
+
+	high_blood_pressure 	= 	forms.CharField(max_length=100,
+							widget=forms.TextInput(attrs={'name'	: 	'high_blood_pressure',
+														  'class'	:	'form-control',
+														  'type'	:	'text',
+														  'placeholder':'High blood Pressure', }))
+
+	seizures 	= 	forms.ChoiceField(choices=[('No', 'No'),('Yes', 'Yes'),('Not Known','Not Known')],
+							widget=forms.Select(attrs={	'class'	:	'form-control', }))
+
+	liver_desease 	= 	forms.ChoiceField(choices=[('No', 'No'),('Yes', 'Yes'),('Not Known', 'Not Known')],
+							widget=forms.Select(attrs={	'class'	:	'form-control', }))
+
+	ulcers 	= 	forms.ChoiceField(choices=[('No', 'No'),('Yes', 'Yes'),('Not Known','Not Known')],
+							widget=forms.Select(attrs={	'class'	:	'form-control', }))
+
+	gout 	= 	forms.ChoiceField(choices=[('No', 'No'),('Yes', 'Yes'),('Not Known','Not Known')],
+							widget=forms.Select(attrs={	'class'	:	'form-control', }))
+
+	heart_desease 	= 	forms.ChoiceField(choices=[('No', 'No'),('Yes', 'Yes'),('Not Known','Not Known')],
+							widget=forms.Select(attrs={	'class'	:	'form-control', }))
+
+	heart_valve_desease = forms.ChoiceField(choices=[('No', 'No'),('Yes', 'Yes'),('Not Known','Not Known')],
+							widget=forms.Select(attrs={	'class'	:	'form-control', }))
+
+	lung_desease	=	forms.ChoiceField(choices=[('No', 'No'),('Yes', 'Yes'),('Not Known','Not Known')],
+							widget=forms.Select(attrs={	'class'	:	'form-control', }))
+
+	cancer			=	forms.CharField(max_length=100,
+							widget=forms.TextInput(attrs={'name'	: 	'cancer',
+														  'class'	:	'form-control',
+														  'type'	:	'text',
+														  'placeholder':'If yes precise which cancer', }))
+
+	thyroid_desease	=	forms.ChoiceField(choices=[('No', 'No'),('Yes', 'Yes'),('Not Known','Not Known')],
+							widget=forms.Select(attrs={	'class'	:	'form-control', }))
+	class Meta:
+		model	= Patient
+		fields	= ('blood_group','weight','allergies','diabetic','high_blood_pressure',
+		'seizures','liver_desease','ulcers','gout','heart_desease','heart_valve_desease','lung_desease','cancer','thyroid_desease')
+
 
 class AddAppointmentForm(forms.ModelForm):
 
@@ -114,7 +183,8 @@ class AddAppointmentForm(forms.ModelForm):
 	category_select = 	forms.ChoiceField(label='Doctor Category', choices=([(category, category) for category in categories]),
 							widget=forms.Select(attrs={	'class'		:	'form-control',
 														'id'		:	'category',
-														'disabled'	:	'true' }))
+														'name'		:	'department',
+														}))
 
 	doctor_select 	= 	forms.ChoiceField(label='Doctor', choices=(list_doctors),
 							widget=forms.Select(attrs={	'class'		:	'form-control',
@@ -175,16 +245,21 @@ class AddLabForm(forms.ModelForm):
 class PaymentAppointmentStatusUpdate(forms.ModelForm):
 	status = forms.ChoiceField(choices=[('', 'Select Status of the Payment'),('Paid', 'Paid'),('Unpaid', 'Unpaid')],
 							widget=forms.Select(attrs={	'class'	:	'form-control', }))
+	payment_type = forms.ChoiceField(choices=[('', 'Select Payment method'),('Cash', 'Cash'),('Mobile Money', 'Mobile Money'),('Credit Card', 'Credit Card')],
+							widget=forms.Select(attrs={	'class'	:	'form-control', }))
 	class Meta:
 		model 	=	CashAppointmentStatus
-		fields	=	['status']
+		fields	=	['status','payment_type']
 
 class PaymentLabStatusUpdate(forms.ModelForm):
 	status = forms.ChoiceField(choices=[('', 'Select Status of the Payment'),('Unpaid', 'Unpaid'),('Paid', 'Paid')],
 							widget=forms.Select(attrs={	'class'	:	'form-control', }))
+
+	payment_type = forms.ChoiceField(choices=[('', 'Select Payment method'),('Cash', 'Cash'),('Mobile Money', 'Mobile Money'),('Credit Card', 'Credit Card')],
+							widget=forms.Select(attrs={	'class'	:	'form-control', }))
 	class Meta:
 		model 	=	CashLabStatus
-		fields	=	['status']
+		fields	=	['status','payment_type']
 
 
 class MorturyPaymentUpdate(forms.ModelForm):

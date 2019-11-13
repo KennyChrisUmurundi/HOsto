@@ -6,10 +6,11 @@ from django.contrib import messages
 from datetime import datetime, timedelta
 
 from . import forms as reception_forms
-from .models import Patient, Appointment,Lab
+from .models import Patient, Appointment,Lab,CashAppointmentStatus,CashLabStatus
 from doctor.models import Reports, Doctor, Category,Prices
 from mortury.models import corpses,Mpayment
 from . import mybarcode
+from itertools import chain
 # Create your views here.
 @login_required(login_url='/')
 def reception_home(request):
@@ -24,11 +25,27 @@ def reception_home(request):
 
 		return render(request, 'reception/reception_home.html', context)
 	context = {
-		'PatientByFirstname'			:	Patient.objects.all(),
+		'PatientByFirstname'			:	Patient.objects.all().order_by('-created_date'),
 	}
 
 	return render(request, 'reception/reception_home.html',context)
 
+def add_patient(request):
+	if request.method == 'POST':
+		print('vyakunze')
+		add_patient = reception_forms.AddPatientForm(request.POST or None)
+		if add_patient.is_valid(self):
+			patient 			=	add_patient.save(commit=False)
+			patient.user 		= 	self.request.user
+			patient.save()
+			print('ik')
+			messages.success(request,f'Added successfully')
+			return redirect('reception:add-appointment', code=patient.code)
+	add_patient=reception_forms.AddPatientForm()
+	context={
+            'form'     :   add_patient,
+    }
+	return render(request, 'reception/add_patient.html', context)
 
 class AddPatientView(LoginRequiredMixin, CreateView):
 	model = Patient
@@ -38,17 +55,28 @@ class AddPatientView(LoginRequiredMixin, CreateView):
 	def form_valid(self, form):
 		patient 			=	form.save(commit=False)
 		patient.user 		= 	self.request.user
-		patientCheck		= 	Patient.objects.filter(firstname=self.request.POST['firstname'],lastname=self.request.POST['lastname'])
-		if patientCheck:
-			messages.add_message(self.request, messages.WARNING, f'Patient With this Name Exist!')
-			return redirect('reception:add-patient')
-		else:
-			patient.save()
-			print(patient.code)
-			messages.add_message(self.request, messages.SUCCESS, f'Patient Created')
+		patient.save()
+		print(patient.code)
+		messages.add_message(self.request, messages.SUCCESS, f'Patient Created')
 
 		return redirect('reception:add-appointment', code=patient.code)
 
+def add_patient_medical(request,id):
+	object  =   get_object_or_404(Patient,id=id)
+	if request.method == 'POST':
+		print('vyakunze')
+		add_patient = reception_forms.AddPatientMedicalForm(request.POST,instance=object)
+		if add_patient.is_valid():
+			add_patient.save()
+			print('ik')
+			messages.success(request,f'Added successfully')
+			# return redirect('reception:add-appointment')
+	add_patient=reception_forms.AddPatientMedicalForm(instance=object)
+	context={
+            'form'     :   add_patient,
+			'patient':     Patient.objects.filter(id=id).order_by('-created_date'),
+    }
+	return render(request, 'reception/patientMedicalForm.html', context)
 # class AddAppointmentView(LoginRequiredMixin, CreateView):
 #  	model = Appointment, Lab
 #  	form_class 	= 	reception_forms.AddAppointmentForm
@@ -81,10 +109,14 @@ def add_appointment(request, code):
 				doctor_selected 	=		Doctor.objects.filter(name=data('doctor_select'))
 				apptmt.doctor 		=		request.POST.get('doctor_select')
 				apptmt.patient		= 		request.POST.get('patient')
+				apptmt.department		= 		request.POST.get('category_select')
 				price_select 		=		Prices.objects.filter(amount=data('price_select'))
 				apptmt.price 		=		request.POST.get('price_select')
 				add_apptmt_form.save()
+
 				return redirect('reception:gen_barcode', code=apptmt.patient)
+
+
 			else:
 				if add_lab_form.is_valid():
 					lab 					=	add_lab_form.save(commit=False)
@@ -106,6 +138,7 @@ def add_appointment(request, code):
 		'add_apptmt_form' 	: 	add_apptmt_form,
 		'add_lab_form'		:	add_lab_form,
 		'patient' 			: 	Patient.objects.filter(code=code),
+
 	}
 
 	return render(request, 'reception/add_appointment.html', context)
@@ -135,6 +168,12 @@ def patient_info(request, code):
 
 	}
 	return render(request, 'reception/patient_info.html', context)
+
+def appointment_info(request,code):
+	context={
+	'appointment'	:	Appointment.objects.filter(patient=code).latest('-created_date'),
+	}
+	return render(request,'reception/appointment_details.html',context)
 
 def payment_appointment_update(request, code, id):
 
@@ -221,6 +260,34 @@ def payment_lab_update(request, code, id):
 	}
 
 	return render(request, 'reception/payment_lab_update.html', context)
+
+
+def patient_invoices(request,code):
+
+
+
+	comb 	=	combine_labs_appointments(code)
+	context			={
+	'all_payment':comb,
+	'lab'	: CashLabStatus.objects.filter(status='Paid'),
+	'apps'	: CashAppointmentStatus.objects.filter(status='Paid')
+	}
+	return render(request,'reception/patient_invoice.html',context)
+
+def combine_labs_appointments(crud):
+    labs = CashLabStatus.objects.filter(patient=crud)
+    apps = CashAppointmentStatus.objects.filter(patient=crud)
+    combined = sorted(
+        chain(labs, apps),
+        key=lambda c: c.status, reverse=False)
+    return combined
+
+def detailed_invoice(request,id):
+	context={
+	'lab'	: CashLabStatus.objects.filter(id=id),
+	'apps'	: CashAppointmentStatus.objects.filter(id=id)
+	}
+	return render(request,'reception/detailed_invoice.html',context)
 
 # def payment_pharmacy_update(request, code, id):
 #

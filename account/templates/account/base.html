@@ -1,0 +1,593 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>HOSPITAL</title>
+	<!-- Fav  Icon Link -->
+	<link rel="shortcut icon" type="image/png" href="images/fav.png">
+	<!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link href="{% static 'doctor/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+	<!-- themify icons CSS -->
+	<link rel="stylesheet" href="{% static 'base/css/themify-icons.css' %}">
+	<!-- Animations CSS -->
+	<link rel="stylesheet" href="{% static 'base/css/animate.css' %}">
+	<!-- Main CSS -->
+	<link rel="stylesheet" href="{% static 'base/css/styles.css' %}">
+	<link rel="stylesheet" href="{% static 'base/css/red.css' %}" id="style_theme">
+	<link rel="stylesheet" href="{% static 'base/css/responsive.css' %}">
+	<!-- morris charts -->
+	<link rel="stylesheet" href="{% static 'base/charts/css/morris.css' %}">
+	<!-- jvectormap -->
+	<link rel="stylesheet" href="{% static 'base/css/jquery-jvectormap.css' %}">
+	<link rel="stylesheet" href="{% static 'base/datatable/dataTables.bootstrap4.min.css' %}">
+
+	<script src="{% static 'base/js/modernizr.min.js' %}"></script>
+	<script src='https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js'></script>
+
+	<!-- CUSTOM STYLE  -->
+	<!-- <link href="{% static 'doctor/css/invoice/invoice.css' %}" rel="stylesheet"> -->
+</head>
+
+<body>
+	<!-- Pre Loader -->
+	<!-- <div class="loading">
+		<div class="spinner">
+			<div class="double-bounce1"></div>
+			<div class="double-bounce2"></div>
+		</div>
+	</div> -->
+	<!--/Pre Loader -->
+	<!-- Color Changer -->
+	<div class="wrapper">
+		<!-- Sidebar -->
+		<nav id="sidebar" class="proclinic-bg">
+			<div class="sidebar-header">
+				<a href="index.html"><span  class="fas fa-clinic-medical" style="font-size:40px;" ></span></a></div></br>
+			<ul class="list-unstyled components">
+				{% if user.is_authenticated and user.role.role == 'is_pharmacist'  %}
+				<li>
+					<a href="{% url 'pharmacy:dashboard' %}">
+						<span class="ti-dashboard"></span> Dashboard
+					</a>
+				</li>
+
+				<li>
+					<a href="{% url 'pharmacy:scanBarcode'%}">
+						<span class="fas fa-barcode"></span> Barcode Scan
+					</a>
+				</li>
+				{% endif %}
+				{% if user.is_authenticated and user.role.role == 'is_doctor'  %}
+				<li>
+					<a href="#">
+						<span class="ti-dashboard"></span> Dashboard
+					</a>
+				</li>
+
+				<li>
+					<a href="{% url 'doctor:ScanCode'%}">
+						<span class="fas fa-barcode"></span> Barcode Scan
+					</a>
+				</li>
+				<li>
+					<a href="{% url 'doctor:Inpatient'%}">
+						<span class="fas fa-procedures"></span> In Patient
+					</a>
+				</li>
+				<li>
+					<a href="{% url 'doctor:Outpatient'%}">
+						<span class="fas fa-user-injured"></span> Out Patient
+					</a>
+				</li>
+				<li>
+						<a href="#nav-rooms" data-toggle="collapse" aria-expanded="false">
+							<span class="ti-key"></span> Room Allotments
+						</a>
+						<ul class="collapse list-unstyled" id="nav-rooms">
+							<li>
+								<a href="{% url 'doctor:addRoom' %}">Add Room Allotment</a>
+							</li>
+							<li>
+								<a href="{% url 'doctor:allRooms' %}">All Rooms</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+							<a href="#sche" data-toggle="collapse" aria-expanded="false">
+								<span class="fas fa-calendar-alt"></span> Schedule
+							</a>
+							<ul class="collapse list-unstyled" id="sche">
+								<li>
+									<a href="#">Add Schedule</a>
+								</li>
+								<li>
+									<a href="#">Schedule list</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+								<a href="#hos" data-toggle="collapse" aria-expanded="false">
+									<span class="fas fa-clinic-medical"></span> Hospital Activities
+								</a>
+								<ul class="collapse list-unstyled" id="hos">
+									<li>
+										<a href="#">Add Birth report</a>
+									</li>
+									<li>
+										<a href="#">Add death report</a>
+									</li>
+									<li>
+										<a href="#">Add operation report</a>
+									</li>
+								</ul>
+							</li>
+				{% endif %}
+				{% if user.is_authenticated and user.role.role == 'is_pharmacist'%}
+				<li>
+					<a href="{% url 'pharmacy:drugsList' %}">
+						<span class="ti-menu"></span> Medecine List
+					</a>
+				</li>
+				{% endif %}
+				{% if user.is_authenticated and user.role.role == 'is_receptionist'  %}
+				<li>
+					<a href="#nav-patients" data-toggle="collapse" aria-expanded="true">
+						<span class="ti-wheelchair"></span> Patients
+					</a>
+					<ul class="collapse list-unstyled" id="nav-patients">
+						<li>
+							<a href="{% url 'reception:add-patient' %}">Add Patient</a>
+						</li>
+						<li>
+							<a href="{% url 'reception:reception-home' %}">All Patients</a>
+						</li>
+
+					</ul>
+				</li>
+
+				<li>
+					<a href="#navs-patients" data-toggle="collapse" >
+						<span class="ti-wheelchair"></span> Ward
+					</a>
+					<ul class="collapse list-unstyled" id="navs-patients">
+						<li>
+							<a href="{% url 'doctor:Inpatient' %}">In Patient</a>
+						</li>
+						<li>
+							<a href="{% url 'doctor:allRooms' %}">All Rooms</a>
+						</li>
+
+					</ul>
+				</li>
+				{% endif %}
+				{% if user.is_authenticated and user.role.role == 'is_admin'  %}
+				<li>
+					<a href="#nav-doctors" data-toggle="collapse" aria-expanded="false">
+						<span class="ti-user"></span> Doctors
+					</a>
+					<ul class="collapse list-unstyled" id="nav-doctors">
+						<li>
+							<a href="add-doctor.html">Add Doctor</a>
+						</li>
+						<li>
+							<a href="doctors.html">All Doctors</a>
+						</li>
+						<li>
+							<a href="about-doctor.html">Doctor Details</a>
+						</li>
+						<li>
+							<a href="edit-doctor.html">Edit Doctor</a>
+						</li>
+					</ul>
+				</li>
+				{% endif %}
+				{% if user.is_authenticated and user.role.role == 'is_receptionist'  %}
+				<!-- <li>
+					<a href="#nav-appointment" data-toggle="collapse" aria-expanded="false">
+						<span class="ti-pencil-alt"></span> Appointments
+					</a>
+					<ul class="collapse list-unstyled" id="nav-appointment">
+						<li>
+							<a href="add-appointment.html">Add Appointment</a>
+						</li>
+						<li>
+							<a href="appointments.html">All Appointments</a>
+						</li>
+						<li>
+							<a href="about-appointment.html">Appointment Details</a>
+						</li>
+						<li>
+							<a href="edit-appointment.html">Edit Appointment</a>
+						</li>
+					</ul>
+				</li>
+
+				<li>
+						<a href="#nav-payment" data-toggle="collapse" aria-expanded="false">
+							<span class="ti-money"></span> Payments
+						</a>
+						<ul class="collapse list-unstyled" id="nav-payment">
+							<li>
+								<a href="add-payment.html">Add Payment</a>
+							</li>
+							<li>
+								<a href="payments.html">All Payments</a>
+							</li>
+							<li>
+								<a href="about-payment.html">Payment Invoice</a>
+							</li>
+						</ul>
+					</li> -->
+						{% endif %}
+						{% if user.is_authenticated and user.role.role == 'is_nurse'%}
+						<li>
+							<a href="{% url 'icu:add-medical' %}">
+								<span class="ti-wheelchair"></span> Patient to be updated
+							</a>
+						</li>
+						<li>
+								<a href="#nav-rooms" data-toggle="collapse" aria-expanded="false">
+									<span class="ti-key"></span> Room Allotments
+								</a>
+								<ul class="collapse list-unstyled" id="nav-rooms">	
+									<li>
+										<a href="{% url 'doctor:addRoom' %}">Add Room Allotment</a>
+									</li>
+									<li>
+										<a href="{% url 'doctor:allRooms' %}">All Rooms</a>
+									</li>
+								</ul>
+							</li>
+						{% 	endif %}
+						{% if user.is_authenticated and user.role.role == 'is_pharmacist'  %}
+
+				<li class="nav-level-one">
+					<a href="#drugs-uiKit" data-toggle="collapse" aria-expanded="false">
+						<span class="ti-layout-tab"></span> Drugs Management
+					</a>
+					<ul class="list-unstyled collapse" aria-expanded="true" id="drugs-uiKit">
+						<li>
+							<a href="{% url 'pharmacy:add_drugs'%}">Add Medecine</a>
+						</li>
+						<li>
+							<a href="{% url 'pharmacy:add_drugsC'%}">Add Medecine Category</a>
+						</li>
+
+						<li>
+							<a href="{% url 'pharmacy:categoryList' %}">Category List</a>
+						</li>
+
+					</ul>
+				</li>
+				<li class="nav-level-one">
+					<a href="#suppliers-uiKit" data-toggle="collapse" aria-expanded="false">
+						<span class="ti-stats-up"></span> Suppliers
+					</a>
+					<ul class="list-unstyled collapse" aria-expanded="true" id="suppliers-uiKit">
+						<li>
+							<a href="{% url 'pharmacy:add_drugsS'%}">Add Supplier</a>
+						</li>
+						<li>
+							<a href="{% url 'pharmacy:suppliersList'%}">Suppliers List</a>
+						</li>
+
+					</ul>
+				</li>
+				<li class="nav-level-one">
+					<a href="#stock-uiKit" data-toggle="collapse" aria-expanded="false">
+						<span class="ti-package"></span> Stock Management
+					</a>
+					<ul class="list-unstyled collapse" aria-expanded="true" id="stock-uiKit">
+						<li>
+							<a href="{% url 'pharmacy:OutOfStock' %}">Out Of Stock</a>
+						</li>
+						<li>
+							<a href="{% url 'pharmacy:ExpiredDrugs' %}">Expired Drugs</a>
+						</li>
+
+					</ul>
+				</li>
+				{% endif %}
+				{% if user.is_authenticated %}
+				<li>
+					<a href="{% url 'account:user-changePassword' %}">
+						<span class="ti-slice"></span> Change User Password
+					</a>
+				</li>
+
+				<li>
+					<a href="{% url 'account:user-login' %}">
+						<span class="ti-power-off"></span> Logout
+					</a>
+				</li>
+				{% endif %}</br></br></br></br></br></br></br></br>
+			<!-- <div class="nav-help animated fadeIn">
+				<h5><span class="ti-comments"></span> Need Help</h5>
+				<h6>
+					<span class="ti-mobile"></span> +1 1234 567 890</h6>
+				<h6>
+					<span class="ti-email"></span> KennyChrisn95@gmail.com</h6>
+				<p class="copyright-text">KennyTech &copy; 2018</p>
+			</div> -->
+		</nav>
+		<!-- /Sidebar -->
+		<!-- Page Content -->
+		<div id="content">
+			<!-- Top Navigation -->
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<div class="responsive-logo">
+						<a href="index.html"><img src="images/logo-dark.png" class="logo" alt="logo"></a>
+					</div>
+					<ul class="nav">
+						<li class="nav-item">
+							<span class="ti-menu" id="sidebarCollapse"></span>
+						</li>
+						<li class="nav-item">
+							<span title="Fullscreen" class="ti-fullscreen fullscreen"></span>
+						</li>
+						<li class="nav-item">
+							<a  data-toggle="modal" data-target=".proclinic-modal-lg">
+								<span class="ti-search"></span>
+							</a>
+							<div class="modal fade proclinic-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-lorvens">
+									<div class="modal-content proclinic-box-shadow2">
+										<div class="modal-header">
+											<h5 class="modal-title">Search Patient/Doctor:</h5>
+											<span class="ti-close" data-dismiss="modal" aria-label="Close">
+											</span>
+										</div>
+										<div class="modal-body">
+											<form>
+												<div class="form-group">
+													<input type="text" class="form-control" id="search-term" placeholder="Type text here">
+													<button type="button" class="btn btn-lorvens proclinic-bg">
+														<span class="ti-location-arrow"></span> Search</button>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+								<span class="ti-announcement"></span>
+							</a>
+							<div class="dropdown-menu proclinic-box-shadow2 notifications animated flipInY">
+								<h5>Notifications</h5>
+								<a class="dropdown-item" href="#">
+									<span class="ti-wheelchair"></span> New Patient Added</a>
+								<a class="dropdown-item" href="#">
+									<span class="ti-money"></span> Patient payment done</a>
+								<a class="dropdown-item" href="#">
+									<span class="ti-time"></span>Patient Appointment booked</a>
+								<a class="dropdown-item" href="#">
+									<span class="ti-wheelchair"></span> New Patient Added</a>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+								<span class="ti-user"></span>
+							</a>
+							<div class="dropdown-menu proclinic-box-shadow2 profile animated flipInY">
+								<h5>John Willing</h5>
+								<a class="dropdown-item" href="#">
+									<span class="ti-settings"></span> Settings</a>
+								<a class="dropdown-item" href="#">
+									<span class="ti-help-alt"></span> Help</a>
+										{% if user.is_authenticated %}
+								<a class="dropdown-item" href="{% url 'account:user-login' %}">
+
+									<span class="ti-power-off"></span> Logout</a>
+							</div>
+							{% endif %}
+						</li>
+					</ul>
+
+				</div>
+			</nav>
+			<!-- /Top Navigation -->
+			<!-- Breadcrumb -->
+
+
+
+
+      {% block content %}{% endblock %}
+
+
+
+
+      <script src="{% static 'base/js/jquery-3.2.1.min.js' %}"></script>
+    	<!-- Popper Library-->
+    	<script src="{% static 'base/js/popper.min.js' %}"></script>
+    	<!-- Bootstrap Library-->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>	<!-- morris charts -->
+
+        <!-- Datatable  -->
+    	<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    	<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+    	<!-- Custom Script-->
+			<script src="{% static 'base/js/custom.js' %}"></script>
+
+    	<script src="{% static 'base/js/custom-datatables.js' %}"></script>
+
+			<script>
+      $(document).ready(function(){
+          $("#cons").click(function(){
+          $("#doctor_div").removeAttr('hidden');
+          $("#doc_btn").removeAttr('hidden');
+          $("#category").removeAttr('disabled');
+          $("#lab_div").attr('hidden', 'True');
+          $("#lab_btn").attr('hidden', 'True');
+        });
+
+        $("#lab").click(function(){
+          // $("#doc_btn").attr('hidden', 'True');
+          $("#doctor_div").attr('hidden', 'True')
+          $("#category").attr('disabled', 'True');
+          $("#id_doctor").attr('disabled', 'True');
+          $("#lab_div").removeAttr('hidden');
+          $("#doc_btn").removeAttr('hidden');
+        });
+
+        $("#sel").click(function(){
+          $("#doctor_div").attr('hidden', 'True');
+        });
+
+        $("#category").change(function(){
+          $("#doc_name").removeAttr('hidden', 'True');
+          $("#id_doctor").removeAttr('disabled');
+        });
+
+        $("#id_doctor").change(function(){
+          $("#id_price").removeAttr('disabled');
+        });
+
+        $("#sele").click(function(){
+          $("#apptmt").attr('hidden', 'True');
+          $("#labo").attr('hidden', 'True');
+        });
+
+        $("#consultation").click(function(){
+          $("#labo").attr('hidden', 'True');
+          $("#apptmt").removeAttr('hidden');
+        });
+
+        $("#laboratory").click(function(){
+          $("#apptmt").attr('hidden', 'True');
+          $("#labo").removeAttr('hidden');
+        });
+      });
+
+      $('select.test_cat').change(function() {
+          var currentVal = $('#id_tests').val();
+          $('textarea.textarea').val(currentVal + $(this).val() +' , ');
+      });
+
+
+      $('select.test_cat').change(function(){
+          var currentPrice = Number($('#id_totalPrice').val());
+          var sum = 0;
+          $('select.test_cat :selected').each(function() {
+            sum += Number(currentPrice + $(this).data('price'));
+          });
+          $("#id_totalPrice").val(sum);
+      });
+
+  function generate(l) {
+      if (typeof l==='undefined'){var l=8;}
+      /* c : chaîne de caractères alphanumérique */
+      var c='abcdefghijknopqrstuvwxyzACDEFGHJKLMNPQRSTUVWXYZ12345679',
+      n=c.length,
+      /* p : chaîne de caractères spéciaux */
+      p='!@#$+-*&_',
+      o=p.length,
+      r='',
+      n=c.length,
+      /* s : determine la position du caractère spécial dans le mdp */
+      s=Math.floor(Math.random() * (p.length-1));
+
+      for(var i=0; i<l; ++i){
+          if(s == i){
+              /* on insère à la position donnée un caractère spécial aléatoire */
+              r += p.charAt(Math.floor(Math.random() * o));
+          }else{
+              /* on insère un caractère alphanumérique aléatoire */
+              r += c.charAt(Math.floor(Math.random() * n));
+          }
+      }
+      return r;
+  }
+
+  /* exemple de fonction génération de mdp dans un form (utilise JQuery) */
+  $(document).ready(function() {
+      /* on détecte un des champ du formulaire contient une class "gen", on insérera un bouton dans sa div parent qui appelera la fonction generate() */
+      if($('form input.gen').length){
+          $('form input.gen').each(function(){
+              $('<span class="generate" style="cursor: pointer;"><i class="fa fa-fw fa-sync"  style="font-size: 25px; margin-top: 5px; margin-left: 5px;"></i></span>').appendTo($(this).parent());
+          });
+      }
+
+      /* évènement click sur un element de class "generate" > appelle la fonction generate() */
+      $(document).on('click','.generate', function(e){
+          e.preventDefault();
+          /* ajout du mot de passe + changement du paramètre type de password vers text (pour lisibilité) */
+          $(this).parent().children('input').val(generate());
+          var currentPass = $(".gen").val()
+          $(".pass").val(currentPass);
+      });
+  });
+
+  function submitBday() {
+      var Q4A = "";
+      var Bdate = document.getElementById('id_dob').value;
+      var Bday = +new Date(Bdate);
+      Q4A += ~~((Date.now() - Bday) / (31557600000));
+      var theBday = document.getElementById('id_age');
+      //theBday.innerHTML = Q4A;
+      $("#id_age").val(Q4A);
+  }
+
+
+  $(document).ready(function() {
+      $('#example').DataTable(
+
+           {
+
+        "aLengthMenu": [[5, 10, 25, -1], [5, 10, 25, "All"]],
+          "iDisplayLength": 5
+         }
+          );
+  } );
+
+
+  function checkAll(bx) {
+    var cbs = document.getElementsByTagName('input');
+    for(var i=0; i < cbs.length; i++) {
+      if(cbs[i].type == 'checkbox') {
+        cbs[i].checked = bx.checked;
+      }
+    }
+  }
+
+  $(document).on('submit', '.create_report_form', function(e){
+      e.preventDefault();
+      var thisForm = $(this)
+      var actionEndPoint = thisForm.attr("action");
+      var httpMethod = thisForm.attr("method");
+
+      $("#prescription").keyup(function() {
+        $("#btnSubmit").removeAttr('disabled');
+      });
+
+      $.ajax({
+        type:httpMethod,
+        url: actionEndPoint,
+        data:{
+          patient:$('#patient').val(),
+          prescription:$('#prescription').val(),
+          report:$('#report').val(),
+          csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken').val()
+        },
+        success: function (data) {
+          $("#myElem").show();
+          setTimeout(function() { $("#myElem").hide(); }, 5000);
+        }
+
+      });
+  });
+
+  </script>
+
+
+    </body>
+    </html>

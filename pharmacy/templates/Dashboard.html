@@ -1,84 +1,145 @@
-{% extends 'doctor/base.html'%}
+{% extends "account/base.html" %}
+{% block content %}
+<div class="row no-margin-padding">
+  <div class="col-md-6">
+    <h3 class="block-title">Quick Statistics</h3>
+  </div>
+  <div class="col-md-6">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="index.html">
+          <span class="ti-home"></span>
+        </a>
+      </li>
+      <li class="breadcrumb-item active">Dashboard</li>
+    </ol>
+  </div>
+</div>
+<!-- /Page Title -->
 
-{% block content%}
-<!-- Content Row -->
-<div class="page-wrapper">
-          <div class="row">
+<!-- /Breadcrumb -->
+<!-- Main Content -->
+<div class="container-fluid home">
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Medecine</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total }}</div>
 
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
+  <div class="row">
+    <!-- Widget Item -->
+    <div class="col-md-4">
+      <div class="widget-area proclinic-box-shadow color-red">
+        <div class="widget-left">
+          <span class="fas fa-capsules"></span>
+        </div>
+        <div class="widget-right">
+          <h4 class="wiget-title">Medecine</h4>
+          <span class="numeric color-red">{{total}}</span>
+          <!-- <p class="inc-dec mb-0"><span class="ti-angle-up"></span> +20% Increased</p> -->
+        </div>
+      </div>
+    </div>
+    <!-- /Widget Item -->
+    <!-- Widget Item -->
+    <div class="col-md-4">
+      <div class="widget-area proclinic-box-shadow color-green">
+        <div class="widget-left">
+          <span class="ti-money"></span>
+        </div>
+        <div class="widget-right">
+          <h4 class="wiget-title">Total Sale</h4>
+          <span class="numeric color-green">UGX {{totalSale}}</span>
+          <!-- <p class="inc-dec mb-0"><span class="ti-angle-down"></span> -15% Decreased</p> -->
+        </div>
+      </div>
+    </div>
+    <!-- /Widget Item -->
+    <!-- Widget Item -->
+    <div class="col-md-4">
+      <div class="widget-area proclinic-box-shadow color-yellow">
+        <div class="widget-left">
+          <span class="ti-bar-chart"></span>
+        </div>
+        <div class="widget-right">
+          <h4 class="wiget-title">Out Of Stock</h4>
+          <span class="numeric color-yellow">{{outofstock}}</span>
+          <!-- <p class="inc-dec mb-0"><span class="ti-angle-up"></span> +10% Increased</p> -->
+        </div>
+      </div>
+    </div>
+    <!-- /Widget Item -->
+  </div>
+  <div class="row">
+					<!-- Widget Item -->
+					<div class="col-md-12">
+						<div class="widget-area-2 proclinic-box-shadow">
+							<h3 class="widget-title">Appointments Year by Year</h3>
+
+              <canvas id="myChart" width="150" height="50"></canvas>
+              <script>
+              var ctx = document.getElementById('myChart').getContext('2d');
+              var myChart = new Chart(ctx, {
+                  type: 'bar',
+                  data: {
+                      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                      datasets: [{
+                          label: '# of Votes',
+                          data: [12, 19, 3, 5, 2, 3],
+                          backgroundColor: [
+                              'rgba(255, 99, 132, 0.2)',
+                              'rgba(54, 162, 235, 0.2)',
+                              'rgba(255, 206, 86, 0.2)',
+                              'rgba(75, 192, 192, 0.2)',
+                              'rgba(153, 102, 255, 0.2)',
+                              'rgba(255, 159, 64, 0.2)'
+                          ],
+                          borderColor: [
+                              'rgba(255, 99, 132, 1)',
+                              'rgba(54, 162, 235, 1)',
+                              'rgba(255, 206, 86, 1)',
+                              'rgba(75, 192, 192, 1)',
+                              'rgba(153, 102, 255, 1)',
+                              'rgba(255, 159, 64, 1)'
+                          ],
+                          borderWidth: 1
+                      }]
+                  },
+                  options: {
+                      scales: {
+                          yAxes: [{
+                              ticks: {
+                                  beginAtZero: true
+                              }
+                          }]
+                      }
+                  }
+              });
+          </script>
+						</div>
+					</div>
+					<!-- /Widget Item -->
+					<!-- Widget Item -->
+					<!-- <div class="col-md-6">
+						<div class="widget-area-2 proclinic-box-shadow">
+							<h3 class="widget-title"> Patients Year by Year</h3>
+							<div>
+              <script>
+              var myDoughnutChart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data = {
+                            datasets: [{
+                                data: [10, 20, 30]
+                                }],
+                                labels: [
+                                            'Red',
+                                            'Yellow',
+                                            'Blue'
+                                        ]
+                                      };
+                        });
+              </script>
             </div>
+						</div>
+					</div> -->
+					<!-- /Widget Item -->
+				</div>
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Sale</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">UGX {{totalSale}}</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Soon Expiring</div>
-                      <div class="row no-gutters align-items-center">
-                        <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">10%</div>
-                        </div>
-
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </div>
-
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Out Of Stock </div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{outofstock}}</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Content Row -->
           {% endblock %}

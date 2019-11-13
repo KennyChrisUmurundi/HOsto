@@ -1,85 +1,175 @@
-{% extends "doctor/base.html" %}
-{% load static %}
-{% load crispy_forms_tags %}
+{% extends 'account/base.html' %}
 {% block content %}
-<!-- partial -->
-{% for Patient in patientInfo%}
-<div class="page-wrapper">
-            <div class="content">
-                <div class="card-box profile-header">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="profile-view">
-                                <div class="profile-img-wrap">
-                                    <div class="profile-img">
-                                        <img class="avatar" src="{{Patient.image.url}}" alt="">
+
+<div class="row no-margin-padding">
+  <div class="col-md-6">
+    <h3 class="block-title">Patient Details</h3>
+  </div>
+  <div class="col-md-6">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="index.html">
+          <span class="ti-home"></span>
+        </a>
+                  </li>
+                  <li class="breadcrumb-item">Patients</li>
+      <li class="breadcrumb-item active">Patient Details</li>
+    </ol>
+  </div>
+</div>
+<!-- /Page Title -->
+
+<!-- /Breadcrumb -->
+<!-- Main Content -->
+<div class="container-fluid">
+
+  <div class="row">
+    <!-- Widget Item -->
+    <div class="col-md-12">
+      <div class="widget-area-2 proclinic-box-shadow">
+        <h3 class="widget-title">Patient Details</h3>
+
+        <div  class="panel panel-default thumbnail">
+
+            <div class="panel-heading no-print">
+                <div class="btn-group">
+                    <a class="btn btn-primary" href="#"> <i class="fa fa-list"></i>  Prescription List </a>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 table-responsive">
+                        <form action="#" method="post" accept-charset="utf-8">
+                                  <input type="hidden" name="csrf_stream_token" value="c062c3bd660d78cb1e6b8063c598311e" />
+
+
+                        <!-- Information -->
+                        <table class="table">
+                            <thead>
+
+                                <tr>
+                                    <th width="33.33%">
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                <input type="text" placeholder="Patient Code" required name="patient_id" id="patient_id" class="invoice-input form-control" readonly value="{{ appointment.patient }}">
+                                                <p class="text-danger  invlid_patient_id"></p>
+                                            </li>
+                                            {%for patient in patientInfo%}
+                                            <li>
+                                                <ilabel type="text" placeholder="Patient  Name" value="{{patient.firstname}}" class="invoice-input form-control" id="patient_name">{{patient.firstname}} {{patient.lastname}}</label>
+                                            </li>
+                                            <li>
+                                                <label type="text" placeholder="Sex" value="" class="invoice-input form-control" id="sex">{{patient.gender}}</label>
+                                            </li>
+                                            <li>
+                                                <label type="text" placeholder="Date of Birth" value=""class="invoice-input form-control " id="date_of_birth">{{patient.dob}}</label>
+                                            </li>
+                                        </ul>
+                                    </th>
+                                    <th width="33.33%">
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                <input type="text" name="weight" placeholder="Weight" required class="invoice-input form-control">
+                                            </li>
+                                            <li>
+                                                <input type="text" name="blood_pressure" placeholder="Blood Pressure" class="invoice-input form-control">
+                                            </li>
+                                            <li>
+                                                <input type="text"  name="reference_by" placeholder="Reference" class="invoice-input form-control">
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </th>
+                                    <th width="33.33%">
+                                        <ul class="list-unstyled">
+
+                                            <li><input type="text" name="date" required value="16-10-2019" class="datepicker invoice-input form-control" placeholder="Date"></li>
+                                            <li><input type="text" value="Demo Hospital Limited" class="invoice-input form-control" placeholder="Hospital Name"></li>
+                                            <li><input type="text" value="98 Green Road, Farmgate, Dhaka-1215" class="invoice-input form-control" placeholder="Address"></li>
+                                        </ul>
+                                    </th>
+                                </tr>
+
+                            </thead>
+                        </table>
+
+
+
+                        <!-- Medicine -->
+                        <table class="table table-striped">
+                            <thead>
+                                <tr class="bg-primary-prescription" id='presc'>
+                                    <th width="160"id='presc'>Medicine Name</th>
+                                    <th width="160"id='presc'>Medicine Type</th>
+                                    <th id='presc'>Instruction</th>
+                                    <th width="80"id='presc'>Days</th>
+                                    <th width="160"id='presc'>Add / Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody id="medicine">
+                                <tr>
+
+                                    <td>{{addInstructions.drug_name}}</td>
+                                    <td>{{addInstructions.instructions}}</td>
+                                    <td>{{addInstructions.days}}</td>
+                                    <td>
+                                      <div class="btn btn-group">
+                                        <button type="button" class="btn btn-sm btn-primary MedAddBtn">Add</button>
+                                        <button type="button" class="btn btn-sm btn-danger MedRemoveBtn">Remove</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        <!-- diagnosis -->
+                        <!-- <table class="table table-striped">
+                            <thead>
+                                <tr class="bg-danger-pres">
+                                    <th width="230">Diagnosis</th>
+                                    <th>Instruction</th>
+                                    <th width="160">Add / Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody id="diagnosis">
+                                <tr>
+                                    <td><input type="text" name="diagnosis_name[]" autocomplete="off" class="form-control" placeholder="Diagnosis" ></td>
+                                    <td><textarea name="diagnosis_instruction[]" class="form-control" placeholder="Instruction"></textarea></td>
+                                    <td>
+                                      <div class="btn btn-group">
+                                        <button type="button" class="btn btn-sm btn-primary DiaAddBtn">Add</button>
+                                        <button type="button" class="btn btn-sm btn-danger DiaRemoveBtn">Remove</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table> -->
+
+
+                        <!-- Fees & Comments -->
+                        <div class="row">
+                                <div class="form-group row">
+                                    <div class="col-sm-offset-3 col-sm-6">
+                                        <div class="ui buttons">
+                                            <button type="reset" class="ui button">Reset</button>
+                                            <div class="or"></div>
+                                            <button class="ui positive button">Save</button>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="profile-basic">
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <div class="profile-info-left">
-                                              </br>
-                                                <h3 class="user-name m-t-0 mb-0">{{ Patient.firstname }}&nbsp{{Patient.lastname}}</h3>
-                                                <div class="Patient-Id">Patient Id:{{Patient.code}}</div>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7">
-                                            <ul class="personal-info">
-                                                <li>
-                                                    <span class="title">Phone:</span>
-                                                    <span class="text"><a href="#">{{Patient.phone}}</a></span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Email:</span>
-                                                    <span class="text"><a href="#">{{Patient.email}}</span></a></span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Address:</span>
-                                                    <span class="text">{{Patient.address}}</span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Gender:</span>
-                                                    <span class="text">{{Patient.gender}}</span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Age:</span>
-                                                    <span class="text">{{Patient.age}}</span>
-                                                </li>
-                                                <li>
-                                                    <span class="title">Last Visit</span>
-                                                    <span class="text">3rd March</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
-                    </div>
+
+                        </form>                    </div>
                 </div>
-
-
-                <div class="card-box profile-header">
-                    <div class="row">
-                        <div class="col-md-12">
-                <form method="POST">
-                  {% csrf_token%}
-                  <div class="container-fluid">
-                    <div class="form_class">
-                      <input type="text" name="patient" value="{{ Patient.code }}" readonly="True" hidden>
-                      {{addInstructions}}
-
-                    </div></br>
-                    <button class="btn btn-primary" type="submit">Send</button>
-                  </div>
-                </form>
-              </div>
             </div>
-          </div>
-  {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
 
 
-                {% endblock %}
+{% endblock %}

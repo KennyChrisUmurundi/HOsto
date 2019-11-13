@@ -1,152 +1,117 @@
-{% extends 'doctor/base.html'%}
+{% extends "account/base.html" %}
+{% block content %}
+		<!-- Page Content -->
+		<div id="content">
+			<div class="row no-margin-padding">
+				<div class="col-md-6">
+					<h3 class="block-title">Medecine</h3>
+				</div>
+				<div class="col-md-6">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="index.html">
+								<span class="ti-home"></span>
+							</a>
+                        </li>
+                        <li class="breadcrumb-item">Medecine</li>
+						<li class="breadcrumb-item active">All Medecine</li>
+					</ol>
+				</div>
+			</div>
+			<!-- /Page Title -->
 
-{% block content%}
-{% load static %}
+			<!-- /Breadcrumb -->
+			<!-- Main Content -->
+			<div class="container-fluid">
 
+				<div class="row">
+					<!-- Widget Item -->
+					<div class="col-md-12">
+						<div class="widget-area-2 proclinic-box-shadow">
+							<h3 class="widget-title">Medecine List</h3>
+							<div class="table-responsive mb-3">
+								<table id="tableId" class="table table-bordered table-striped">
+									<thead>
+                    <tr>
+                        <th>Drug name</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Price per Unit</th>
+                        <th>Supplier</th>
+                        <th>Effects</th>
+                        <th>Expiration Date</th>
+                        <th>Action</th>
 
+                    </tr>
+									</thead>
+									<tbody>
 
-<div class="page-wrapper">
-  {% for message in messages %}
-        <div class="alert  alert-{{ message.tags }}" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-          {{ message }}
-          </div>
-    {% endfor %}
-    <form method="post">
-      {% csrf_token %}
-          <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
-            <div class="input-group">
-              <input type="search" name="name" placeholder="Search for medecine" aria-describedby="button-addon1" class="form-control border-0 bg-light">
-              <div class="input-group-append">
-                <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
-              </div>
-            </div>
-          </div>
-      </form>
-<div class="card">
-<table id="example" class="table table-striped table-bordered "  >
+										{% for Drugs in drugs %}
+                    <tr>
+                      <td>{{Drugs.name}}</td>
+                      <td>{{Drugs.category}}</td>
+                      <td>{% if Drugs.quantity == '0' %}
+                          <span class="badge badge-pill badge-warning">Out Of Stock</span>
+                          {% else %}
+                        {{Drugs.quantity}}
 
-        <thead>
-            <tr>
-                <th>Drug name</th>
-                <th>Category</th>
-                <th>Quantity</th>
-                <th>Price per Unit</th>
-                <th>Supplier</th>
-                <th>Effects</th>
-                <th>Expiration Date</th>
-                <th>Action</th>
+                        {% endif %}
 
-            </tr>
-        </thead>
-        <tbody>
+                      </td>
+                      <td>{{Drugs.pricePerUnit}}</td>
+                      <td>{{Drugs.supplier}}</td>
+                      <td>{{Drugs.effects}}</td>
+                      <td>{{Drugs.expire_date|date:"M d, Y"}}
+                        {% if Drugs.expire_date.date < today or Drugs.expire_date.date == today %}
+                      <span class="badge badge-dark">Expired</span>
+                      {% endif %}
+                      </td>
+                      <td><span class="badge badge-info"><a  href="{% url 'pharmacy:editDrugs' Drugs.id %}" >Edit</a></span>
+                          <span class="badge badge-danger"><a  onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'pharmacy:DeleteDrug' Drugs.id %}">Delete</a></span>
 
-          {% if not request.method == 'POST'%}
-          {% for Drugs in drugs %}
-          <tr>
-            <td>{{Drugs.name}}</td>
-            <td>{{Drugs.category}}</td>
-            <td>{% if Drugs.quantity == '0' %}
-                <span class="badge badge-pill badge-warning">Out Of Stock</span>
-                {% else %}
-              {{Drugs.quantity}}
+                      </td>
 
-              {% endif %}
+                    </tr>
+										{% endfor%}
 
-            </td>
-            <td>{{Drugs.pricePerUnit}}</td>
-            <td>{{Drugs.supplier}}</td>
-            <td>{{Drugs.effects}}</td>
-            <td>{{Drugs.expire_date|date:"M d, Y"}}
-              {% if Drugs.expire_date.date < today or Drugs.expire_date.date == today %}
-            <span class="badge badge-dark">Expired</span>
-            {% endif %}
-            </td>
-            <td><a class="btn btn-primary btn-labeled" href="{% url 'pharmacy:editDrugs' Drugs.id %}" ><span class="btn-label"><i class="fa fa-info"></i></span>Edit</a>
-                <a class="btn btn-danger btn-labeled" onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'pharmacy:DeleteDrug' Drugs.id %}"><span class="btn-label"><i class="fa fa-danger"></i></span>Delete</a>
-
-            </td>
-
-          </tr>
-          {% endfor%}
-          {% endif %}
-
-          {% if  request.method == 'POST'%}
-          
-          {% for drugs in drugss %}
-          <tr>
-            <td>{{drugs.name}}</td>
-            <td>{{drugs.category}}</td>
-            <td>{% if drugs.quantity == '0' %}
-                <span class="badge badge-pill badge-warning">Out Of Stock</span>
-                {% else %}
-              {{drugs.quantity}}
-
-              {% endif %}
-
-            </td>
-            <td>{{drugs.pricePerUnit}}</td>
-            <td>{{drugs.supplier}}</td>
-            <td>{{drugs.effects}}</td>
-            <td>{{drugs.expire_date|date:"M d, Y"}}
-              {% if drugs.expire_date.date < today or drugs.expire_date.date == today %}
-            <span class="badge badge-dark">Expired</span>
-            {% endif %}
-            </td>
-            <td><a class="btn btn-primary btn-labeled" href="{% url 'pharmacy:editDrugs' drugs.id %}" ><span class="btn-label"><i class="fa fa-info"></i></span>Edit</a>
-                <a class="btn btn-danger btn-labeled" onclick="return confirm('Are you sure you want to delete this?')" href="{% url 'pharmacy:DeleteDrug' drugs.id %}"><span class="btn-label"><i class="fa fa-danger"></i></span>Delete</a>
-
-            </td>
-
-          </tr>
-          {% endfor%}
-          {% endif %}
-
-
-        </tbody>
-    </table>
-
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        {% if drugs.has_previous %}
-
-        <li class="page-item"><a class="page-link" href="?page={{drugs.previous_page_number}}">Previous</a></li>
-        {% else %}
-        <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1">Previous</a>
-    </li>
-{% endif %}
-
-        <li class="page-item active"><a class="page-link" href="?page={{pg}}">Page {{ drugs.number }} of {{ drugs.paginator.num_pages }}</a></li>
-
-      {% if drugs.has_next %}
-
-        <li class="page-item"><a class="page-link" href="?page={{drugs.next_page_number}}">Next</a></li>
-        {% else %}
-        <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1">Next</a>
-    </li>
-{% endif %}
-      </ul>
-    </nav>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+									</tbody>
+								</table>
+								<!--Export links-->
+								<nav aria-label="Page navigation example">
+									<ul class="pagination justify-content-center export-pagination">
+										<li class="page-item">
+											<a class="page-link" href="#"><span class="ti-download"></span> csv</a>
+										</li>
+										<li class="page-item">
+											<a class="page-link" href="#"><span class="ti-printer"></span>  print</a>
+										</li>
+										<li class="page-item">
+											<a class="page-link" href="#"><span class="ti-file"></span> PDF</a>
+										</li>
+										<li class="page-item">
+											<a class="page-link" href="#"><span class="ti-align-justify"></span> Excel</a>
+										</li>
+									</ul>
+								</nav>
+								<!-- /Export links-->
+								<!-- <button type="button" class="btn btn-danger mt-3 mb-0"><span class="ti-trash"></span> DELETE</button>
+								<button type="button" class="btn btn-primary mt-3 mb-0"><span class="ti-pencil-alt"></span> EDIT</button> -->
+							</div>
+						</div>
+					</div>
+					<!-- /Widget Item -->
+				</div>
+			</div>
+			<!-- /Main Content -->
+		</div>
+		<!-- /Page Content -->
+	</div>
+	<!-- Back to Top -->
+	<a id="back-to-top" href="#" class="back-to-top">
+		<span class="ti-angle-up"></span>
+	</a>
+	<!-- /Back to Top -->
+	<!-- Jquery Library-->
 
 
   {% endblock %}

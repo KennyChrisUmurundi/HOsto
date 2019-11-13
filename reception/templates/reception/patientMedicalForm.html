@@ -1,0 +1,157 @@
+{% extends "account/base.html" %}
+{%load static %}
+{% block content %}
+<div class="row no-margin-padding">
+  <div class="col-md-6">
+    <h3 class="block-title">Add Patient</h3>
+  </div>
+  <div class="col-md-6">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="index.html">
+          <span class="ti-home"></span>
+        </a>
+                  </li>
+                  <li class="breadcrumb-item">Patients</li>
+      <li class="breadcrumb-item active">Add Patient Medical Information</li>
+    </ol>
+  </div>
+</div>
+<div class="container-fluid">
+
+  <div class="row">
+    <!-- Widget Item -->
+    <div class="col-md-12">
+      <div class="widget-area-2 proclinic-box-shadow">
+        <form method="POST" class="form-sample"novalidate>
+          {% csrf_token %}
+
+              {% for patient in patient%}
+              <h3 class="widget-title">Patient Information</h3>
+              </hr>
+              </br>
+              <div class="form-row">
+              <div class="form-group col-md-6 required">
+                <label for="patient-name" class="control-label">Patient First Name</label>
+                <input class="form-control" type="text" readonly value="{{patient.firstname}}">
+              </div>
+
+              <div class="form-group col-md-6 required">
+                <label for="patient-name" class="control-label">Patient Last Name</label>
+                <input class="form-control" type="text" readonly value="{{patient.lastname}}">
+              </div>
+              
+              {% endfor %}
+              <h3 class="widget-title">Patient Health Information</h3>
+              </hr>
+            </br>
+            </div>
+              <div class="form-row">
+              <div class="form-group col-md-6 required">
+              <label for="exampleFormControlTextarea1">Blood Group</label>
+              {{form.blood_group}}
+              </div>
+
+              <div class="form-group col-md-6 required">
+              <label for="exampleFormControlTextarea1">Weight</label>
+              {{form.weight}}
+              </div>
+
+              <div class="form-group col-md-6 required">
+              <label for="exampleFormControlTextarea1">Diabetic</label>
+              {{form.diabetic}}
+              </div>
+
+              <div class="form-group col-md-6 required">
+              <label for="exampleFormControlTextarea1">Allergies</label>
+              {{form.allergies}}
+              </div>
+
+              <div class="form-group col-md-6 required">
+              <label for="exampleFormControlTextarea1">High Blood Pressure</label>
+              {{form.high_blood_pressure}}
+              </div>
+
+              <div class="form-group col-md-6 required">
+              <label for="exampleFormControlTextarea1">Seizures</label>
+              {{form.seizures}}
+              </div>
+              <!-- </div> -->
+
+              <h3 class="widget-title">Diagnosis Historyy</h3>
+              </hr>
+              </br>
+              <div class="form-row">
+              <div class="form-group col-md-6 required">
+              <label for="exampleFormControlTextarea1">Liver Desease</label>
+              {{form.liver_desease}}
+              </div>
+
+              <div class="form-group col-md-6 required">
+              <label for="exampleFormControlTextarea1">Ulcers</label>
+              {{form.ulcers}}
+              </div>
+
+              <div class="form-group col-md-6 required">
+              <label for="exampleFormControlTextarea1">gout</label>
+              {{form.gout}}
+              </div>
+
+              <div class="form-group col-md-6 required">
+              <label for="exampleFormControlTextarea1">Heart Desease</label>
+              {{form.heart_desease}}
+              </div>
+
+              <div class="form-group col-md-6 required">
+              <label for="exampleFormControlTextarea1">Heart Valve Desease</label>
+              {{form.heart_valve_desease}}
+              </div>
+
+              <div class="form-group col-md-6 required">
+              <label for="exampleFormControlTextarea1">Lung Desease</label>
+              {{form.lung_desease}}
+              </div>
+
+              <div class="form-group col-md-6 required">
+              <label for="exampleFormControlTextarea1">cancer</label>
+              {{form.cancer}}
+              </div>
+
+              <div class="form-group col-md-6 required">
+              <label for="exampleFormControlTextarea1">Thyroid Desease</label>
+              {{form.thyroid_desease}}
+              </div>
+
+              <div class="form-group col-md-6 mb-3">
+                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+              </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+              <script>
+              (function() {
+                    'use strict';
+                    window.addEventListener('load', function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('form-sample');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                    }, false);
+                    });
+                    }, false);
+                    })();
+              </script>
+              <script src="{% static 'doctor/js/intlTelInput.js' %}"></script>
+{%endblock%}

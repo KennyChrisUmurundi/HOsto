@@ -1,37 +1,78 @@
-{% extends 'doctor/base.html' %}
+
+{% extends 'account/base.html'%}
 {% block content %}
-<div class="page-wrapper">
-  <div class="container">
-      <div class="card-box profile-header">
-        <div class="profile-tabs">
-          <ul class="nav nav-pills nav-fill">
-            <li class="nav-item"><a class="nav-link active" href="#about-cont" data-toggle="tab"><i class="fas fa-comment-medical"></i>&nbsp Death Report</a></li>
-          </ul>
+
+{% for message in messages %}
+      <div class="alert {{ message.tags }}  alert-success" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+        {{ message }}
         </div>
-      </br>
+  {% endfor %}
 
-        <form method="POST">
-          {% csrf_token%}
+<div id="content">
+  <div class="row no-margin-padding">
+    <div class="col-md-6">
+      <h3 class="block-title">Patient</h3>
+    </div>
+    <div class="col-md-6">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.html">
+            <span class="ti-home"></span>
+          </a>
+                    </li>
+                    <li class="breadcrumb-item">Patient</li>
+        <li class="breadcrumb-item active">Add Death Report</li>
+      </ol>
+    </div>
+  </div>
+  <!-- /Page Title -->
 
-          <div class="container-fluid">
-            <div class="form_class">
-              <label>Patient Code:</label>
-                {% for Patient in patient %}
-              <input type="text" name="patient" class="form-control form-control-sm" value="{{Patient.code}}" style="width:40%;" readonly></br>
-              <label>Patient Name:</label>
+  <!-- /Breadcrumb -->
+  <!-- Main Content -->
+  <div class="container-fluid">
 
-              <input type="text" name="patient" class="form-control form-control-sm" value="{{Patient.firstname}} {{Patient.lastname}}" style="width:40%;" readonly></br>
-              {% endfor %}
-              <label>Date of death:</label>
-              {{d_form.date_of_death}}</br>
-              <label>Description:</label>
-              {{d_form.death_report}}
-            </div></br>
-            <button class="btn btn-success" type="submit">Save</button>
-        </form>
+    <div class="row">
+      <!-- Widget Item -->
+      <div class="col-md-12">
+        <div class="widget-area-2 proclinic-box-shadow">
+          <h3 class="widget-title">Add Death Report</h3>
+                  <form method="POST" class="form-sample"  novalidate>
+                    {% csrf_token %}
+                    <div class="form-row">
+                      <div class="form-group col-md-8 required">
+                      <label for="patient-name" class="control-label">Patient Code:</label>
+                        {% for Patient in patient %}
+                      <input type="text" name="patient" class="form-control" value="{{Patient.code}}"readonly></input></br>
+                    </div>
+                      <div class="form-group col-md-8 required">
+                      <label for="patient-name" class="control-label">Patient Name:</label>
+                      <input type="text" name="patient" class="form-control" value="{{Patient.firstname}} {{Patient.lastname}}" readonly></br></input>
+                      {% endfor %}
+                    </div>
+                      <div class="form-group col-md-8 required">
+                        <label for="patient-name" class="control-label">Date of death</label>
+                        {{d_form.date_of_death}}
+                      </div></br>
+                      <div class="form-group col-md-8 required">
+                        <label for="patient-name" class="control-label">Description</label>
+                        {{d_form.death_report}}
+                      </div>
 
-</div>
-</div>
-</div>
-</div>
-{% endblock %}
+                      <div class="form-group col-md-6 mb-3">
+                        <button type="submit" class="btn btn-primary btn-lg">Submit </button>
+                      </div>
+
+                  </form>
+
+
+                </div>
+              </div>
+
+
+          </div>
+          </div>
+          </div>
+{%endblock%}

@@ -1,42 +1,98 @@
-{% extends 'doctor/base.html'%}
+{% extends "account/base.html" %}
+{% block content %}
+		<!-- Page Content -->
+		<div id="content">
+			<div class="row no-margin-padding">
+				<div class="col-md-6">
+					<h3 class="block-title">Suppliers</h3>
+				</div>
+				<div class="col-md-6">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="index.html">
+								<span class="ti-home"></span>
+							</a>
+                        </li>
+                        <li class="breadcrumb-item">Suppliers</li>
+						<li class="breadcrumb-item active">Suppliers List</li>
+					</ol>
+				</div>
+			</div>
+			<!-- /Page Title -->
 
-{% block content%}
-<div class="container">
-    <div class="page-wrapper">
-              <div class="card-box profile-header">
-                  <div class="row">
-                      <div class="col-md-12">
-                        <div class="table-responsive">
-                            <table id="example" class="table table-striped table-bordered" style="width:100%">
-                              <thead>
+			<!-- /Breadcrumb -->
+			<!-- Main Content -->
+			<div class="container-fluid">
 
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Address</th>
-                                    <th>Email</th>
-                                    <th>Action</th>
+				<div class="row">
+					<!-- Widget Item -->
+					<div class="col-md-12">
+						<div class="widget-area-2 proclinic-box-shadow">
+							<h3 class="widget-title">Suppliers List</h3>
+							<div class="table-responsive mb-3">
+								<table id="tableId" class="table table-bordered table-striped">
+									<thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Email</th>
+                        <th>Action</th>
 
-                                </tr>
-                              </thead>
-                              <tbody>
+                    </tr>
+									</thead>
+									<tbody>
 
-                                {% for supplier in suppliersList %}
-                              <tr>
-                                <td>{{supplier.name}}</td>
-                                <td>{{supplier.address}}</td>
-                                <td>{{supplier.email}}</td>
-                                <td><a class="btn btn-primary btn-labeled" href="{% url 'pharmacy:editSupplier' supplier.id %}" role="button"><span class="btn-label"><i class="fa fa-info"></i></span>Edit</a>
-                                    <a class="btn btn-danger btn-labeled" href="#" role="button"><span class="btn-label"><i class="fa fa-delete"></i></span>Delete</a>
-                                </td>
-                              </tr>
-                              {% endfor %}
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+									  {% for supplier in suppliersList %}
+                    <tr>
+                      <td>{{supplier.name}}</td>
+                      <td>{{supplier.address}}</td>
+                      <td>{{supplier.email}}</td>
+                      <td><span class="badge badge-info"><a  href="{% url 'pharmacy:editSupplier' supplier.id %}" >Edit</a></span>
+                          <span class="badge badge-danger"><a  onclick="return confirm('Are you sure you want to delete this?')" href="#">Delete</a></span>
 
-{% endblock %}
+                      </td>
+
+                    </tr>
+										{% endfor%}
+
+									</tbody>
+								</table>
+								<!--Export links-->
+								<nav aria-label="Page navigation example">
+									<ul class="pagination justify-content-center export-pagination">
+										<li class="page-item">
+											<a class="page-link" href="#"><span class="ti-download"></span> csv</a>
+										</li>
+										<li class="page-item">
+											<a class="page-link" href="#"><span class="ti-printer"></span>  print</a>
+										</li>
+										<li class="page-item">
+											<a class="page-link" href="#"><span class="ti-file"></span> PDF</a>
+										</li>
+										<li class="page-item">
+											<a class="page-link" href="#"><span class="ti-align-justify"></span> Excel</a>
+										</li>
+									</ul>
+								</nav>
+								<!-- /Export links-->
+								<!-- <button type="button" class="btn btn-danger mt-3 mb-0"><span class="ti-trash"></span> DELETE</button>
+								<button type="button" class="btn btn-primary mt-3 mb-0"><span class="ti-pencil-alt"></span> EDIT</button> -->
+							</div>
+						</div>
+					</div>
+					<!-- /Widget Item -->
+				</div>
+			</div>
+			<!-- /Main Content -->
+		</div>
+		<!-- /Page Content -->
+	</div>
+	<!-- Back to Top -->
+	<a id="back-to-top" href="#" class="back-to-top">
+		<span class="ti-angle-up"></span>
+	</a>
+	<!-- /Back to Top -->
+	<!-- Jquery Library-->
+
+
+  {% endblock %}

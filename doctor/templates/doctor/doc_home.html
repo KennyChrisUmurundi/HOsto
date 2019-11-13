@@ -1,24 +1,65 @@
-{% extends 'doctor/base.html' %}
+{% extends "account/base.html" %}
+{%load static %}
 {% block content %}
+<div class="row no-margin-padding">
+  <div class="col-md-6">
+    <h3 class="block-title">Barcode Scanner</h3>
+  </div>
+  <div class="col-md-6">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="index.html">
+          <span class="ti-home"></span>
+        </a>
+                  </li>
+                  <li class="breadcrumb-item">Barcode </li>
+
+    </ol>
+  </div>
+</div>
+<!-- /Page Title -->
+
+<!-- /Breadcrumb -->
+<!-- Main Content -->
+<div class="container-fluid">
+
+  <div class="row">
+    <!-- Widget Item -->
+    <div class="col-md-12">
+      <div class="widget-area-2 proclinic-box-shadow">
+        <h3 class="widget-title">Barcode Scanner</h3>
+        <nav aria-label="Page navigation example">
+         <ul class="pagination justify-content-center export-pagination">
+           <li class="page-item">
+             <a class="page-link" href="#"><span class="ti-download"></span> csv</a>
+           </li>
+
+           <li class="page-item">
+             <a class="page-link" href="#"><span class="ti-align-justify"></span> Excel</a>
+           </li>
+         </ul>
+        </nav>
+        <form method="POST" class="form-sample"  novalidate>
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group col-md-6 required">
+              <label  class="control-label">Enter Barcode Character:</label>
+              <input type="text" name="theCode" class="form-control" required="True"/>
+            </div></br></br>
+            <a style="padding-top:35px;" href="#" ><span class="badge badge-success ti-eye" style="color:white;">Scan</span></a>
+
+            <div class="form-group col-md-6 mb-3">
+              <button type="submit" class="btn btn-primary btn-lg">Submit </button>
+            </div>
+
+        </form>
 
 
+      </div>
+    </div>
 
-                <!-- verify barcode -->
-            
 
-                <div id="wrapper">
-                    <div id="dialog">
-                      <form method="post" action='{% url 'doctor:ScanCode' %}'>
-                        {% csrf_token %}
+</div>
+</div>
 
-                          <h3>Scan the barcode</h3>
-                          <span>If scan not working kindly type the barcode numbers</span>
-                          <div id="form">
-                          <input type="text" name="theCode" class="form-control" required="True"/></br>
-
-                          <button class="btn btn-primary submit-btn">Scan</button>
-                        </div>
-                      </form>
-                    </div>
-                    </div>
 {% endblock %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Doctor,Reports,InstructionsForPharmacy,InstructionsForNurse
+from .models import Doctor,Reports,InstructionsForPharmacy,InstructionsForNurse,Room,Allotment
 from django.forms import ValidationError
 from django.forms import ModelForm
 from reception.models import Lab
@@ -29,35 +29,46 @@ class AddDoctorForm(forms.ModelForm):
 
 
 class AddReportsForm(forms.ModelForm):
-    report        =   forms.CharField(max_length=200,widget=forms.TextInput(attrs={'name':'name','class':'form-control','type':'text','style':'height:100px;width:40%'}))
+    diagnosis        =   forms.CharField(max_length=200,widget=forms.TextInput(attrs={'name':'name','class':'form-control','type':'text','placeholder':'Diagnosis'}))
+    report        =   forms.CharField(max_length=200,widget=forms.TextInput(attrs={'name':'name','class':'form-control','type':'text','style':'height:50px;','placeholder':'Details'}))
 
     class Meta:
         model   =   Reports
-        fields  =('report',)
+        fields  =('diagnosis','report',)
 
 class AddPharmacyForm(forms.ModelForm):
-    instructions       =   forms.CharField(max_length=200,widget=forms.TextInput(attrs={'name':'name','class':'form-control','type':'text','style':'height:100px;width:40%'}))
+    instructions       =   forms.CharField(max_length=200,widget=forms.TextInput(attrs={'name':'name','class':'form-control','type':'text'}))
+    drug_name       =   forms.CharField(max_length=200,widget=forms.TextInput(attrs={'name':'name','class':'form-control','type':'text'}))
+    days       =   forms.CharField(max_length=200,widget=forms.TextInput(attrs={'name':'name','class':'form-control','type':'text'}))
 
     class Meta:
         model   =   InstructionsForPharmacy
-        fields  =('instructions',)
+        fields  =('instructions','drug_name','days')
 
 class AddIntensiveCareForm(forms.ModelForm):
-    instructions        =   forms.CharField(max_length=200,widget=forms.TextInput(attrs={'name':'name','class':'form-control','type':'text','style':'height:100px;width:40%'}))
+    instructions        =   forms.CharField(max_length=200,widget=forms.TextInput(attrs={'name':'name','class':'form-control','type':'text'}))
 
     class Meta:
         model   =   InstructionsForNurse
         fields  =('instructions',)
 
+class AddRoomForm(forms.ModelForm):
+    number      =   forms.CharField(max_length=200,widget=forms.TextInput(attrs={'name':'name','class':'form-control','type':'text'}))
+    type        =   forms.CharField(max_length=200,widget=forms.TextInput(attrs={'name':'name','class':'form-control','type':'text'}))
+
+    class Meta:
+        model   =   Room
+        fields  =   ('number','type')
+
 class AddDeathReport(forms.ModelForm):
 
-    death_report          =   forms.CharField(max_length=200,widget=forms.TextInput(attrs={'name':'name','class':'form-control','type':'text','style':'height:100px;width:40%'}))
+    death_report          =   forms.CharField(max_length=200,widget=forms.TextInput(attrs={'name':'name','class':'form-control','type':'text'}))
     date_of_death   =   forms.CharField(max_length=1000,
 							widget=forms.TextInput(attrs={'name'	: 	'dob',
 														  'class'	:	'form-control',
 														  'type'	:	'date',
 														  'placeholder':'Date of death',
-                                                          'style':'width:40%'
+
 														   }))
 
     class Meta:

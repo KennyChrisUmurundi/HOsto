@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Doctor,Reports
+from .models import Doctor,Reports,Room,Allotment
 from django.views.generic import CreateView, DetailView, UpdateView, DetailView, ListView
 from . import forms as doctor_forms
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -195,9 +195,10 @@ def reports(request,code,id):
 
 		updateReports = doctor_forms.AddReportsForm(request.POST or None,instance=report_instance.reports)
 
+
 		if updateReports.is_valid():
 			report			=		updateReports.save(commit=False)
-			report.patient	=		request.POST.get('patient')
+			report.patient	=		code
 			report.save()
 			messages.success(request, 'Report saved successfully.')
 			return redirect('doctor:patient',code=report.patient)
@@ -206,8 +207,9 @@ def reports(request,code,id):
 	else:
 		updateReports = doctor_forms.AddReportsForm(instance=report_instance.reports)
 	context={
-				'add_report'	:	updateReports,
+				'add_report'		:	updateReports,
 				'appointment'		:	Appointment.objects.filter(patient=code,id=id),
+				'patient'			:	Patient.objects.filter(code=code)
 	}
 	return render(request,'doctor/reports.html',context)
 
@@ -238,6 +240,26 @@ def inPatient(request):
 def outPatient(request):
 
 	context={
-	'inpatients'	:	PatientStatus.objects.filter(status='OutPatient'),
+	'Outpatients'	:	PatientStatus.objects.filter(status='OutPatient'),
 	}
-	return render(request,'doctor/InPatient.html',context)
+	return render(request,'doctor/OutPatient.html',context)
+
+def addRoom(request):
+	if request.method == "POST":
+		addR	=	doctor_forms.AddRoomForm(request.POST or none)
+
+		if addR.is_valid():
+			addR.save()
+			messages.success(request,f'Added successfully')
+			return redirect('doctor:addRoom')
+	addRoom= doctor_forms.AddRoomForm()
+	context={
+	'addRoom':addRoom
+	}
+	return render(request,'doctor/addRoom.html',context)
+
+def allRooms(request):
+	context={
+	'allRooms'	:	Room.objects.all(),
+	}
+	return render(request,'doctor/allRooms.html',context)

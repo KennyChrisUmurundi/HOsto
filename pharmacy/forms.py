@@ -25,7 +25,7 @@ class AddDrugsForm(forms.ModelForm):
 
 
 class AddTakenDrugsForm(forms.ModelForm):
-    quantity    =   forms.IntegerField(widget=forms.TextInput(attrs={'name':'name','class':'form-control number','type':'number','min':'1','onkeypress':'return isNumberKey(event)'}))
+    quantity    =   forms.IntegerField(widget=forms.TextInput(attrs={'name':'name','class':'form-control number','type':'number','min':'1','onkeypress':'return isNumberKey(event)','placeholder':'Quantity'}))
 
 
 

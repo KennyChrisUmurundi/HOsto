@@ -1,142 +1,71 @@
-{% extends "doctor/base.html" %}
-{% load static %}
-{% load crispy_forms_tags %}
+{%extends 'account/base.html'%}
+{%load static%}
 {% block content %}
-<!-- partial -->
-  <div class="page-wrapper">
-            <div class="col-lg-12 grid-margin">
-              <div class="card">
-                <div class="card-body">
-                  {% for patient in patient %}
-                  <form class="form-sample" method="POST" action="{% url 'reception:add-appointment' patient.code %}" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Patient Code </label>
-                          <div class="col-sm-9">
-                    		<input type="text" name="patient" value="{{ patient.code }}" readonly="True">
-                          </div>
-                        </div><!--
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Patient Name</label>
-                          <div class="col-sm-9">
-                            <input type="text" name="p_name" value="{{ patient.firstname }} {{ patient.lastname }}" readonly="True">
-                          </div>
-                        </div> -->
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Service</label>
-                          <div class="col-sm-9">
-                            <select class="form-control" name="service" required="False">
-                            	<option id="sel">Select Service</option>
-                            	<option value="consultation" id="cons">Consultation</option>
-                            	<option value="laboratory" id="lab">Laboratory</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <div id="doctor_div" hidden="True" class="col-lg-6">
-                    	{{ add_apptmt_form | crispy }}
-                      </div>
-                      <div id="lab_div" hidden="True">
-                      	<div class="col-md-12">
-                        	<div class="form-group row">
-                          		<label class="col-sm-4 col-form-label">Test Category</label>
-                          		<div class="col-sm-12">
-                            		<select class="form-control test_cat" name="test_category" id="test_cat" required="False">
-                      					<option>Select Lab Test(s)</option>
-                      					<option data-price="30000" id="A" >Maleria</option>
-                      					<option data-price="10000" id="B">Typhoid</option>
-                      					<option data-price="20000" id="B">Ulcers</option>
-                      					<option data-price="30000" id="B">HIV</option>
-                            		</select>
-                          		</div>
-                        	</div>
-                      	</div>
-                    		{{ add_lab_form | crispy}}
-                      </div>
-                    </div><br>
-                    <div style="float: right;" id="doc_btn" hidden="True">
-                      <button type="submit" class="btn btn-success mr-2" style="width: 130px">Submit</button>
-                      <!--button class="btn btn-light">Cancel</button-->
-                    </div>
-                    {% endfor %}
-                    <!-- <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Service</label>
-                          <div class="col-sm-9">
-                            <select class="form-control" name="service">
-                            	<option id="sel">Select Service</option>
-                            	<option value="consultation" id="cons">Consultation</option>
-                            	<option value="laboratory" id="lab">Laboratory</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row" id="doctor_div" hidden="True">
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Category</label>
-                          <div class="col-sm-9">
-                            {{ form.category }}
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6" id="doc_name" hidden="True">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Doctor</label>
-                          <div class="col-sm-9">
-                            {{ form.doctor }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
 
-                    <div style="float: right;" id="doc_btn" hidden="True">
-                      <button type="submit" class="btn btn-success mr-2">Add Appointment</button>
-                      <!- <button class="btn btn-light">Cancel</button> ->
-                    </div>
-                  </form>
+<div class="row no-margin-padding">
+  <div class="col-md-6">
+    <h3 class="block-title">Add Appointment</h3>
+  </div>
+  <div class="col-md-6">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="index.html">
+          <span class="ti-home"></span>
+        </a>
+                  </li>
+                  <li class="breadcrumb-item">Appointments</li>
+      <li class="breadcrumb-item active">Add Appointment</li>
+    </ol>
+  </div>
+</div>
+<!-- /Page Title -->
 
-                  <form method="POST" action="" id="lab_div" hidden="True">
-                    {% csrf_token %}
-                  	<div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Category</label>
-                          <div class="col-sm-9">
-                            {{ form.test_category }}
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Test(s)</label>
-                          <div class="col-sm-9">
-                            {{ form.tests }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div style="float: right;" id="lab_btn" hidden="True">
-                      <button type="submit" class="btn btn-success mr-2">Add Lab Test</button>
-                      <!- <button class="btn btn-light">Cancel</button> ->
-                    </div> -->
-                  </form>
-                </div>
+<!-- /Breadcrumb -->
+<!-- Main Content -->
+<div class="container-fluid">
+
+  <div class="row">
+    <!-- Widget Item -->
+    <div class="col-md-12">
+      <div class="widget-area-2 proclinic-box-shadow">
+        <h3 class="widget-title">Add Appointment</h3>
+        {% for patient in patient %}
+        <form class="form-sample" method="POST" action="{% url 'reception:add-appointment' patient.code %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="patient-name" class="control-label">Patient Code</label>
+              <input type="text" class="form-control" name="patient" value="{{ patient.code }}" readonly="True">
             </div>
-        </div>
-      </div>
-        <script src="{% static 'doctor/vendor/jquery/jquery.min.js' %}"></script>
+            <div class="form-group col-md-6 required" class="control-label">
+              <label for="department">Department</label>
+            {{ add_apptmt_form.category_select }}
+            </div>
+            <div class="form-group col-md-6 required" class="control-label">
+              <label for="doctor-name">Doctor Name</label>
+              {{ add_apptmt_form.doctor_select }}
+            </div>
+            <div class="form-group col-md-6 required" class="control-label">
+              <label for="time-slot">Price</label>
+              {{ add_apptmt_form.price_select }}
+            </div>
+            <!-- <div class="form-group col-md-6">
+              <label for="token-number">Token Number <small>(Auto Generated)</small></label>
+              <input type="text" placeholder="Token Number" class="form-control" id="token-number">
+            </div><!-- TODO: remember to add a token number -->
+            <div class="form-group col-md-6 mb-3">
+              <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+            </div>
+          </div>
+          {% endfor %}
+        </form>
 
-        <script type="text/javascript">
 
+
+
+                <script src="{% static 'doctor/vendor/jquery/jquery.min.js' %}"></script>
+
+        <script>
           $('#category').change(function() {populateDoctor(this)});
           $('#id_doctor').change(function() {populatePrice(this)});
           doctors = {{ add_apptmt_form.doctors | safe }}
@@ -144,11 +73,11 @@
           prices = {{add_apptmt_form.prices | safe}};
           populateCategory();
           $("#id_doctor").empty();
-          $("#id_doctor").append('<option value="" disabled selected>First select a Category</option>');
+          $("#id_doctor").append('<option value="" disabled selected>First select a Department</option>');
           $("#id_price").append('<option value="" disabled selected>First select a Doctor</option>');
             function populateCategory() {
               $('#category').empty();
-              $("#category").append('<option value="" disabled selected>Select your Category</option>');
+              $("#category").append('<option value="" disabled selected>Select Department</option>');
               $.each(categories, function(v) {
               $('#category')
               .append($("<option></option>")

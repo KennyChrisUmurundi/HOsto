@@ -6,6 +6,7 @@ from django.conf import settings
 
 app_name = 'icu'
 urlpatterns = [
+path('Medical Update/',icu_views.update_list,name="add-medical"),
 path('scan/',icu_views.ScanCode,name="ScanCode"),
 path('patient/<slug:code>',icu_views.patient,name="patient"),
 path('feedback/<slug:code>/<int:id>',icu_views.feedback,name="feedback"),

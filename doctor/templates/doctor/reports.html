@@ -1,25 +1,139 @@
-{% extends 'doctor/base.html'%}
+{%extends 'account/base.html'%}
 {% block content %}
-  <div class="page-wrapper">
-{% for appointment in appointment%}
 
-        <form method="POST">
-          {% csrf_token%}
-
-          <div class="container-fluid">
-            <div class="form_class">
-              <input type="text" name="patient" value="{{ appointment.patient }}" readonly="True" hidden>
-              {{add_report.report}}
-
-            </div></br>
-            <button class="btn btn-primary" type="submit">Save</button>
-        </form>
+<div class="row no-margin-padding">
+  <div class="col-md-6">
+    <h3 class="block-title">Patient Details</h3>
+  </div>
+  <div class="col-md-6">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="index.html">
+          <span class="ti-home"></span>
+        </a>
+                  </li>
+                  <li class="breadcrumb-item">Patients</li>
+      <li class="breadcrumb-item active">Patient Details</li>
+    </ol>
+  </div>
 </div>
-</div>
+<!-- /Page Title -->
+
+<!-- /Breadcrumb -->
+<!-- Main Content -->
+<div class="container-fluid">
+
+  <div class="row">
+    <!-- Widget Item -->
+    <div class="col-md-12">
+      <div class="widget-area-2 proclinic-box-shadow">
+        <h3 class="widget-title">Patient Details</h3>
+
+        <div  class="panel panel-default thumbnail">
+
+            <div class="panel-heading no-print">
+                <div class="btn-group">
+                    <a class="btn btn-primary" href="http://hospitalnew.bdtask.com/demo6/dashboard_doctor/prescription/prescription"> <i class="fa fa-list"></i>  Prescription List </a>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 table-responsive">
+
+                                  <input type="hidden" name="csrf_stream_token" value="c062c3bd660d78cb1e6b8063c598311e" />
 
 
-</body>
+                        <!-- Information -->
+                        <table class="table">
+                            <thead>
+                              {% for appointment in appointment%}
+                                <tr>
+                                    <th width="33.33%">
+                                        <ul class="list-unstyled">
+                                            <li>
+                                                <input type="text" placeholder="Patient Code" name="patient" class="invoice-input form-control" readonly value="{{ appointment.patient }}">
+                                                <p class="text-danger  invlid_patient_id"></p>
+                                            </li>
+                                            {%for patient in patient%}
+                                            <li>
+                                                <label type="text" placeholder="Patient  Name" value="{{patient.firstname}}" class="invoice-input form-control" id="patient_name">{{patient.firstname}} {{patient.lastname}}</label>
+                                            </li>
+                                            <li>
+                                                <label type="text" placeholder="Sex" value="" class="invoice-input form-control" id="sex">{{patient.gender}}</label>
+                                            </li>
+                                            <li>
+                                                <label type="text" placeholder="Date of Birth" value=""class="invoice-input form-control " id="date_of_birth">{{patient.dob}}</label>
+                                            </li>
+                                        </ul>
+                                    </th>
+                                    <th width="33.33%">
+                                        <ul class="list-unstyled">
+                                            <li>
+                                              <label type="text" placeholder="Patient  Name"  class="invoice-input form-control" id="patient_name">Weight: {{patient.weight}} KG</label>
+                                            </li>
+                                            <li>
+                                                <label type="text" placeholder="Patient  Name"  class="invoice-input form-control" id="patient_name">Blood Pressur: {{patient.high_blood_pressure}}</label>
+                                            </li>
+                                            <li>
+                                                <input type="text"  name="reference_by" placeholder="Reference" class="invoice-input form-control">
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </th>
+                                    <th width="33.33%">
+                                        <ul class="list-unstyled">
 
-</html>
-{% endfor%}
+                                            <li><input type="text" name="date"  class="datepicker invoice-input form-control" placeholder="Date"></li>
+                                            <li><input type="text"  class="invoice-input form-control" placeholder="Hospital Name"></li>
+                                            <li><input type="text"  class="invoice-input form-control" placeholder="Address"></li>
+                                        </ul>
+                                    </th>
+                                </tr>
+
+                            </thead>
+                        </table>
+                        <!-- diagnosis -->
+                        <table class="table table-striped">
+                            <thead>
+                                <tr class="bg-primary-prescription">
+                                    <th id='presc' width="230">Diagnosis</th>
+                                    <th id='presc'>Instruction</th>
+                                    <th id='presc' width="160">Add / Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody id="diagnosis">
+                                <tr>
+                                  <form method="POST">
+                                    {% csrf_token %}
+
+                                    <td>{{add_report.diagnosis}}</td>
+                                    <td>{{add_report.report}}</td>
+                                    <td>
+                                      <div class="btn btn-group">
+                                        <button type="button" class="btn btn-sm btn-primary DiaAddBtn">Add</button>
+                                        <button type="button" class="btn btn-sm btn-danger DiaRemoveBtn">Remove</button>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-success" type="submit">Save</button>
+                        </form>
+                        <!-- Fees & Comments -->
+                                </div>
+
+                            </div>
+                        </div>
+
+                                   </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endfor %}
 {% endblock %}

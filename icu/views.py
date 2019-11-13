@@ -1,10 +1,17 @@
 from django.shortcuts import render,redirect
+from django.contrib.auth.decorators import login_required
 from doctor.models import InstructionsForNurse
 from reception.models import Patient
 from . import forms as icu_forms
 # Create your views here.
 
+@login_required(login_url='/')
+def update_list(request):
+	context = {
+		'toBeUpdated'			:	Patient.objects.filter(weight=""),
+	}
 
+	return render(request, 'patient_update_list.html',context)
 def ScanCode(request):
 
 	if request.method =='POST':

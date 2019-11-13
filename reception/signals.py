@@ -1,5 +1,5 @@
 from .models import Appointment, Lab, CashAppointmentStatus, CashLabStatus,Patient
-from doctor.models import Reports
+from doctor.models import Reports,Room,Allotment
 from Laboratory.models import Results,TestStatus
 from ward.models import PatientStatus
 from django.db.models.signals import post_save
@@ -59,3 +59,15 @@ def create_patient_status(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Patient)
 def save_patient_status(sender, instance, **kwargs):
 	instance.patientstatus.save()
+
+
+##this is for room allotment
+
+@receiver(post_save, sender=Room)
+def create_room_allotment(sender, instance, created, **kwargs):
+	if created:
+		Allotment.objects.create(number=instance)
+
+@receiver(post_save, sender=Room)
+def save_room_allotment(sender, instance, **kwargs):
+	instance.allotment.save()

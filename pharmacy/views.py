@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect, get_object_or_404,HttpResponseRedirect
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from doctor.models import InstructionsForPharmacy
 from reception.models import Patient
 from . import forms as pharmacy_forms
@@ -17,21 +17,32 @@ from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 # Create your views here.
 
 def dashboard(request):
-    context={
+    Total=Drugs.objects.all().count(),
+    Out=Drugs.objects.filter(quantity='0').count(),
+    labels=["Drugs","Out Of Stock","Expired"]
+    default=[Total,20,20]
+    data={
     'total'         :   Drugs.objects.all().count(),
     'totalSale'     :   TakenDrugs.objects.all().aggregate(Sum('totalPrice'))['totalPrice__sum'],
     'outofstock'    :   Drugs.objects.filter(quantity='0').count(),
+    'labels'        :   labels,
+    'default'       :   default,
     }
-    return render(request,'Dashboard.html',context)
+    return render(request,'Dashboard.html',data)
 
 
+def get_data(request,*args,**kwargs):
 
+    data ={
+    'medecine'  :   Drugs.objects.all().count(),
+    }
+    return JsonResponse(data)
 
 def scanBarcode(request):
     if request.method=='POST':
         code =  request.POST.get('theCode',False)
         print(code)
-        return redirect('pharmacy:patient',code=code)
+        return redirect('pharmacy:drugs',code=code)
 
     return render(request,'scanBarcode.html')
 
@@ -206,7 +217,7 @@ def confirm_drug_payment(request,code,id):
                     return redirect('pharmacy:drugs',code=drug.patient)
                 else:
                     messages.warning(request,f'Quantity Surpasses Stock')
-                    return redirect('pharmacy:drugsList')
+                    return redirect('pharmacy:drugs',code=drug.patient)
 
 
 

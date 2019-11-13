@@ -1,87 +1,80 @@
-{% extends "doctor/base.html" %}
-{% load static %}
-{% load crispy_forms_tags %}
+{% extends "account/base.html" %}
+{%load static %}
 {% block content %}
-<!-- partial -->
-<div class="page-wrapper">
-            <div class="col-12 grid-margin">
-              <div class="card">
-                <div class="card-body">
-                  {% for patient in patient %}
-                  <form class="form-sample" method="POST" action="{% url 'ward:patient-status' patient.code patient.id %}">
-                    {% csrf_token %}
-                    <p class="card-description">
-                    </p>
-                    <div class="row">
-                      <div class="col-md-6" hidden>
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Patient Code </label>
-                          <div class="col-sm-9">
-                        	<input style="color:black;" type="text" name="patient" value="{{ patient.code }}" readonly="True">
-                          </div>
-                        </div>
-                      </div>
-                      <div id="apptmt" class="col-lg-6">
-                        <p class="card-description btn btn-outline-info" style="">Update the Patient Status</p>
-                        {{ update_patientStatus_form | crispy }}
-                      </div>
-                    </div>
-                    <div style="float: right; margin-top: 10px;">
-                    	<button type="submit" class="btn btn-success mr-2">Update Status</button>
-                      {% if user.role.role == 'is_doctor' %}
-                    	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Generate Report</button>
-                      {% endif %}
-                    </div>
-                  </form>
-                  {% endfor %}
-                </div>
-              </div>
-<!-- The Modal -->
-  <div class="modal" id="myModal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-      {% for patient in patient %}
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Patient Ward Report for {{ patient.firstname }}</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+{% for message in messages %}
+      <div class="alert {{ message.tags }}  alert-success" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+      </button>
+        {{ message }}
         </div>
+  {% endfor %}
 
-        <div id="myElem" class="alert alert-success" style="display:none">Final Report Successfuly Saved</div>
-        <div id="myErr" class="alert alert-danger" style="display:none">Nothing to Save</div>
+<div class="row no-margin-padding">
+  <div class="col-md-6">
+    <h3 class="block-title">Edit Category</h3>
+  </div>
+  <div class="col-md-6">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="index.html">
+          <span class="ti-home"></span>
+        </a>
+                  </li>
+                  <li class="breadcrumb-item">Category</li>
+      <li class="breadcrumb-item active">Edit Category</li>
+    </ol>
+  </div>
+</div>
+<!-- /Page Title -->
 
-        <!-- Modal body -->
-        <div class="modal-body">
-          <form class="create_report_form" method="POST" action="{% url 'ward:patient-finalReport' patient.code patient.id %}">
-            {% csrf_token %}
-            <div class="form-group">
-              <input class="form-control" rows="10" id="patient" value="{{patient.id}}" style="border: none;" hidden>
+<!-- /Breadcrumb -->
+<!-- Main Content -->
+<div class="container-fluid">
+
+  <div class="row">
+    <!-- Widget Item -->
+    <div class="col-md-12">
+      <div class="widget-area-2 proclinic-box-shadow">
+        <h3 class="widget-title">Edit Category</h3>
+        <nav aria-label="Page navigation example">
+         <ul class="pagination justify-content-center export-pagination">
+           <li class="page-item">
+             <a class="page-link" href="#"><span class="ti-download"></span> csv</a>
+           </li>
+
+           <li class="page-item">
+             <a class="page-link" href="#"><span class="ti-align-justify"></span> Excel</a>
+           </li>
+         </ul>
+        </nav>
+        {% for patient in patient %}
+        <form method="POST" class="form-sample"  novalidate>
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group col-md-8 required">
+              <label for="patient-name" class="control-label">Patient Code:</label>
+              <input  type="text" class="form-control"name="patient" value="{{ patient.code }}" readonly="True">
+            </div></br>
+            <div class="form-group col-md-8 required">
+              <label for="patient-name" class="control-label">Status</label>
+              {{ update_patientStatus_form.status }}
+            </div></br>
+
+
+            <div class="form-group col-md-6 mb-3">
+              <button type="submit" class="btn btn-primary btn-lg">Submit </button>
             </div>
-            <h5><u>Doctor Prescription</u></h5><br>
-            <div class="form-group">
-              <textarea class="form-control" rows="7" id="prescription">{{ patient.patientstatus.prescription }}</textarea>
-            </div>
 
-            <h5><u>Nurse Report</u></h5><br>
-            <div class="form-group">
-              <textarea class="form-control" rows="7" id="report" style="border:none; align-content:left;">{{ patient.patientstatus.report }}</textarea>
-            </div>
+        </form>
+{% endfor %}
 
-            <input type="submit" id="btnSubmit" class="btn btn-primary mdl-js-button mdl-js-ripple-effect" value="Save Report">
-          </form>
-        </div>
-
-        <!-- Modal footer -->
-        <div class="modal-footer">
-        	<!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-
-        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-        {% endfor %}
       </div>
     </div>
-  </div>
+
 
 </div>
-
+</div>
+</div>
 {% endblock %}
