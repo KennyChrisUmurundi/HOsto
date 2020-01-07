@@ -38,6 +38,11 @@ class Reports(models.Model):
 	def __str__(self):
 		return f'{self.appointment.patient} Reports'
 
+class Symptoms(models.Model):
+	# appointment 	=	    models.OneToOneField(Appointment, on_delete=models.CASCADE)
+	symptoms 	    =		models.CharField(max_length=300)
+
+
 class Room(models.Model):
 
 	number	=	models.CharField(max_length=200)

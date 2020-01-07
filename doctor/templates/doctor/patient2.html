@@ -46,38 +46,59 @@
                 <td><strong>Date Of Birth</strong> </td>
                 <td>{{ Patient.dob }}</td>
               </tr>
-              <tr>
-                <td><strong>Address</strong></td>
-                <td>{{ Patient.address }}</td>
-              </tr>
-              <tr>
-                <td><strong>Phone </strong></td>
-                <td>{{ Patient.phone }}</td>
-              </tr>
-              <tr>
-                <td><strong>Status</strong></td>
-                <td>{{ Patient.status }}</td>
-                                  </tr>
-              <tr>
-                <td><strong>Patient ID</strong></td>
-                <td>{{ Patient.patient_identification }}</td>
-              </tr>
 
             </tbody>
 
           </table>
+          <style>
+          .entry:not(:first-of-type)
+                        {
+                            margin-top: 10px;
+                        }
+
+                        .glyphicon
+                        {
+                            font-size: 12px;
+                        }
+          </style>
+          <!-- <div class="container"> -->
+
+          <div class="control-group" id="fields">
+            <label class="control-label" for="field1">Symptoms:</label>
+            <div class="controls">
+                <form class="form-horizontal" method="POST" action="">
+                  {% csrf_token %}
+
+                    {{ formset.management_form }}
+                    {% for form in formset %}
+                    <div>
+                        {{form.symptoms}}
+                      <span class="input-group-btn">
+                            <button class="btn btn-success btn-add add-form-row" type="button">
+                                <span class="fas fa-plus"></span>
+                            </button>
+                        </span>
+                        {% endfor %}
+                    </div>
+                            <button type="submit" class="btn  btn-primary">Create</button>
+                </form>
+
+
+          </div>
         </div>
+     <!-- </div>  -->
+
 
 
 
                       <button type="button" class="btn btn-success mb-3"><span class="fas fa-vial"></span><a href="{% url 'doctor:patient-pharmacy' Patient.code %}"> Send For Test</button>
                         <button type="button" class="btn btn-info mb-3"><span class="fas fa-bed"></span><a href="{% url 'doctor:patient-icu' Patient.code %}"> Assign room</a></button>
                       <button type="button" class="btn btn-danger mb-3"><span class="fas fa-book-dead"></span><a href="{% url 'doctor:death_report' Patient.code %}"> Death Report</a></button>
-
+  </div>
       </div>  {% endfor %}
       {% endif %}
-    </div>
-              <!-- /Widget Item -->
+    <!-- </div> -->
+    <!-- /Widget Item -->
               <!-- Widget Item -->
     <div class="col-md-6">
       <div class="widget-area-2 proclinic-box-shadow">
@@ -135,7 +156,8 @@
           <!-- /Export links-->
         </div>
       </div>
-    </div>
+      </div>
+
 
      <div class="row">
         <!-- Widget Item -->

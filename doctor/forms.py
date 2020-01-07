@@ -1,10 +1,10 @@
 from django import forms
-from .models import Doctor,Reports,InstructionsForPharmacy,InstructionsForNurse,Room,Allotment
+from .models import Doctor,Reports,InstructionsForPharmacy,InstructionsForNurse,Room,Allotment,Symptoms
 from django.forms import ValidationError
 from django.forms import ModelForm
 from reception.models import Lab
 from mortury.models import corpses
-
+from django.forms import modelformset_factory
 
 class AddDoctorForm(forms.ModelForm):
     firstname = forms.CharField(max_length=100,widget=forms.TextInput(attrs=
@@ -75,3 +75,14 @@ class AddDeathReport(forms.ModelForm):
 
         model   =   corpses
         fields  =   ('death_report','date_of_death')
+
+SymptomsFormset = modelformset_factory(
+    Symptoms,
+    fields=('symptoms', ),
+    extra=1,
+    widgets={'name': forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Book Name here'
+        })
+    }
+)
